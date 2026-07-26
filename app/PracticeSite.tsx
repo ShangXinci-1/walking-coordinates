@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 
+const BASE = "/walking-coordinates";
+
 const routes = [
   { id: "A", title: "觉醒之路", days: "第 2—4 天", summary: "从新文化运动的思想源头出发，追寻青年觉醒与信仰选择。", sites: ["北大红楼", "《新青年》编辑部旧址", "李大钊故居", "京报馆旧址"], coordinate: "39°55′N · 116°24′E" },
   { id: "B", title: "烽火之路", days: "第 5—7 天", summary: "走近抗战遗址与纪念场馆，在现场记录中聆听民族记忆。", sites: ["中国人民抗日战争纪念馆", "卢沟桥", "百望山黑山扈战斗纪念园", "贝家花园"], coordinate: "39°50′N · 116°13′E" },
@@ -9,11 +11,11 @@ const routes = [
 ];
 
 const gallery = [
-  { src: "/images/field-01.svg", alt: "实践队员在讲解员带领下开展现场寻访", label: "现场寻访" },
-  { src: "/images/field-02.svg", alt: "实践队员在工业现场听取专业讲解", label: "深度访谈" },
-  { src: "/images/field-03.svg", alt: "实践队员在社区开展红色文化宣讲", label: "社区传播" },
-  { src: "/images/field-04.svg", alt: "实践队员在生产现场记录数字化素材", label: "数字采集" },
-  { src: "/images/field-05.svg", alt: "北京科技大学学生社会实践团合影", label: "青年同行" },
+  { src: `${BASE}/images/field-01.svg`, alt: "实践队员在讲解员带领下开展现场寻访", label: "现场寻访" },
+  { src: `${BASE}/images/field-02.svg`, alt: "实践队员在工业现场听取专业讲解", label: "深度访谈" },
+  { src: `${BASE}/images/field-03.svg`, alt: "实践队员在社区开展红色文化宣讲", label: "社区传播" },
+  { src: `${BASE}/images/field-04.svg`, alt: "实践队员在生产现场记录数字化素材", label: "数字采集" },
+  { src: `${BASE}/images/field-05.svg`, alt: "北京科技大学学生社会实践团合影", label: "青年同行" },
 ];
 
 const schedule = [
@@ -25,6 +27,12 @@ const schedule = [
   ["10—11", "进京之路", "围绕「赶考」主题完成精细采集与环境记录"],
   ["12", "影像创作", "整理前期素材，完成主题微电影拍摄"],
   ["13—14", "集中攻坚", "线上展厅、调研报告与成果传播同步成型"],
+];
+
+const routeImages = [
+  `${BASE}/images/field-01.svg`,
+  `${BASE}/images/field-03.svg`,
+  `${BASE}/images/field-04.svg`,
 ];
 
 export function PracticeSite() {
@@ -59,8 +67,8 @@ export function PracticeSite() {
         </div>
 
         <div className="hero-photos" aria-label="实践纪实影像">
-          <figure className="hero-photo hero-photo-main"><img src="/images/field-05.svg" alt="北京科技大学学生社会实践团合影" /><figcaption>FIELD RECORD / 01</figcaption></figure>
-          <figure className="hero-photo hero-photo-side"><img src="/images/field-03.svg" alt="实践队员走进社区开展红色文化传播" /><figcaption>FIELD RECORD / 02</figcaption></figure>
+          <figure className="hero-photo hero-photo-main"><img src={`${BASE}/images/field-05.svg`} alt="北京科技大学学生社会实践团合影" /><figcaption>FIELD RECORD / 01</figcaption></figure>
+          <figure className="hero-photo hero-photo-side"><img src={`${BASE}/images/field-03.svg`} alt="实践队员走进社区开展红色文化传播" /><figcaption>FIELD RECORD / 02</figcaption></figure>
           <blockquote>以脚步丈量历史，<br /><em>以技术保存记忆</em></blockquote>
         </div>
 
@@ -86,7 +94,7 @@ export function PracticeSite() {
           </div>
           <div className="route-panel" id="route-panel" role="tabpanel">
             <div><span className="coordinate">{route.coordinate}</span><h3>{route.title}</h3><p>{route.summary}</p><ul>{route.sites.map((site) => <li key={site}>{site}</li>)}</ul></div>
-            <figure><img key={route.id} src={["/images/field-01.svg", "/images/field-03.svg", "/images/field-04.svg"][activeRoute]} alt={`${route.title}实践纪实`} /><figcaption>ROUTE {route.id} · {route.days}</figcaption></figure>
+            <figure><img key={route.id} src={routeImages[activeRoute]} alt={`${route.title}实践纪实`} /><figcaption>ROUTE {route.id} · {route.days}</figcaption></figure>
           </div>
         </div>
       </section>
@@ -111,7 +119,7 @@ export function PracticeSite() {
       </section>
 
       <section className="legacy" id="legacy" aria-labelledby="legacy-title">
-        <div className="legacy-photo"><img src="/images/field-03.svg" alt="实践队员在社区开展红色文化交流活动" /></div>
+        <div className="legacy-photo"><img src={`${BASE}/images/field-03.svg`} alt="实践队员在社区开展红色文化交流活动" /></div>
         <div><p>精神传承</p><h2 id="legacy-title">我们不是历史的访客，<br />而是故事的转译者。</h2><p>当青年走进革命旧址、聆听真实讲述，再用熟悉的媒介重新表达，红色精神便不再停留在书页上，而成为可以被理解、被分享、被继续践行的行动力量。</p><blockquote>让沉睡于京华大地的红色记忆重新醒来，永远鲜活。</blockquote></div>
       </section>
 
