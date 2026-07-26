@@ -15,12 +15,17 @@ const routes = [
 ];
 
 const subTabs = [
-  { key: "intro", label: "实践地点介绍", icon: "📝" },
-  { key: "photos", label: "实践图片", icon: "📷" },
-  { key: "vr", label: "实践地VR取景", icon: "🥽" },
+  { key: "intro", label: "实践地点介绍", icon: "📝", desc: "历史背景与革命故事" },
+  { key: "photos", label: "实践图片", icon: "📷", desc: "实地拍摄高清影像" },
+  { key: "vr", label: "实践地VR取景", icon: "🥽", desc: "360°虚拟参观体验" },
 ];
 
 const routeImages = [`${BASE}/images/field-01.svg`, `${BASE}/images/field-03.svg`, `${BASE}/images/field-04.svg`];
+const routeHeroColors = [
+  "linear-gradient(135deg, #8B0000 0%, #4a0000 50%, #1a0000 100%)",
+  "linear-gradient(135deg, #B22222 0%, #5a0000 50%, #1a0000 100%)",
+  "linear-gradient(135deg, #A52A2A 0%, #4a0000 50%, #1a0000 100%)",
+];
 
 export default function JourneyPage() {
   const [activeRoute, setActiveRoute] = useState(0);
@@ -33,34 +38,36 @@ export default function JourneyPage() {
   return (
     <main>
       <SiteHeader />
-      <section className="hero" style={{minHeight:"auto",height:"auto",padding:"60px clamp(24px,4vw,64px)"}}>
-        <div className="hero-copy" style={{width:"100%"}}>
-          <p className="hero-kicker">寻访路线</p>
-          <h1>三条路线<br />一条精神脉络</h1>
+      <section className="page-hero" style={{background: routeHeroColors[activeRoute]}}>
+        <div className="page-hero-inner">
+          <div className="page-hero-text">
+            <span className="page-hero-badge">ROUTE {route.id}</span>
+            <h1>{route.title}</h1>
+            <p className="page-hero-summary">{route.summary}</p>
+            <div className="page-hero-meta">
+              <span>📍 {route.coordinate}</span>
+              <span>📅 {route.days}</span>
+              <span>📍 {route.sites.length} 个实践地点</span>
+            </div>
+          </div>
+          <div className="page-hero-visual">
+            <img src={routeImages[activeRoute]} alt={route.title} />
+          </div>
         </div>
       </section>
 
-      <section className="journey">
-        <div className="route-explorer">
-          <div className="route-tabs" role="tablist">
-            {routes.map((item, index) => (
-              <button key={item.id} type="button" role="tab" aria-selected={activeRoute === index}
-                onClick={() => { setActiveRoute(index); setActiveSite(0); setActiveSubTab("intro"); }}>
-                <span>ROUTE {item.id}</span><strong>{item.title}</strong><small>{item.days}</small>
-              </button>
-            ))}
-          </div>
-          <div className="route-panel" role="tabpanel">
-            <div>
-              <span className="coordinate">{route.coordinate}</span>
-              <h3>{route.title}</h3>
-              <p>{route.summary}</p>
-            </div>
-            <figure>
-              <img src={routeImages[activeRoute]} alt={`${route.title}实践纪实`} />
-              <figcaption>ROUTE {route.id} · {route.days}</figcaption>
-            </figure>
-          </div>
+      <section className="route-selector">
+        <div className="section-heading"><p>寻访路线</p><h2>三条路线，<br />一条精神脉络</h2></div>
+        <div className="route-cards">
+          {routes.map((item, index) => (
+            <button key={item.id} type="button"
+              className={`route-card${activeRoute === index ? " active" : ""}`}
+              onClick={() => { setActiveRoute(index); setActiveSite(0); setActiveSubTab("intro"); }}>
+              <span className="route-card-id">ROUTE {item.id}</span>
+              <strong>{item.title}</strong>
+              <small>{item.days}</small>
+            </button>
+          ))}
         </div>
       </section>
 
@@ -71,7 +78,8 @@ export default function JourneyPage() {
             {route.sites.map((name, i) => (
               <button key={name} type="button" role="tab" aria-selected={activeSite === i}
                 onClick={() => { setActiveSite(i); setActiveSubTab("intro"); }}>
-                <span>{String(i + 1).padStart(2, "0")}</span><strong>{name}</strong>
+                <span>{String(i + 1).padStart(2, "0")}</span>
+                <strong>{name}</strong>
               </button>
             ))}
           </div>
@@ -80,7 +88,13 @@ export default function JourneyPage() {
             <div className="site-subtabs" role="tablist">
               {subTabs.map(tab => (
                 <button key={tab.key} type="button" role="tab" aria-selected={activeSubTab === tab.key}
-                  onClick={() => setActiveSubTab(tab.key)}>{tab.label}</button>
+                  onClick={() => setActiveSubTab(tab.key)}>
+                  <span className="subtab-icon">{tab.icon}</span>
+                  <span className="subtab-text">
+                    <strong>{tab.label}</strong>
+                    <small>{tab.desc}</small>
+                  </span>
+                </button>
               ))}
             </div>
             <div className="site-subpanel">
@@ -96,7 +110,7 @@ export default function JourneyPage() {
       </section>
 
       <section className="schedule">
-        <div className="section-heading"><p>14 天实践日程</p><h2>从寻访到转化，<br />完整闭环</h2></div>
+        <div className="section-heading"><p>14 天实践日程</p><h2>从寻访到转化，完整闭环</h2></div>
         <ol>
           {[["01","启动与培训","团队集结、安全教育与数字化采集技术培训"],["02—04","觉醒之路","寻访北大红楼等地，完成深度访谈与数字采集"],["05—07","烽火之路","赴抗战地标开展沉浸记录与口述史收集"],["08","社区工作坊","将红色记忆转化为可参与的数字传播内容"],["09","中期整理","备份、筛选素材，复盘路线并校准创作计划"],["10—11","进京之路","围绕「赶考」主题完成精细采集与环境记录"],["12","影像创作","整理前期素材，完成主题微电影拍摄"],["13—14","集中攻坚","线上展厅、调研报告与成果传播同步成型"]].map(([day, title, desc]) => (
             <li key={day}><span>{day}</span><h3>{title}</h3><p>{desc}</p></li>

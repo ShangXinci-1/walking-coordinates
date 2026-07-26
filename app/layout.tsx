@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./custom.css";
 
 export const metadata: Metadata = {
   title: "行走的坐标｜革命史迹数字化寻访",

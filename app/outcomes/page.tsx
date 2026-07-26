@@ -25,10 +25,19 @@ export default function OutcomesPage() {
   return (
     <main>
       <SiteHeader />
-      <section className="hero" style={{minHeight:"auto",height:"auto",padding:"60px clamp(24px,4vw,64px)"}}>
-        <div className="hero-copy" style={{width:"100%"}}>
-          <p className="hero-kicker">数字化成果</p>
-          <h1>让成果被看见<br />让记忆可抵达</h1>
+      <section className="page-hero" style={{background:"linear-gradient(135deg, #8B0000 0%, #4a0000 50%, #1a0000 100%)"}}>
+        <div className="page-hero-inner">
+          <div className="page-hero-text" style={{maxWidth:"100%"}}>
+            <span className="page-hero-badge">DIGITAL OUTCOMES</span>
+            <h1>让成果被看见<br />让记忆可抵达</h1>
+            <p className="page-hero-summary">以寻访路线为叙事骨架，整合高清影像、全景记录与口述史，让红色记忆可感可触。</p>
+            <div className="page-hero-meta">
+              <span>🏛️ 数字线上展厅</span>
+              <span>🎬 主题微电影</span>
+              <span>📄 实践调研报告</span>
+            </div>
+          </div>
+          <div className="page-hero-visual"><img src={`${BASE}/images/field-04.svg`} alt="数字化成果" /></div>
         </div>
       </section>
 

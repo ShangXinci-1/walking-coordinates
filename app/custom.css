@@ -1,0 +1,95 @@
+/* ── 页面 Hero ── */
+.page-hero { min-height: 540px; display: flex; align-items: center; padding: 60px clamp(24px,6vw,96px); color: var(--paper); position: relative; overflow: hidden; }
+.page-hero-inner { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(40px,6vw,100px); align-items: center; width: 100%; max-width: 1400px; margin: 0 auto; }
+.page-hero-text { position: relative; z-index: 2; }
+.page-hero-badge { display: inline-block; padding: 6px 16px; border: 1px solid oklch(1 0 0 / .35); border-radius: 50px; font-size: 11px; font-weight: 900; letter-spacing: .15em; margin-bottom: 24px; color: var(--coordinate); }
+.page-hero-text h1 { font-size: clamp(56px,7vw,100px); font-weight: 900; line-height: 1.02; letter-spacing: -.04em; margin: 0; }
+.page-hero-summary { font-size: clamp(16px,1.3vw,20px); color: oklch(1 0 0 / .75); margin: 24px 0; line-height: 1.8; max-width: 600px; }
+.page-hero-meta { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 28px; font-size: 13px; color: oklch(1 0 0 / .6); }
+.page-hero-visual { position: relative; }
+.page-hero-visual img { width: 100%; height: 400px; object-fit: cover; border-radius: 8px; opacity: .85; }
+
+/* ── 路线选择卡片 ── */
+.route-selector { padding: clamp(60px,8vw,120px) clamp(24px,6vw,96px); background: var(--paper); }
+.route-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(12px,2vw,24px); margin-top: clamp(30px,5vw,60px); }
+.route-card { appearance: none; border: 1px solid var(--line-dark); border-radius: 10px; background: var(--paper); padding: clamp(28px,4vw,48px) clamp(20px,3vw,36px); text-align: left; cursor: pointer; transition: all .35s var(--ease); position: relative; overflow: hidden; }
+.route-card::before { content: ""; position: absolute; inset: 0; background: linear-gradient(135deg, var(--red), var(--red-deep)); opacity: 0; transition: .35s var(--ease); z-index: 0; }
+.route-card.active::before { opacity: 1; }
+.route-card:hover::before { opacity: .06; }
+.route-card.active:hover::before { opacity: 1; }
+.route-card > * { position: relative; z-index: 1; }
+.route-card-id { display: inline-block; color: var(--red-bright); font-size: 10px; font-weight: 900; letter-spacing: .15em; margin-bottom: 16px; transition: .35s; }
+.route-card.active .route-card-id { color: var(--coordinate); }
+.route-card strong { display: block; font-size: clamp(22px,2vw,30px); margin-bottom: 8px; transition: .35s; }
+.route-card.active strong { color: var(--paper); }
+.route-card small { display: block; color: var(--muted); font-size: 13px; transition: .35s; }
+.route-card.active small { color: oklch(1 0 0 / .7); }
+
+/* ── 实践地点 ── */
+.sites-section { padding: clamp(60px,8vw,120px) clamp(24px,6vw,96px); background: var(--paper-soft); }
+.sites-layout { display: grid; grid-template-columns: minmax(200px,.4fr) 2fr; background: var(--paper); border: 1px solid var(--line-dark); border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px oklch(0 0 0 / .04); }
+.sites-list { background: var(--paper-soft); border-right: 1px solid var(--line-dark); }
+.sites-list button { appearance: none; display: flex; align-items: center; gap: 14px; width: 100%; min-height: 72px; padding: 16px 20px; border: 0; border-bottom: 1px solid var(--line-dark); background: transparent; text-align: left; cursor: pointer; transition: .3s var(--ease); }
+.sites-list button:last-child { border-bottom: 0; }
+.sites-list button:hover { background: oklch(0.94 0.012 22 / .5); }
+.sites-list button[aria-selected="true"] { background: var(--red); color: var(--paper); }
+.sites-list button > span { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--paper); color: var(--red); font-size: 12px; font-weight: 900; flex-shrink: 0; }
+.sites-list button[aria-selected="true"] > span { background: oklch(1 0 0 / .2); color: var(--coordinate); }
+.sites-list button > strong { font-size: 14px; line-height: 1.3; }
+.site-detail { padding: clamp(28px,4vw,52px); }
+.site-detail > h3 { margin: 0; font-size: clamp(26px,3vw,42px); letter-spacing: -.02em; }
+.site-detail > h3::before { content: ""; display: block; width: 40px; height: 3px; background: var(--red); margin-bottom: 16px; border-radius: 2px; }
+.site-subtabs { display: flex; gap: 10px; margin: 24px 0 32px; }
+.site-subtabs button { appearance: none; display: flex; align-items: center; gap: 12px; padding: 16px 24px; border: 1.5px solid var(--line-dark); border-radius: 12px; background: var(--paper); cursor: pointer; transition: all .3s var(--ease); text-align: left; }
+.site-subtabs button:hover { border-color: var(--red); }
+.site-subtabs button[aria-selected="true"] { background: var(--red); color: var(--paper); border-color: var(--red); box-shadow: 0 4px 12px oklch(0.36 0.135 24 / .25); }
+.subtab-icon { font-size: 24px; flex-shrink: 0; }
+.subtab-text strong { display: block; font-size: 14px; margin-bottom: 2px; }
+.subtab-text small { display: block; font-size: 11px; opacity: .7; }
+.site-subpanel { min-height: 240px; }
+
+/* ── 占位卡片 ── */
+.placeholder-card { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 240px; padding: 40px 24px; background: var(--paper-soft); border: 1px solid var(--line-dark); border-radius: 10px; text-align: center; }
+.placeholder-card-icon { font-size: 52px; margin-bottom: 16px; opacity: .8; }
+.placeholder-card h4 { margin: 0 0 6px; font-size: 18px; }
+.placeholder-card-desc { color: var(--muted); font-size: 14px; margin: 0 0 18px; }
+.placeholder-card-status { display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px; background: var(--paper); border: 1px solid var(--line-dark); border-radius: 50px; font-size: 12px; color: var(--muted); }
+.status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--coordinate); animation: pulse 2s var(--ease) infinite; }
+
+/* ── 首页入口卡片 ── */
+.entry-section { padding: clamp(60px,8vw,120px) clamp(24px,6vw,96px); }
+.entry-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(16px,2.5vw,36px); margin-top: clamp(40px,6vw,80px); }
+.entry-card { position: relative; display: flex; flex-direction: column; padding: clamp(32px,4vw,52px) clamp(24px,3vw,40px); border: 1px solid var(--line-dark); border-radius: 10px; background: var(--paper); transition: all .35s var(--ease); overflow: hidden; }
+.entry-card::before { content: ""; position: absolute; inset: 0; background: linear-gradient(135deg, var(--red), var(--red-deep)); opacity: 0; transition: .4s var(--ease); z-index: 0; }
+.entry-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px oklch(0 0 0 / .12); border-color: var(--red); }
+.entry-card:hover::before { opacity: 1; }
+.entry-card > * { position: relative; z-index: 1; }
+.entry-icon { font-size: 36px; margin-bottom: 4px; }
+.entry-number { color: var(--red-bright); font-size: 11px; font-weight: 900; letter-spacing: .15em; transition: .35s; }
+.entry-card:hover .entry-number { color: var(--coordinate); }
+.entry-card h3 { margin: 24px 0 12px; font-size: clamp(24px,2vw,34px); transition: .35s; }
+.entry-card:hover h3 { color: var(--paper); }
+.entry-card p { color: var(--muted); line-height: 1.8; margin: 0 0 28px; flex: 1; font-size: 15px; transition: .35s; }
+.entry-card:hover p { color: oklch(1 0 0 / .75); }
+.entry-arrow { padding-top: 12px; border-top: 1px solid var(--line-dark); font-size: 13px; font-weight: 800; transition: .35s; }
+.entry-card:hover .entry-arrow { border-top-color: oklch(1 0 0 / .25); color: var(--coordinate); }
+
+/* ── 响应式 ── */
+@media (max-width: 1050px) {
+  .page-hero-inner { grid-template-columns: 1fr; }
+  .page-hero-visual { display: none; }
+  .page-hero-text h1 { font-size: clamp(42px,10vw,72px); }
+  .route-cards { grid-template-columns: 1fr; }
+  .entry-cards { grid-template-columns: 1fr; }
+  .sites-layout { grid-template-columns: 1fr; }
+  .sites-list { flex-direction: row; overflow-x: auto; border-right: 0; border-bottom: 1px solid var(--line-dark); }
+  .sites-list button { flex: 0 0 auto; white-space: nowrap; border-bottom: 0; border-right: 1px solid var(--line-dark); }
+  .sites-list button:last-child { border-right: 0; }
+}
+@media (max-width: 700px) {
+  .page-hero { min-height: 360px; padding: 40px 24px; }
+  .page-hero-text h1 { font-size: clamp(36px,12vw,56px); }
+  .site-subtabs { flex-direction: column; }
+  .site-subtabs button { padding: 14px 18px; }
+  .placeholder-card { padding: 32px 16px; }
+}

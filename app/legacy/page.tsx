@@ -6,10 +6,19 @@ export default function LegacyPage() {
   return (
     <main>
       <SiteHeader />
-      <section className="hero" style={{minHeight:"auto",height:"auto",padding:"60px clamp(24px,4vw,64px)"}}>
-        <div className="hero-copy" style={{width:"100%"}}>
-          <p className="hero-kicker">精神传承</p>
-          <h1>我们不是历史的访客<br />而是故事的转译者</h1>
+      <section className="page-hero" style={{background:"linear-gradient(135deg, #6B0000 0%, #3a0000 50%, #1a0000 100%)"}}>
+        <div className="page-hero-inner">
+          <div className="page-hero-text" style={{maxWidth:"100%"}}>
+            <span className="page-hero-badge">SPIRIT & LEGACY</span>
+            <h1>我们不是历史的访客<br />而是故事的转译者</h1>
+            <p className="page-hero-summary">当青年走进革命旧址、聆听真实讲述，再用熟悉的媒介重新表达，红色精神便转化为可践行的行动力量。</p>
+            <div className="page-hero-meta">
+              <span>🔥 精神传承</span>
+              <span>📖 青年表达</span>
+              <span>🌟 行动力量</span>
+            </div>
+          </div>
+          <div className="page-hero-visual"><img src={`${BASE}/images/field-03.svg`} alt="精神传承" /></div>
         </div>
       </section>
 
