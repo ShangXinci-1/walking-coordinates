@@ -1,90 +1,93 @@
-export function RouteMap() {
+interface RoutePoint { cx: number; cy: number; name: string; }
+
+interface RouteMapRoute {
+  id: string;
+  title: string;
+  color: string;
+  path: string;
+  points: RoutePoint[];
+}
+
+interface RouteMapProps {
+  routes: RouteMapRoute[];
+  activeRoute: number;
+  activeSite: number;
+  onSelectSite: (routeIndex: number, siteIndex: number) => void;
+}
+
+export function RouteMap({ routes, activeRoute, activeSite, onSelectSite }: RouteMapProps) {
   return (
     <div className="route-map">
-      <svg viewBox="0 0 800 640" fill="none" xmlns="http://www.w3.org/2000/svg" className="route-map-svg">
-        {/* 北京简化地图轮廓 */}
+      <svg viewBox="0 0 900 640" fill="none" xmlns="http://www.w3.org/2000/svg" className="route-map-svg">
         <defs>
-          <linearGradient id="routeA" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#ff4444" /><stop offset="100%" stopColor="#ff8888" />
-          </linearGradient>
-          <linearGradient id="routeB" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#ff6644" /><stop offset="100%" stopColor="#ffaa66" />
-          </linearGradient>
-          <linearGradient id="routeC" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#ee5533" /><stop offset="100%" stopColor="#ff9977" />
-          </linearGradient>
-          <filter id="glow">
-            <feGaussianBlur stdDeviation="3" result="blur" />
-            <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-          </filter>
+          <filter id="dotGlow"><feGaussianBlur stdDeviation="2.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          <filter id="lineGlow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
         </defs>
 
-        {/* 北京轮廓 - 简化的多边形 */}
-        <path d="M250,80 L380,40 L520,50 L620,90 L680,160 L700,280 L660,380 L580,440 L460,480 L340,460 L240,400 L160,320 L140,220 L160,140 Z"
-          fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="2" strokeDasharray="8 4" />
+        {/* 背景 - 中国地图最简轮廓 */}
+        <path d="M420,60 L480,40 L540,45 L600,55 L660,70 L720,90 L780,120 L820,170 L850,220 L860,290 L850,360 L820,420 L770,470 L710,510 L640,540 L560,560 L480,550 L400,530 L320,490 L260,440 L210,380 L180,310 L170,240 L190,170 L230,110 L320,70 Z"
+          fill="rgba(255,255,255,.02)" stroke="rgba(255,255,255,.06)" strokeWidth="1.5" />
 
-        {/* 内城轮廓 */}
-        <rect x="280" y="120" width="280" height="240" rx="4"
-          fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="1.5" strokeDasharray="6 3" />
+        {/* 北京区域高亮 */}
+        <circle cx="520" cy="180" r="80" fill="rgba(255,50,50,.04)" stroke="rgba(255,100,100,.08)" strokeWidth="1" strokeDasharray="4 3" />
+        <text x="520" y="300" textAnchor="middle" fill="rgba(255,255,255,.08)" fontSize="13" fontWeight="700" letterSpacing=".1em">北京</text>
 
-        {/* 路线 A - 觉醒之路 波浪线 */}
-        <path d="M310,420 C340,380 320,340 350,300 C380,260 340,230 370,200 C400,170 360,140 390,120"
-          stroke="url(#routeA)" strokeWidth="3" fill="none" filter="url(#glow)" strokeLinecap="round" />
-        {/* A 路线节点 */}
-        {["北大红楼","《新青年》编辑部","李大钊故居","京报馆旧址"].map((name, i) => {
-          const cx = [310, 350, 370, 390][i];
-          const cy = [420, 300, 200, 120][i];
-          return (
-            <g key={i}>
-              <circle cx={cx} cy={cy} r="6" fill="#ff4444" stroke="#fff" strokeWidth="2" filter="url(#glow)" />
-              <circle cx={cx} cy={cy} r="12" fill="none" stroke="#ff4444" strokeWidth="1" opacity="0.3" />
-              <text x={cx + (i < 2 ? 16 : -16)} y={cy - 8} fill="rgba(255,255,255,0.7)" fontSize="10" fontWeight="600"
-                textAnchor={i < 2 ? "start" : "end"}>{name}</text>
-            </g>
-          );
-        })}
-
-        {/* 路线 B - 烽火之路 波浪线 */}
-        <path d="M130,480 C180,440 160,380 200,340 C240,300 200,250 240,210 C280,170 250,130 300,100 C350,70 400,50 450,60"
-          stroke="url(#routeB)" strokeWidth="3" fill="none" filter="url(#glow)" strokeLinecap="round" />
-        {/* B 路线节点 */}
-        {["抗战纪念馆","卢沟桥","百望山","贝家花园"].map((name, i) => {
-          const cx = [130, 200, 240, 350][i];
-          const cy = [480, 340, 210, 90][i];
-          return (
-            <g key={i}>
-              <circle cx={cx} cy={cy} r="6" fill="#ff6644" stroke="#fff" strokeWidth="2" filter="url(#glow)" />
-              <circle cx={cx} cy={cy} r="12" fill="none" stroke="#ff6644" strokeWidth="1" opacity="0.3" />
-              <text x={cx + (i < 2 ? 14 : -14)} y={cy - 8} fill="rgba(255,255,255,0.7)" fontSize="10" fontWeight="600"
-                textAnchor={i < 2 ? "start" : "end"}>{name}</text>
-            </g>
-          );
-        })}
-
-        {/* 路线 C - 进京之路 波浪线 */}
-        <path d="M580,440 C560,390 530,350 500,300 C470,250 440,200 400,150 C360,100 320,80 280,60"
-          stroke="url(#routeC)" strokeWidth="3" fill="none" filter="url(#glow)" strokeLinecap="round" />
-        {/* C 路线节点 */}
-        {["香山纪念地","双清别墅","清华园车站"].map((name, i) => {
-          const cx = [580, 500, 400][i];
-          const cy = [440, 300, 150][i];
-          return (
-            <g key={i}>
-              <circle cx={cx} cy={cy} r="6" fill="#ee5533" stroke="#fff" strokeWidth="2" filter="url(#glow)" />
-              <circle cx={cx} cy={cy} r="12" fill="none" stroke="#ee5533" strokeWidth="1" opacity="0.3" />
-              <text x={cx - 14} y={cy - 8} fill="rgba(255,255,255,0.7)" fontSize="10" fontWeight="600"
-                textAnchor="end">{name}</text>
-            </g>
-          );
-        })}
+        {/* 三条波浪路线 */}
+        {routes.map((route, ri) => (
+          <g key={route.id}>
+            <path d={route.path}
+              stroke={route.color}
+              strokeWidth={activeRoute === ri ? 3.5 : 2}
+              fill="none"
+              filter={activeRoute === ri ? "url(#lineGlow)" : undefined}
+              strokeLinecap="round"
+              opacity={activeRoute === ri ? 1 : 0.35}
+              style={{ transition: "all .4s ease" }} />
+            {/* 地点圆点 */}
+            {route.points.map((pt, si) => {
+              const isActive = activeRoute === ri && activeSite === si;
+              return (
+                <g key={pt.name}
+                   onClick={() => onSelectSite(ri, si)}
+                   style={{ cursor: "pointer" }}
+                   className="map-dot-group">
+                  {/* 可点击区域 */}
+                  <circle cx={pt.cx} cy={pt.cy} r="20" fill="transparent" />
+                  {/* 外圈脉冲 */}
+                  {isActive && <circle cx={pt.cx} cy={pt.cy} r="16" fill="none" stroke={route.color} strokeWidth="1" opacity=".3">
+                    <animate attributeName="r" from="10" to="22" dur="2s" repeatCount="indefinite"/>
+                    <animate attributeName="opacity" from=".4" to="0" dur="2s" repeatCount="indefinite"/>
+                  </circle>}
+                  {/* 圆点 */}
+                  <circle cx={pt.cx} cy={pt.cy} r={isActive ? 8 : 5}
+                    fill={isActive ? "#fff" : route.color}
+                    stroke={isActive ? route.color : "#fff"}
+                    strokeWidth={isActive ? 3 : 1.5}
+                    filter={isActive ? "url(#dotGlow)" : undefined}
+                    style={{ transition: "all .3s ease" }} />
+                  {/* 标签 */}
+                  <text x={pt.cx + (pt.cx > 700 ? -12 : 12)}
+                    y={pt.cy - 10}
+                    fill={isActive ? "#fff" : "rgba(255,255,255,.55)"}
+                    fontSize={isActive ? 12 : 10}
+                    fontWeight={isActive ? 700 : 500}
+                    textAnchor={pt.cx > 700 ? "end" : "start"}
+                    style={{ transition: "all .3s ease", pointerEvents: "none" }}>
+                    {pt.name}
+                  </text>
+                </g>
+              );
+            })}
+          </g>
+        ))}
 
         {/* 图例 */}
-        <g transform="translate(540, 520)">
-          {[{color:"#ff4444",label:"觉醒之路"},{color:"#ff6644",label:"烽火之路"},{color:"#ee5533",label:"进京之路"}].map((item, i) => (
-            <g key={i} transform={`translate(0,${i * 24})`}>
-              <line x1="0" y1="0" x2="40" y2="0" stroke={item.color} strokeWidth="3" filter="url(#glow)" />
-              <circle cx="20" cy="0" r="4" fill={item.color} stroke="#fff" strokeWidth="1" />
-              <text x="50" y="4" fill="rgba(255,255,255,0.6)" fontSize="11">{item.label}</text>
+        <g transform="translate(680, 560)">
+          {routes.map((r, i) => (
+            <g key={i} transform={`translate(0,${i*22})`}>
+              <line x1="0" y1="0" x2="30" y2="0" stroke={r.color} strokeWidth="2.5" filter="url(#lineGlow)"/>
+              <circle cx="15" cy="0" r="4" fill={r.color} stroke="#fff" strokeWidth="1"/>
+              <text x="40" y="4" fill="rgba(255,255,255,.55)" fontSize="11" fontWeight="600">{r.title}</text>
             </g>
           ))}
         </g>
