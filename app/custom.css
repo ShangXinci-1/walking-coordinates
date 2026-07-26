@@ -1,35 +1,42 @@
-/* ── 导航栏 (CNET 风格) ── */
-.site-header { background: #0a0a0a; border-bottom: 1px solid rgba(255,255,255,.08); position: sticky; top: 0; z-index: 100; }
-.header-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; height: 56px; padding: 0 clamp(20px,3vw,40px); gap: 32px; }
-.header-logo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-.logo-mark { width: 34px; height: 34px; display: grid; place-items: center; background: var(--red); color: #fff; font-size: 12px; font-weight: 900; letter-spacing: .04em; }
-.logo-text strong { display: block; color: #fff; font-size: 14px; font-weight: 700; letter-spacing: .02em; }
-.logo-text small { display: block; color: rgba(255,255,255,.45); font-size: 10px; letter-spacing: .06em; }
-.header-nav { display: flex; gap: 0; }
-.header-nav a { color: rgba(255,255,255,.7); font-size: 13px; font-weight: 600; padding: 8px 14px; border-radius: 6px; transition: all .2s; }
-.header-nav a:hover { color: #fff; background: rgba(255,255,255,.08); }
-.header-extra { margin-left: auto; }
-.header-year { color: rgba(255,255,255,.25); font-size: 12px; font-weight: 700; letter-spacing: .1em; }
+/* ── 导航栏 (Premium 深色) ── */
+.site-header { background: #0a0a0a; border-bottom: 1px solid rgba(255,255,255,.06); position: sticky; top: 0; z-index: 100; }
+.header-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; height: 64px; padding: 0 clamp(24px,4vw,48px); gap: 40px; }
+.header-logo { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.logo-mark { width: 38px; height: 38px; display: grid; place-items: center; background: var(--red); color: #fff; font-size: 14px; font-weight: 900; letter-spacing: .04em; }
+.logo-text strong { display: block; color: #fff; font-size: 16px; font-weight: 700; letter-spacing: .02em; }
+.logo-text small { display: block; color: rgba(255,255,255,.4); font-size: 11px; letter-spacing: .06em; margin-top: 1px; }
+.header-nav { display: flex; gap: 4px; margin-right: auto; }
+.header-nav a { color: rgba(255,255,255,.65); font-size: 15px; font-weight: 500; padding: 8px 18px; border-radius: 6px; transition: all .25s; }
+.header-nav a:hover { color: #fff; background: rgba(255,255,255,.06); }
+.header-extra { flex-shrink: 0; }
+.header-year { color: rgba(255,255,255,.2); font-size: 14px; font-weight: 700; letter-spacing: .12em; }
 @media (max-width: 700px) {
   .header-nav { display: none; }
-  .header-inner { gap: 16px; }
+  .header-inner { gap: 16px; height: 56px; }
+  .logo-text strong { font-size: 14px; }
 }
 
-/* ── 页面 Hero (The Verge 风格 - 层次、科技感) ── */
+/* ── 页面 Hero (The Verge 风格) ── */
 .page-hero { min-height: 580px; display: flex; align-items: center; padding: 80px clamp(24px,6vw,96px); color: var(--paper); position: relative; overflow: hidden; isolation: isolate; }
-.page-hero::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 50%, rgba(255,255,255,.06) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(255,255,255,.03) 0%, transparent 50%); z-index: 0; }
-.page-hero::after { content: ""; position: absolute; top: -50%; right: -20%; width: 800px; height: 800px; border-radius: 50%; border: 1px solid rgba(255,255,255,.04); z-index: 0; pointer-events: none; }
+.page-hero::before { content: ""; position: absolute; inset: 0; background:
+  radial-gradient(ellipse at 25% 60%, rgba(255,255,255,.07) 0%, transparent 55%),
+  radial-gradient(ellipse at 75% 30%, rgba(255,255,255,.04) 0%, transparent 50%),
+  radial-gradient(circle at 85% 80%, rgba(255,200,180,.06) 0%, transparent 40%); z-index: 0; }
+.page-hero::after { content: ""; position: absolute; inset: 0; background-image:
+  linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+  background-size: 60px 60px; z-index: 0; mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%); }
 .page-hero-inner { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(40px,6vw,80px); align-items: center; width: 100%; max-width: 1400px; margin: 0 auto; position: relative; z-index: 2; }
 .page-hero-text { position: relative; }
-.page-hero-watermark { position: absolute; top: -60px; left: -20px; font-size: clamp(120px,15vw,220px); font-weight: 900; line-height: 1; color: rgba(255,255,255,.03); pointer-events: none; white-space: nowrap; user-select: none; z-index: 0; letter-spacing: -.06em; }
-.page-hero-badge { display: inline-block; padding: 6px 16px; border: 1px solid rgba(255,255,255,.25); border-radius: 50px; font-size: 10px; font-weight: 900; letter-spacing: .15em; margin-bottom: 28px; color: var(--coordinate); position: relative; z-index: 1; }
+.page-hero-watermark { position: absolute; top: -70px; left: -30px; font-size: clamp(130px,16vw,240px); font-weight: 900; line-height: 1; color: rgba(255,255,255,.025); pointer-events: none; white-space: nowrap; user-select: none; z-index: 0; letter-spacing: -.06em; font-style: italic; }
+.page-hero-badge { display: inline-block; padding: 6px 18px; border: 1px solid rgba(255,255,255,.2); border-radius: 50px; font-size: 10px; font-weight: 900; letter-spacing: .15em; margin-bottom: 28px; color: var(--coordinate); position: relative; z-index: 1; backdrop-filter: blur(4px); }
 .page-hero-text h1 { font-size: clamp(54px,7vw,96px); font-weight: 900; line-height: 1.02; letter-spacing: -.04em; margin: 0; position: relative; z-index: 1; }
 .page-hero-summary { font-size: clamp(15px,1.2vw,19px); color: rgba(255,255,255,.7); margin: 24px 0; line-height: 1.8; max-width: 560px; position: relative; z-index: 1; }
 .page-hero-meta { display: flex; gap: 28px; flex-wrap: wrap; margin-top: 32px; font-size: 13px; color: rgba(255,255,255,.5); position: relative; z-index: 1; }
 .page-hero-meta span { display: flex; align-items: center; gap: 6px; }
 .page-hero-visual { position: relative; }
-.page-hero-visual img { width: 100%; height: 380px; object-fit: cover; border-radius: 4px; opacity: .8; }
-.page-hero-visual::before { content: ""; position: absolute; top: 12px; left: 12px; right: -12px; bottom: -12px; border: 1px solid rgba(255,255,255,.1); border-radius: 4px; z-index: -1; pointer-events: none; }
+.page-hero-visual img { width: 100%; height: 380px; object-fit: cover; border-radius: 4px; opacity: .85; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
+.page-hero-visual::before { content: ""; position: absolute; top: 10px; left: 10px; right: -10px; bottom: -10px; border: 1px solid rgba(255,255,255,.08); border-radius: 4px; z-index: -1; }
 @media (max-width: 1050px) {
   .page-hero { min-height: 420px; }
   .page-hero-inner { grid-template-columns: 1fr; }
@@ -88,6 +95,23 @@
 .placeholder-card-desc { color: var(--muted); font-size: 14px; margin: 0 0 18px; }
 .placeholder-card-status { display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px; background: var(--paper); border: 1px solid var(--line-dark); border-radius: 50px; font-size: 12px; color: var(--muted); }
 .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--coordinate); animation: pulse 2s var(--ease) infinite; }
+
+/* ── 路线地图 ── */
+.route-map { width: 100%; max-width: 800px; margin: 0 auto; }
+.route-map-svg { width: 100%; height: auto; }
+.route-map-svg text { font-family: var(--font-sans); }
+
+/* ── 首页 Hero 装饰线优化 ── */
+.hero .line { height: 2px; background: rgba(255,255,255,.25); }
+.hero .line::after { content: ""; position: absolute; right: -1px; top: -4px; width: 8px; height: 8px; border-top: 1px solid var(--paper); border-right: 1px solid var(--paper); transform: rotate(45deg); }
+.hero .point { width: 10px; height: 10px; border-width: 2px; box-shadow: 0 0 0 5px oklch(0.72 0.074 200 / .1); animation: pulse 3s var(--ease) infinite; }
+.hero .line-a { left: 45%; top: 28%; width: 35%; transform: rotate(-8deg); }
+.hero .line-b { left: 48%; top: 50%; width: 36%; transform: rotate(5deg); }
+.hero .line-c { left: 44%; top: 72%; width: 42%; transform: rotate(-4deg); }
+.hero .point-a { left: 52%; top: 26%; }
+.hero .point-b { left: 58%; top: 46%; animation-delay: .8s; }
+.hero .point-c { left: 53%; top: 68%; animation-delay: 1.6s; }
+@media (max-width: 1050px) { .hero .route-lines { display: none; } }
 
 /* ── 首页入口卡片 ── */
 .entry-section { padding: clamp(60px,8vw,120px) clamp(24px,6vw,96px); }

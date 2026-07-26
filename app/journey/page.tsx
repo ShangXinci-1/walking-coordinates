@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { SiteHeader, SiteFooter } from "../shared";
+import { RouteMap } from "../RouteMap";
 
 const BASE = "/walking-coordinates";
 
@@ -52,7 +53,7 @@ export default function JourneyPage() {
             </div>
           </div>
           <div className="page-hero-visual">
-            <img src={routeImages[activeRoute]} alt={route.title} />
+            <RouteMap />
           </div>
         </div>
       </section>
