@@ -101,17 +101,6 @@
 .route-map-svg { width: 100%; height: auto; }
 .route-map-svg text { font-family: var(--font-sans); }
 
-/* ── 首页 Hero 装饰线优化 ── */
-.hero .line { height: 2px; background: rgba(255,255,255,.25); }
-.hero .line::after { content: ""; position: absolute; right: -1px; top: -4px; width: 8px; height: 8px; border-top: 1px solid var(--paper); border-right: 1px solid var(--paper); transform: rotate(45deg); }
-.hero .point { width: 10px; height: 10px; border-width: 2px; box-shadow: 0 0 0 5px oklch(0.72 0.074 200 / .1); animation: pulse 3s var(--ease) infinite; }
-.hero .line-a { left: 45%; top: 28%; width: 35%; transform: rotate(-8deg); }
-.hero .line-b { left: 48%; top: 50%; width: 36%; transform: rotate(5deg); }
-.hero .line-c { left: 44%; top: 72%; width: 42%; transform: rotate(-4deg); }
-.hero .point-a { left: 52%; top: 26%; }
-.hero .point-b { left: 58%; top: 46%; animation-delay: .8s; }
-.hero .point-c { left: 53%; top: 68%; animation-delay: 1.6s; }
-@media (max-width: 1050px) { .hero .route-lines { display: none; } }
 
 /* ── 首页入口卡片 ── */
 .entry-section { padding: clamp(60px,8vw,120px) clamp(24px,6vw,96px); }
