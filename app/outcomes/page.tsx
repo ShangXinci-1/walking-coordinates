@@ -28,6 +28,7 @@ export default function OutcomesPage() {
       <section className="page-hero" style={{background:"linear-gradient(135deg, #8B0000 0%, #4a0000 50%, #1a0000 100%)"}}>
         <div className="page-hero-inner">
           <div className="page-hero-text" style={{maxWidth:"100%"}}>
+            <div className="page-hero-watermark">DIGITAL</div>
             <span className="page-hero-badge">DIGITAL OUTCOMES</span>
             <h1>让成果被看见<br />让记忆可抵达</h1>
             <p className="page-hero-summary">以寻访路线为叙事骨架，整合高清影像、全景记录与口述史，让红色记忆可感可触。</p>

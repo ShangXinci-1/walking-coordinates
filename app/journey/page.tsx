@@ -41,7 +41,8 @@ export default function JourneyPage() {
       <section className="page-hero" style={{background: routeHeroColors[activeRoute]}}>
         <div className="page-hero-inner">
           <div className="page-hero-text">
-            <span className="page-hero-badge">ROUTE {route.id}</span>
+            <div className="page-hero-watermark">{route.title}</div>
+            <span className="page-hero-badge">ROUTE {route.id} · 寻访路线</span>
             <h1>{route.title}</h1>
             <p className="page-hero-summary">{route.summary}</p>
             <div className="page-hero-meta">
