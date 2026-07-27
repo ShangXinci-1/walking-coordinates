@@ -4,8 +4,6 @@ import { useState } from "react";
 import { SiteHeader, SiteFooter } from "../shared";
 import { RouteMap } from "../RouteMap";
 
-const BASE = "/walking-coordinates";
-
 const routeData = [
   {
     id: "A", title: "觉醒之路", color: "#ff5555",
@@ -47,53 +45,56 @@ export default function JourneyPage() {
   return (
     <main>
       <SiteHeader />
-      <section className="page-hero" style={{background:"linear-gradient(135deg, #1a0000 0%, #0d0000 50%, #0a0a0a 100%)"}}>
-        <div className="page-hero-inner">
-          <div className="page-hero-text">
-            <div className="page-hero-watermark">ROUTES</div>
-            <span className="page-hero-badge">寻访路线 · 交互地图</span>
-            <h1>以脚步丈量<br />红色北京</h1>
-            <p className="page-hero-summary">三条路线，十一条红色坐标。点击地图上的地点，查看详细介绍、实践影像与VR全景。</p>
+
+      <section className="map-hero-section">
+        <div className="map-hero-header">
+          <span className="map-hero-badge">寻访路线</span>
+          <h1>以脚步丈量红色北京</h1>
+          <p>三条路线，十一处红色坐标 — 点击地图地点查看详情</p>
+        </div>
+        <div className="map-hero-body">
+          <RouteMap routes={routeData} activeRoute={activeRoute} activeSite={activeSite} onSelectSite={handleMapSelect} />
+        </div>
+      </section>
+
+      <section className="map-detail-section">
+        <div className="map-detail-top">
+          <div className="map-detail-route-info">
+            <span className="map-detail-route-id" style={{color: currentRoute.color}}>ROUTE {currentRoute.id}</span>
+            <h2>{currentRoute.title}</h2>
           </div>
-          <div className="page-hero-visual" style={{flex:1.5}}>
-            <RouteMap routes={routeData} activeRoute={activeRoute} activeSite={activeSite} onSelectSite={handleMapSelect} />
+          <div className="map-detail-tabs">
+            {Object.entries(siteDetail).map(([key, tab]) => (
+              <button key={key} type="button" className={`map-detail-tab${activeSubTab === key ? " active" : ""}`}
+                onClick={() => setActiveSubTab(key)}>
+                <span className="tab-icon">{tab.icon}</span>
+                <span className="tab-text">
+                  <strong>{tab.label}</strong>
+                  <small>{tab.desc}</small>
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="map-detail-site">
+          <div className="map-detail-site-name">
+            <span className="site-marker" style={{background: currentRoute.color}} />
+            <h3>{currentSite.name}</h3>
+          </div>
+          <div className="map-detail-content">
+            <div className="placeholder-card">
+              <div className="placeholder-card-icon">{activeTab.icon}</div>
+              <h4>{activeTab.label}</h4>
+              <p className="placeholder-card-desc">{currentSite.name}的内容正在整理中。</p>
+              <div className="placeholder-card-status"><span className="status-dot"/><span>团队制作中，敬请期待</span></div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="site-detail-section">
-        <div className="section-heading">
-          <p>{currentRoute.title}</p>
-          <h2>{currentSite.name}</h2>
-        </div>
-        <div className="site-subtabs" role="tablist">
-          {Object.entries(siteDetail).map(([key, tab]) => (
-            <button key={key} type="button" role="tab" aria-selected={activeSubTab === key}
-              onClick={() => setActiveSubTab(key)}>
-              <span className="subtab-icon">{tab.icon}</span>
-              <span className="subtab-text"><strong>{tab.label}</strong><small>{tab.desc}</small></span>
-            </button>
-          ))}
-        </div>
-        <div className="site-subpanel">
-          <div className="placeholder-card">
-            <div className="placeholder-card-icon">{activeTab.icon}</div>
-            <h4>{activeTab.label}</h4>
-            <p className="placeholder-card-desc">{currentSite.name}的内容正在整理中。</p>
-            <div className="placeholder-card-status"><span className="status-dot"/><span>团队制作中，敬请期待</span></div>
-          </div>
-        </div>
-      </section>
-
-      <section className="schedule">
-        <div className="section-heading"><p>14 天实践日程</p><h2>从寻访到转化，完整闭环</h2></div>
-        <ol>
-          {[["01","启动与培训","团队集结、安全教育与数字化采集技术培训"],["02—04","觉醒之路","寻访北大红楼等地，完成深度访谈与数字采集"],["05—07","烽火之路","赴抗战地标开展沉浸记录与口述史收集"],["08","社区工作坊","将红色记忆转化为可参与的数字传播内容"],["09","中期整理","备份、筛选素材，复盘路线并校准创作计划"],["10—11","进京之路","围绕「赶考」主题完成精细采集与环境记录"],["12","影像创作","整理前期素材，完成主题微电影拍摄"],["13—14","集中攻坚","线上展厅、调研报告与成果传播同步成型"]].map(([day, title, desc]) => (
-            <li key={day}><span>{day}</span><h3>{title}</h3><p>{desc}</p></li>
-          ))}
-        </ol>
-      </section>
-      <SiteFooter />
+      <footer className="site-footer-simple">
+        <p>北京科技大学马克思主义学院 · 2026 年社会实践成果展示</p>
+      </footer>
     </main>
   );
 }

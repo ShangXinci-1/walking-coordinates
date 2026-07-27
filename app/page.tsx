@@ -7,6 +7,13 @@ export default function Home() {
     <main>
       <SiteHeader />
       <section className="hero" id="top">
+        <div className="hero-deco" aria-hidden="true">
+          <span className="hero-deco-circle c1" /><span className="hero-deco-circle c2" />
+          <span className="hero-deco-circle c3" />
+          <span className="hero-deco-dot d1" /><span className="hero-deco-dot d2" />
+          <span className="hero-deco-dot d3" /><span className="hero-deco-dot d4" />
+          <span className="hero-deco-dot d5" />
+        </div>
         <div className="hero-copy">
           <p className="hero-kicker">传承红色基因</p>
           <h1>革命史迹<br />数字化寻访</h1>
