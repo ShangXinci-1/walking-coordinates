@@ -7,3 +7,7 @@ dist/
 .env*.local
 .wrangler/
 *.tsbuildinfo
+Deploy.local.md
+data/generated/
+playwright-report/
+test-results/
