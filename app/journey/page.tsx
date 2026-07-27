@@ -1,30 +1,41 @@
 "use client";
 
 import { useState } from "react";
-import { SiteHeader, SiteFooter } from "../shared";
+import { routes } from "../../data/routes";
+import {
+  getAssetSrc,
+  getRequiredAssetById,
+  getSitesForRoute,
+} from "../../lib/content/selectors";
+import { SiteHeader } from "../shared";
 import { RouteMap } from "../RouteMap";
 
-const BASE = "/walking-coordinates";
+const routeColors = {
+  A: "#b42318",
+  B: "#9a4a00",
+  C: "#a83218",
+} as const;
 
-const routeImages = [`${BASE}/images/field-01.svg`, `${BASE}/images/field-03.svg`, `${BASE}/images/field-04.svg`];
+const routeStartX = { A: 440, B: 380, C: 540 } as const;
 
-const routeData = [
-  {
-    id: "A", title: "觉醒之路", color: "#ff5555",
-    path: "M440,380 Q460,330 430,280 T450,200 T420,140",
-    points: [{cx:440,cy:380,name:"北大红楼"},{cx:445,cy:300,name:"《新青年》编辑部"},{cx:435,cy:220,name:"李大钊故居"},{cx:420,cy:140,name:"京报馆旧址"}]
-  },
-  {
-    id: "B", title: "烽火之路", color: "#ff8855",
-    path: "M380,440 Q360,370 390,310 T370,230 T400,150",
-    points: [{cx:380,cy:440,name:"抗战纪念馆"},{cx:375,cy:350,name:"卢沟桥"},{cx:380,cy:270,name:"百望山纪念园"},{cx:400,cy:150,name:"贝家花园"}]
-  },
-  {
-    id: "C", title: "进京之路", color: "#ee6644",
-    path: "M540,420 Q560,360 530,300 T550,220 T520,140",
-    points: [{cx:540,cy:420,name:"香山纪念地"},{cx:545,cy:340,name:"双清别墅"},{cx:535,cy:260,name:"清华园车站"}]
-  },
-];
+const routeData = routes.map((route) => {
+  const points = getSitesForRoute(route.id).map((site, index) => ({
+    cx: routeStartX[route.code] + (index % 2 === 0 ? 0 : 18),
+    cy: 440 - index * 72,
+    name: site.name.value,
+  }));
+
+  return {
+    id: route.code,
+    title: route.title.value,
+    color: routeColors[route.code],
+    path: points
+      .map((point, index) => `${index === 0 ? "M" : "L"}${point.cx},${point.cy}`)
+      .join(" "),
+    points,
+    image: getAssetSrc(getRequiredAssetById(route.heroAssetId)),
+  };
+});
 
 const siteDetail = {
   intro: { icon: "📝", label: "实践地点介绍", desc: "历史背景与革命故事" },
@@ -58,7 +69,7 @@ export default function JourneyPage() {
             <p>三条路线，十一处红色坐标 — 点击地图地点查看详情</p>
           </div>
           <div className="map-hero-img">
-            <img src={routeImages[activeRoute]} alt={routeData[activeRoute].title} />
+            <img src={routeData[activeRoute].image} alt={`示意素材：${routeData[activeRoute].title}`} />
           </div>
         </div>
         <div className="map-hero-body">

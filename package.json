@@ -9,22 +9,38 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next"
+    "preview": "node scripts/preview-static.mjs",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
+    "test": "vitest run",
+    "test:e2e": "npm run build && playwright test",
+    "test:a11y": "npm run build && playwright test --grep @a11y",
+    "test:visual": "npm run build && playwright test --grep @visual",
+    "data:geocode": "tsx scripts/geocode-candidates.ts",
+    "check": "npm run typecheck && npm run lint && npm run test && npm run build"
   },
   "dependencies": {
-    "next": "16.2.6",
+    "next": "^16.2.12",
     "react": "19.2.6",
     "react-dom": "19.2.6"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
+    "@playwright/test": "^1.62.0",
     "@tailwindcss/postcss": "4.2.1",
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "eslint": "9.39.4",
-    "eslint-config-next": "16.2.6",
+    "eslint-config-next": "^16.2.12",
     "tailwindcss": "4.2.1",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "tsx": "^4.20.6",
+    "vitest": "^4.1.10"
+  },
+  "overrides": {
+    "postcss": "8.5.23",
+    "sharp": "0.35.3"
   },
   "type": "module"
 }

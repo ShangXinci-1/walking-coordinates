@@ -1,0 +1,168 @@
+export type ReviewStatus = "draft" | "needs-review" | "reviewed";
+
+export type PublicationStatus =
+  | "placeholder"
+  | "planned"
+  | "partial"
+  | "ready";
+
+export type RouteId = "awakening" | "war" | "capital";
+
+export interface SourceRecord {
+  id: string;
+  title: string;
+  publisher: string;
+  url: string | null;
+  recordRef: string | null;
+  level: "A" | "B" | "C";
+  sourceType:
+    | "official-venue"
+    | "government"
+    | "project-record"
+    | "publication"
+    | "geocoder";
+  accessedAt: string;
+}
+
+export interface SourcedField<T> {
+  value: T;
+  sourceIds: string[];
+}
+
+export interface SourcedContentBlock {
+  id: string;
+  text: string;
+  sourceIds: string[];
+}
+
+export type CoordinateRecord =
+  | {
+      status: "missing";
+    }
+  | {
+      status: "candidate";
+      lat: number;
+      lng: number;
+      crs: "GCJ-02";
+      target: "main-entrance" | "site-center";
+      sourceId: SourceRecord["id"];
+      queriedAt: string;
+    }
+  | {
+      status: "verified";
+      lat: number;
+      lng: number;
+      crs: "GCJ-02";
+      target: "main-entrance" | "site-center";
+      precision: "verified-poi" | "manual-pin";
+      sourceId: SourceRecord["id"];
+      verifiedAt: string;
+      verifiedBy: "coordinate-reviewer" | "project-owner";
+    };
+
+export interface RouteRecord {
+  id: RouteId;
+  code: "A" | "B" | "C";
+  slug: string;
+  title: SourcedField<string>;
+  dayRange: SourcedField<string>;
+  summary: SourcedContentBlock[];
+  coordinateRegion: string;
+  siteIds: string[];
+  heroAssetId: string;
+  reviewStatus: ReviewStatus;
+  publicationStatus: PublicationStatus;
+}
+
+export interface SiteRecord {
+  id: string;
+  slug: string;
+  routeId: RouteId;
+  order: number;
+  name: SourcedField<string>;
+  officialAddress: SourcedField<string> | null;
+  coordinate: CoordinateRecord;
+  historySummary: SourcedContentBlock[];
+  practiceSummary: SourcedContentBlock[];
+  assetIds: string[];
+  reviewStatus: ReviewStatus;
+  publicationStatus: PublicationStatus;
+}
+
+export interface AssetBase {
+  id: string;
+  label: string;
+  role:
+    | "hero"
+    | "route"
+    | "site-cover"
+    | "action"
+    | "detail"
+    | "portrait"
+    | "outcome"
+    | "video"
+    | "vr"
+    | "document";
+  alt: string;
+  shotRequirement: string;
+  width: number;
+  height: number;
+  reviewStatus: ReviewStatus;
+  publicationStatus: PublicationStatus;
+  rightsStatus: "unknown" | "restricted" | "cleared";
+  consentStatus: "not-required" | "pending" | "obtained";
+  usageScopes: Array<"website" | "social" | "press" | "archive">;
+  rightsRecordRef: string | null;
+}
+
+export type AssetRecord =
+  | (AssetBase & {
+      assetStatus: "placeholder" | "planned";
+      placeholderSrc: string;
+    })
+  | (AssetBase & {
+      assetStatus: "ready";
+      rightsStatus: "cleared";
+      consentStatus: "not-required" | "obtained";
+      finalSrc: string;
+      credit: string;
+      captureDate: string;
+    });
+
+export interface OutcomeBase {
+  id: string;
+  order: number;
+  title: SourcedField<string>;
+  description: SourcedContentBlock[];
+  ownerRole: string;
+  reviewStatus: ReviewStatus;
+  publicationStatus: PublicationStatus;
+  assetId: string | null;
+  updatedAt: string;
+}
+
+export type OutcomeRecord =
+  | (OutcomeBase & {
+      completionStatus: "planned" | "in-progress";
+      deliveryCondition: string;
+      access: null;
+      publishedAt: null;
+    })
+  | (OutcomeBase & {
+      completionStatus: "complete";
+      deliveryCondition: null;
+      access: {
+        kind: "link" | "download" | "play";
+        href: string;
+        label: string;
+      };
+      publishedAt: string;
+    });
+
+export interface ProjectRecord {
+  title: SourcedField<string>;
+  subtitle: SourcedField<string>;
+  durationDays: SourcedField<number>;
+  reviewStatus: ReviewStatus;
+  publicationStatus: PublicationStatus;
+}
