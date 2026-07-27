@@ -47,6 +47,7 @@ for (const site of sites) {
       payload,
       AMAP_GEOCODER_SOURCE_ID,
       queriedAt,
+      site.coordinateTarget,
     ),
   });
 }

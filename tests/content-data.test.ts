@@ -49,6 +49,7 @@ describe("content data", () => {
         },
         "source-amap-geocoder",
         "2026-07-27T00:00:00.000Z",
+        "main-entrance",
       ),
     ).toEqual([
       {
@@ -57,7 +58,7 @@ describe("content data", () => {
           lat: 39.92363,
           lng: 116.41196,
           crs: "GCJ-02",
-          target: "site-center",
+          target: "main-entrance",
           sourceId: "source-amap-geocoder",
           queriedAt: "2026-07-27T00:00:00.000Z",
         },
@@ -65,5 +66,26 @@ describe("content data", () => {
         level: "门牌号",
       },
     ]);
+  });
+
+  it("records the project-approved coordinate target for every site", () => {
+    expect(
+      sites.find((site) => site.id === "xiangshan-revolutionary-site")
+        ?.coordinateTarget,
+    ).toBe("site-center");
+
+    expect(
+      sites
+        .filter((site) =>
+          [
+            "war-sculpture-park",
+            "lugou-bridge",
+            "wanping-city",
+            "black-mountain-memorial",
+            "xiangshan-revolutionary-site",
+          ].includes(site.id),
+        )
+        .every((site) => site.coordinateTarget === "site-center"),
+    ).toBe(true);
   });
 });

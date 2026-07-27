@@ -321,6 +321,17 @@ export function validateContent() {
     }
 
     if (
+      site.coordinate.status !== "missing" &&
+      site.coordinate.target !== site.coordinateTarget
+    ) {
+      issues.push({
+        code: "coordinate-target-mismatch",
+        recordId: site.id,
+        message: "坐标目标与地点核定的定位目标不一致",
+      });
+    }
+
+    if (
       (site.publicationStatus === "partial" ||
         site.publicationStatus === "ready") &&
       (site.reviewStatus !== "reviewed" ||

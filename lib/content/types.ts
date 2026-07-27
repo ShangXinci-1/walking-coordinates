@@ -7,6 +7,7 @@ export type PublicationStatus =
   | "ready";
 
 export type RouteId = "awakening" | "war" | "capital";
+export type CoordinateTarget = "main-entrance" | "site-center";
 
 export interface SourceRecord {
   id: string;
@@ -44,7 +45,7 @@ export type CoordinateRecord =
       lat: number;
       lng: number;
       crs: "GCJ-02";
-      target: "main-entrance" | "site-center";
+      target: CoordinateTarget;
       sourceId: SourceRecord["id"];
       queriedAt: string;
     }
@@ -53,7 +54,7 @@ export type CoordinateRecord =
       lat: number;
       lng: number;
       crs: "GCJ-02";
-      target: "main-entrance" | "site-center";
+      target: CoordinateTarget;
       precision: "verified-poi" | "manual-pin";
       sourceId: SourceRecord["id"];
       verifiedAt: string;
@@ -81,6 +82,7 @@ export interface SiteRecord {
   order: number;
   name: SourcedField<string>;
   officialAddress: SourcedField<string> | null;
+  coordinateTarget: CoordinateTarget;
   coordinate: CoordinateRecord;
   historySummary: SourcedContentBlock[];
   practiceSummary: SourcedContentBlock[];

@@ -1,4 +1,4 @@
-import type { CoordinateRecord } from "./types";
+import type { CoordinateRecord, CoordinateTarget } from "./types";
 
 interface AmapGeocodeItem {
   formatted_address?: unknown;
@@ -22,6 +22,7 @@ export function parseAmapGeocodeResponse(
   payload: AmapGeocodeResponse,
   sourceId: string,
   queriedAt: string,
+  target: CoordinateTarget,
 ): GeocodeCandidate[] {
   if (payload.status !== "1") {
     throw new Error(
@@ -61,7 +62,7 @@ export function parseAmapGeocodeResponse(
           lat,
           lng,
           crs: "GCJ-02",
-          target: "site-center",
+          target,
           sourceId,
           queriedAt,
         },
