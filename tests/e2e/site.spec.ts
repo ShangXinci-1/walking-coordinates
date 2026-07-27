@@ -66,9 +66,56 @@ test("mobile navigation opens, meets the touch target, and closes with Escape", 
   await expect(menuButton).toHaveAttribute("aria-expanded", "false");
 });
 
+test("home page exposes its project evidence and primary route action", async ({
+  page,
+}) => {
+  await page.goto(".");
+
+  await expect(page.getByRole("heading", { level: 1 })).toContainText(
+    "革命史迹数字化寻访",
+  );
+  await expect(page.getByRole("link", { name: "从路线开始" })).toBeVisible();
+  await expect(page.getByText("14 天", { exact: true })).toBeVisible();
+  await expect(page.getByText("3 条", { exact: true })).toBeVisible();
+  await expect(page.getByText("13 处", { exact: true })).toBeVisible();
+  await expect(page.getByText("示意素材阶段", { exact: true })).toBeVisible();
+});
+
+test("430px home page stays within the viewport and separates the hero quote", async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== "mobile-430");
+
+  await page.goto(".");
+  const dimensions = await page.evaluate(() => ({
+    viewport: window.innerWidth,
+    page: document.documentElement.scrollWidth,
+  }));
+  const visualBox = await page.locator(".home-hero__visual").boundingBox();
+  const statementBox = await page.locator(".home-hero__statement").boundingBox();
+
+  expect(dimensions.page).toBe(dimensions.viewport);
+  expect(visualBox).not.toBeNull();
+  expect(statementBox).not.toBeNull();
+  expect(statementBox!.y).toBeGreaterThanOrEqual(
+    visualBox!.y + visualBox!.height - statementBox!.height - 1,
+  );
+});
+
 test("@visual home page baseline", async ({ page }) => {
   await page.goto(".");
   await expect(page).toHaveScreenshot("home-page.png", {
+    animations: "disabled",
+    fullPage: true,
+  });
+});
+
+test("@visual home page reduced motion baseline", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440");
+
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto(".");
+  await expect(page).toHaveScreenshot("home-page-reduced-motion.png", {
     animations: "disabled",
     fullPage: true,
   });

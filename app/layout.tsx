@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import "./custom.css";
 import "../styles/components/foundation.css";
+import "../styles/pages/home.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://shangxinci-1.github.io/walking-coordinates/"),
