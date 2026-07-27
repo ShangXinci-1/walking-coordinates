@@ -1,6 +1,6 @@
 # 《行走的坐标》高德地图代理部署示例
 
-> 此文件只提供无秘密的配置模板。实际域名、配置路径、Key 和 `securityJsCode` 写入被 `.gitignore` 忽略的 `Deploy.local.md`。
+> 此文件提供 `ytstet.com` 的无秘密配置模板。配置文件位置、Key 和 `securityJsCode` 写入被 `.gitignore` 忽略的 `Deploy.local.md`。
 
 ## 1. 凭据准备
 
@@ -25,55 +25,69 @@
 下面的 `limit_req_zone` 必须放在 Nginx `http {}` 内，不能放在 `server {}` 内：
 
 ```nginx
-limit_req_zone $binary_remote_addr zone=amap_proxy_limit:10m rate=10r/s;
+limit_req_zone $binary_remote_addr zone=ytstet_amap_proxy:10m rate=10r/s;
 ```
 
 ### 2.2 `server` 级配置
 
 #### 2.2.1 代理位置
 
-将以下配置放入负责地图代理域名的 HTTPS `server {}` 中：
+将以下配置放入 `ytstet.com` 的 HTTPS `server {}` 中，并置于现有 `location ^~ /` 之前。更长的地图前缀只接管 `/_AMapService`，现有 MCP、API 和 3002 代理保持原路由：
 
 ```nginx
 # 仅在使用高德自定义地图样式时需要。
-location /_AMapService/v4/map/styles {
-    limit_req zone=amap_proxy_limit burst=20 nodelay;
+location = /_AMapService/v4/map/styles {
+    limit_req zone=ytstet_amap_proxy burst=20 nodelay;
 
     if ($request_method = OPTIONS) {
-        add_header Access-Control-Allow-Origin "https://<正式前端域名>" always;
+        add_header Access-Control-Allow-Origin "https://shangxinci-1.github.io" always;
         add_header Access-Control-Allow-Methods "GET, OPTIONS" always;
         add_header Access-Control-Allow-Headers "Content-Type" always;
         add_header Access-Control-Max-Age 86400 always;
         return 204;
     }
 
-    add_header Access-Control-Allow-Origin "https://<正式前端域名>" always;
+    add_header Access-Control-Allow-Origin "https://shangxinci-1.github.io" always;
     add_header Vary "Origin" always;
 
     set $args "$args&jscode=<高德 securityJsCode>";
-    proxy_ssl_server_name on;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade "";
+    proxy_set_header Connection "";
     proxy_set_header Host webapi.amap.com;
+    proxy_ssl_server_name on;
+    proxy_ssl_name webapi.amap.com;
+    proxy_connect_timeout 5s;
+    proxy_send_timeout 15s;
+    proxy_read_timeout 15s;
     proxy_pass https://webapi.amap.com/v4/map/styles;
 }
 
 # 高德 Web 服务代理。固定前缀 /_AMapService 不可改变。
-location /_AMapService/ {
-    limit_req zone=amap_proxy_limit burst=20 nodelay;
+location ^~ /_AMapService/ {
+    limit_req zone=ytstet_amap_proxy burst=20 nodelay;
 
     if ($request_method = OPTIONS) {
-        add_header Access-Control-Allow-Origin "https://<正式前端域名>" always;
+        add_header Access-Control-Allow-Origin "https://shangxinci-1.github.io" always;
         add_header Access-Control-Allow-Methods "GET, OPTIONS" always;
         add_header Access-Control-Allow-Headers "Content-Type" always;
         add_header Access-Control-Max-Age 86400 always;
         return 204;
     }
 
-    add_header Access-Control-Allow-Origin "https://<正式前端域名>" always;
+    add_header Access-Control-Allow-Origin "https://shangxinci-1.github.io" always;
     add_header Vary "Origin" always;
 
     set $args "$args&jscode=<高德 securityJsCode>";
-    proxy_ssl_server_name on;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade "";
+    proxy_set_header Connection "";
     proxy_set_header Host restapi.amap.com;
+    proxy_ssl_server_name on;
+    proxy_ssl_name restapi.amap.com;
+    proxy_connect_timeout 5s;
+    proxy_send_timeout 15s;
+    proxy_read_timeout 15s;
     proxy_pass https://restapi.amap.com/;
 }
 ```
@@ -88,7 +102,7 @@ location /_AMapService/ {
 
 ```dotenv
 NEXT_PUBLIC_AMAP_JS_KEY=<Web 端 JS API Key>
-NEXT_PUBLIC_AMAP_SERVICE_HOST=https://<代理域名>/_AMapService
+NEXT_PUBLIC_AMAP_SERVICE_HOST=https://ytstet.com/_AMapService
 WC_AMAP_WEB_KEY=<Web 服务 Key>
 ```
 
@@ -117,14 +131,14 @@ sudo systemctl reload nginx
 
 ```bash
 curl -i -X OPTIONS \
-  -H "Origin: https://<正式前端域名>" \
-  "https://<代理域名>/_AMapService/v3/config/district?keywords=北京"
+  -H "Origin: https://shangxinci-1.github.io" \
+  "https://ytstet.com/_AMapService/v3/config/district?keywords=北京"
 ```
 
 通过标准：
 
 - HTTP 状态为 `204`；
-- `Access-Control-Allow-Origin` 等于正式前端 Origin；
+- `Access-Control-Allow-Origin` 等于 `https://shangxinci-1.github.io`；
 - 响应不包含 `securityJsCode`。
 
 #### 4.2.2 浏览器验证

@@ -1,8 +1,21 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
+import { loadEnvFile } from "node:process";
 import { sites } from "../data/sites";
 import { AMAP_GEOCODER_SOURCE_ID } from "../data/sources";
 import { parseAmapGeocodeResponse } from "../lib/content/amap-geocode";
+
+try {
+  loadEnvFile(resolve(".env.local"));
+} catch (error) {
+  if (
+    !(error instanceof Error) ||
+    !("code" in error) ||
+    error.code !== "ENOENT"
+  ) {
+    throw error;
+  }
+}
 
 const apiKey = process.env.WC_AMAP_WEB_KEY?.trim();
 
