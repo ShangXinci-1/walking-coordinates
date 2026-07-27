@@ -259,6 +259,7 @@ export function AMapRouteMap({
       className="amap-route-map"
       data-map-status={mapStatus}
       data-testid="amap-route-map"
+      role="region"
       aria-label="北京革命史迹在线地图"
     >
       <div className="amap-route-map__canvas" ref={containerRef} />
