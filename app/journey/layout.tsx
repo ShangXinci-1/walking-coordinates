@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "../../styles/pages/journey.css";
 
 export const metadata: Metadata = {
   title: "寻访路线",

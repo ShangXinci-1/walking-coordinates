@@ -2,7 +2,15 @@ import { describe, expect, it } from "vitest";
 import { routes } from "../data/routes";
 import { sites } from "../data/sites";
 import { parseAmapGeocodeResponse } from "../lib/content/amap-geocode";
-import { getProjectCounts, getSitesForRoute } from "../lib/content/selectors";
+import {
+  getProjectCounts,
+  getSitesForRoute,
+  getVerifiedSitesForRoute,
+} from "../lib/content/selectors";
+import {
+  createJourneySearch,
+  resolveJourneySelection,
+} from "../lib/content/journey-state";
 import { validateContent } from "../lib/content/validate";
 
 describe("content data", () => {
@@ -87,5 +95,32 @@ describe("content data", () => {
         )
         .every((site) => site.coordinateTarget === "site-center"),
     ).toBe(true);
+  });
+
+  it("normalizes route and site query parameters without inventing records", () => {
+    const defaultSelection = resolveJourneySelection(null, null);
+    expect(defaultSelection.route.id).toBe("awakening");
+    expect(defaultSelection.site.id).toBe("beida-honglou");
+    expect(defaultSelection.isCanonical).toBe(false);
+
+    const siteLedSelection = resolveJourneySelection(
+      "awakening",
+      "lugou-bridge",
+    );
+    expect(siteLedSelection.route.id).toBe("war");
+    expect(siteLedSelection.site.id).toBe("lugou-bridge");
+    expect(siteLedSelection.canonicalSearch).toBe(
+      createJourneySearch(siteLedSelection.route, siteLedSelection.site),
+    );
+
+    const invalidSelection = resolveJourneySelection("unknown", "unknown");
+    expect(invalidSelection.route.id).toBe("awakening");
+    expect(invalidSelection.site.id).toBe("beida-honglou");
+  });
+
+  it("exposes only verified GCJ-02 coordinates to the map layer", () => {
+    expect(routes.flatMap((route) => getVerifiedSitesForRoute(route.id))).toEqual(
+      [],
+    );
   });
 });
