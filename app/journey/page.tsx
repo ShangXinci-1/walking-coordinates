@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { routes } from "../../data/routes";
+import { ResponsiveMedia } from "../../components";
 import {
-  getAssetSrc,
   getRequiredAssetById,
   getSitesForRoute,
 } from "../../lib/content/selectors";
@@ -33,7 +33,7 @@ const routeData = routes.map((route) => {
       .map((point, index) => `${index === 0 ? "M" : "L"}${point.cx},${point.cy}`)
       .join(" "),
     points,
-    image: getAssetSrc(getRequiredAssetById(route.heroAssetId)),
+    asset: getRequiredAssetById(route.heroAssetId),
   };
 });
 
@@ -69,7 +69,10 @@ export default function JourneyPage() {
             <p>三条路线，十一处红色坐标 — 点击地图地点查看详情</p>
           </div>
           <div className="map-hero-img">
-            <img src={routeData[activeRoute].image} alt={`示意素材：${routeData[activeRoute].title}`} />
+            <ResponsiveMedia
+              asset={routeData[activeRoute].asset}
+              sizes="(min-width: 850px) 45vw, 100vw"
+            />
           </div>
         </div>
         <div className="map-hero-body">

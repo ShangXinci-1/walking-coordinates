@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "./custom.css";
+import "../styles/components/foundation.css";
 
 export const metadata: Metadata = {
-  title: "行走的坐标｜革命史迹数字化寻访",
+  metadataBase: new URL("https://shangxinci-1.github.io/walking-coordinates/"),
+  title: {
+    default: "行走的坐标｜革命史迹数字化寻访",
+    template: "%s｜行走的坐标",
+  },
   description: "北京科技大学社会实践成果展示网站",
   icons: { icon: "/walking-coordinates/favicon.svg" },
   openGraph: {

@@ -1,9 +1,9 @@
 import { project } from "../data/project";
+import { ResponsiveMedia } from "../components";
 import {
   getGalleryAssets,
   getOrderedOutcomes,
   getProjectCounts,
-  getAssetSrc,
 } from "../lib/content/selectors";
 import { withBasePath } from "../lib/site";
 import { SiteHeader, SiteFooter } from "./shared";
@@ -38,8 +38,8 @@ export default function Home() {
           <a className="primary-link" href={withBasePath("/journey")}>探索寻访路线 <span>↘</span></a>
         </div>
         <div className="hero-photos">
-          <figure className="hero-photo hero-photo-main"><img src={getAssetSrc(heroAsset)} alt={heroAsset.alt} /><figcaption>FIELD RECORD / 01 · 示意素材</figcaption></figure>
-          <figure className="hero-photo hero-photo-side"><img src={getAssetSrc(sideAsset)} alt={sideAsset.alt} /><figcaption>FIELD RECORD / 02 · 示意素材</figcaption></figure>
+          <figure className="hero-photo hero-photo-main"><ResponsiveMedia asset={heroAsset} priority sizes="(min-width: 1050px) 46vw, 100vw" /><figcaption>FIELD RECORD / 01 · 示意素材</figcaption></figure>
+          <figure className="hero-photo hero-photo-side"><ResponsiveMedia asset={sideAsset} sizes="(min-width: 1050px) 38vw, 80vw" /><figcaption>FIELD RECORD / 02 · 示意素材</figcaption></figure>
           <blockquote>以脚步丈量历史，<br /><em>以技术保存记忆</em></blockquote>
         </div>
         <div className="route-lines"><span className="line line-a" /><span className="line line-b" /><span className="line line-c" /><i className="point point-a" /><i className="point point-b" /><i className="point point-c" /></div>

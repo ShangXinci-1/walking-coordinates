@@ -4,25 +4,75 @@
   --red: oklch(0.36 0.135 24);
   --red-deep: oklch(0.245 0.082 22);
   --red-bright: oklch(0.59 0.205 25);
+  --red-bright-accessible: oklch(0.48 0.18 25);
   --ink: oklch(0.115 0 0);
-  --paper: oklch(1 0 0);
+  --paper: oklch(0.97 0.006 24);
+  --paper-pure: oklch(1 0 0);
   --paper-soft: oklch(0.94 0.012 22);
-  --coordinate: oklch(0.72 0.074 200);
-  --muted: oklch(0.53 0.018 24);
+  --amber: oklch(0.72 0.12 70);
+  --amber-ink: oklch(0.43 0.1 70);
+  --coordinate: var(--amber);
+  --muted-dark: oklch(0.72 0.01 24);
+  --muted-light: oklch(0.42 0.015 24);
+  --muted: var(--muted-light);
+  --success: oklch(0.43 0.1 150);
   --line-dark: oklch(0.115 0 0 / 0.16);
   --line-light: oklch(1 0 0 / 0.24);
+  --content-max: 1440px;
+  --reading-max: 760px;
+  --dossier-max: 960px;
+  --gutter: clamp(20px, 4vw, 64px);
+  --section-space: clamp(80px, 10vw, 160px);
+  --header-height: 64px;
+  --target-size: 44px;
+  --radius-small: 6px;
+  --radius-medium: 12px;
+  --z-base: 0;
+  --z-sticky: 20;
+  --z-dropdown: 30;
+  --z-modal-backdrop: 40;
+  --z-modal: 50;
+  --z-toast: 60;
+  --z-tooltip: 70;
+  --duration-fast: 180ms;
+  --duration-medium: 320ms;
   --ease: cubic-bezier(.16, 1, .3, 1);
-  --font-sans: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", "Source Han Sans SC", Arial, sans-serif;
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --font-sans: "Source Han Sans SC", "Noto Sans CJK SC", "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
 }
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; overflow-x: hidden; background: var(--paper); color: var(--ink); font-family: var(--font-sans); }
+body { min-width: 320px; margin: 0; overflow-x: hidden; background: var(--paper); color: var(--ink); font-family: var(--font-sans); text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
 button, a { font: inherit; }
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
 button { color: inherit; }
 ::selection { background: var(--coordinate); color: var(--ink); }
+
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 3px;
+}
+
+:where(h1, h2, h3) {
+  letter-spacing: clamp(-0.04em, -0.03em, -0.02em);
+  text-wrap: balance;
+}
+
+:where(p, li, dd) {
+  text-wrap: pretty;
+}
+
+.content-container {
+  width: min(100%, var(--content-max));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.reading-column {
+  max-width: var(--reading-max);
+}
 
 .hero {
   position: relative;
@@ -118,7 +168,7 @@ button { color: inherit; }
 .section-heading.light > p { color: var(--coordinate); }
 .outcome-feature { min-height: 560px; display: grid; grid-template-columns: .9fr 1.4fr; border-top: 1px solid var(--line-light); border-bottom: 1px solid var(--line-light); }
 .outcome-feature > div:first-child { padding: clamp(42px, 5vw, 76px) clamp(24px, 5vw, 72px) clamp(42px, 5vw, 76px) 0; }
-.outcome-feature > div:first-child > span { color: var(--coordinate); font-size: 10px; font-weight: 900; letter-spacing: .16em; }
+.outcome-feature > div:first-child > span:not(.status-badge) { color: var(--coordinate); font-size: 10px; font-weight: 900; letter-spacing: .16em; }
 .outcome-feature h3 { margin: 30px 0 22px; font-size: clamp(38px, 4.5vw, 70px); line-height: 1.06; letter-spacing: -.035em; }
 .outcome-feature p { max-width: 570px; color: oklch(1 0 0 / .68); font-size: 16px; line-height: 1.85; }
 .outcome-feature a { display: inline-flex; gap: 40px; margin-top: 28px; padding: 13px 0; border-bottom: 1px solid oklch(1 0 0 / .5); font-weight: 800; }
@@ -138,7 +188,7 @@ button { color: inherit; }
 .outcome-list { display: grid; grid-template-columns: repeat(3, 1fr); }
 .outcome-list article { padding: clamp(32px, 4vw, 58px) clamp(22px, 3vw, 44px); border-left: 1px solid var(--line-light); }
 .outcome-list article:first-child { border-left: 0; }
-.outcome-list span { color: var(--coordinate); font-size: 11px; font-weight: 900; }
+.outcome-list article > span:not(.status-badge) { color: var(--coordinate); font-size: 11px; font-weight: 900; }
 .outcome-list h3 { margin: 22px 0 15px; font-size: 26px; }
 .outcome-list p { margin: 0; color: oklch(1 0 0 / .6); line-height: 1.75; }
 

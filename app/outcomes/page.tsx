@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { ResponsiveMedia, StatusBadge } from "../../components";
 import {
-  getAssetSrc,
   getGalleryAssets,
   getOrderedOutcomes,
   getRequiredAssetById,
@@ -11,8 +11,7 @@ import { SiteHeader, SiteFooter } from "../shared";
 
 const gallery = getGalleryAssets().map((asset) => ({
   id: asset.id,
-  src: getAssetSrc(asset),
-  alt: asset.alt,
+  asset,
   label: `${asset.label} · 示意素材`,
 }));
 const outcomes = getOrderedOutcomes();
@@ -44,18 +43,18 @@ export default function OutcomesPage() {
               <span>📄 实践调研报告</span>
             </div>
           </div>
-          <div className="page-hero-visual"><img src={getAssetSrc(outcomeHero)} alt={outcomeHero.alt} /></div>
+          <div className="page-hero-visual"><ResponsiveMedia asset={outcomeHero} priority sizes="(min-width: 1050px) 40vw, 100vw" /></div>
         </div>
       </section>
 
       <section className="outcomes" id="outcomes">
         <div className="outcome-feature">
-          <div><span>CORE OUTPUT / 01 · 筹备中</span><h3>{featuredOutcome.title.value}</h3><p>{featuredOutcome.description[0].text}</p></div>
+          <div><StatusBadge status={featuredOutcome.publicationStatus} /><h3>{featuredOutcome.title.value}</h3><p>{featuredOutcome.description[0].text}</p></div>
           <div className="map-visual"><span className="map-label label-one">觉醒之路</span><span className="map-label label-two">烽火之路</span><span className="map-label label-three">进京之路</span><i className="map-path path-one" /><i className="map-path path-two" /><i className="map-path path-three" /><b className="map-node node-one" /><b className="map-node node-two" /><b className="map-node node-three" /></div>
         </div>
         <div className="outcome-list">
           {outcomes.slice(1).map((outcome) => (
-            <article key={outcome.id}><span>{String(outcome.order).padStart(2, "0")}</span><h3>{outcome.title.value}</h3><p>{outcome.description[0].text}</p><small>筹备中</small></article>
+            <article key={outcome.id}><span>{String(outcome.order).padStart(2, "0")}</span><h3>{outcome.title.value}</h3><p>{outcome.description[0].text}</p><StatusBadge status={outcome.publicationStatus} /></article>
           ))}
         </div>
       </section>
@@ -65,7 +64,7 @@ export default function OutcomesPage() {
         <div className="gallery-grid">
           {gallery.map((image, index) => (
             <button key={image.id} type="button" onClick={() => setLightbox(index)}>
-              <img src={image.src} alt={image.alt} /><span>{String(index + 1).padStart(2, "0")} / {image.label}</span>
+              <ResponsiveMedia asset={image.asset} sizes="(min-width: 700px) 33vw, 100vw" /><span>{String(index + 1).padStart(2, "0")} / {image.label}</span>
             </button>
           ))}
         </div>
@@ -75,7 +74,7 @@ export default function OutcomesPage() {
       {lightbox !== null && (
         <div className="lightbox" role="dialog" aria-modal="true" onClick={() => setLightbox(null)}>
           <button type="button" onClick={() => setLightbox(null)}>关闭 ×</button>
-          <figure onClick={(e) => e.stopPropagation()}><img src={gallery[lightbox].src} alt={gallery[lightbox].alt} /><figcaption>{String(lightbox + 1).padStart(2, "0")} / {gallery[lightbox].label}</figcaption></figure>
+          <figure onClick={(e) => e.stopPropagation()}><ResponsiveMedia asset={gallery[lightbox].asset} sizes="92vw" /><figcaption>{String(lightbox + 1).padStart(2, "0")} / {gallery[lightbox].label}</figcaption></figure>
         </div>
       )}
     </main>
