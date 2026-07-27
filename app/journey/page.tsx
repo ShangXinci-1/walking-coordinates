@@ -4,6 +4,10 @@ import { useState } from "react";
 import { SiteHeader, SiteFooter } from "../shared";
 import { RouteMap } from "../RouteMap";
 
+const BASE = "/walking-coordinates";
+
+const routeImages = [`${BASE}/images/field-01.svg`, `${BASE}/images/field-03.svg`, `${BASE}/images/field-04.svg`];
+
 const routeData = [
   {
     id: "A", title: "觉醒之路", color: "#ff5555",
@@ -47,10 +51,15 @@ export default function JourneyPage() {
       <SiteHeader />
 
       <section className="map-hero-section">
-        <div className="map-hero-header">
-          <span className="map-hero-badge">寻访路线</span>
-          <h1>以脚步丈量红色北京</h1>
-          <p>三条路线，十一处红色坐标 — 点击地图地点查看详情</p>
+        <div className="map-hero-split">
+          <div className="map-hero-text">
+            <span className="map-hero-badge">寻访路线</span>
+            <h1>以脚步丈量<br />红色北京</h1>
+            <p>三条路线，十一处红色坐标 — 点击地图地点查看详情</p>
+          </div>
+          <div className="map-hero-img">
+            <img src={routeImages[activeRoute]} alt={routeData[activeRoute].title} />
+          </div>
         </div>
         <div className="map-hero-body">
           <RouteMap routes={routeData} activeRoute={activeRoute} activeSite={activeSite} onSelectSite={handleMapSelect} />
