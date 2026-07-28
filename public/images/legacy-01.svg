@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000" role="img" aria-labelledby="title description" data-placeholder-artwork="true">
   <title id="title">占位图片：首屏人物</title>
-  <desc id="description">蓝绿渐变的示意素材占位图，素材编号 placeholder-legacy-01，用于传承页·人物原话。</desc>
+  <desc id="description">蓝绿渐变的示意素材占位图，素材编号 legacy-01，用于传承页·人物原话。</desc>
   <defs>
     <linearGradient id="placeholder-gradient" x1="32" y1="32" x2="768" y2="968" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#075985"/>
@@ -15,7 +15,7 @@
   </g>
   <rect x="32" y="32" width="736" height="936" fill="none" stroke="#FFFFFF" opacity="0.52"/>
   <g fill="#FFFFFF" font-family="&apos;Microsoft YaHei&apos;, &apos;PingFang SC&apos;, sans-serif">
-    <text x="64" y="86.4" font-size="16" font-weight="700">placeholder-legacy-01</text>
+    <text x="64" y="86.4" font-size="16" font-weight="700">legacy-01</text>
     <text x="736" y="86.4" font-size="16" text-anchor="end">800 × 1000</text>
     <g text-anchor="middle">
       <text x="400" y="458" font-size="56" font-weight="800">占位图片</text>

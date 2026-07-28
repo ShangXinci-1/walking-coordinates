@@ -417,8 +417,8 @@
   margin-top: 1rem;
 }
 
-.dossier-section__empty {
-  color: rgba(242, 238, 232, 0.64) !important;
+.dossier-section p.dossier-section__empty {
+  color: rgba(242, 238, 232, 0.64);
 }
 
 .dossier-sources li + li {

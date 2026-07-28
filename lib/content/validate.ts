@@ -354,6 +354,22 @@ export function validateContent() {
   }
 
   for (const asset of assets) {
+    if (asset.id.startsWith("placeholder-")) {
+      issues.push({
+        code: "status-coupled-asset-id",
+        recordId: asset.id,
+        message: "固定素材 ID 不应编码 placeholder 状态",
+      });
+    }
+
+    if (asset.alt.trim() === "") {
+      issues.push({
+        code: "missing-asset-alt",
+        recordId: asset.id,
+        message: "素材必须具有替代文本",
+      });
+    }
+
     if (asset.displayUse.trim() === "") {
       issues.push({
         code: "missing-asset-display-use",
@@ -380,6 +396,37 @@ export function validateContent() {
         code: "incomplete-ready-asset",
         recordId: asset.id,
         message: "已公开素材必须完成文件、审核、授权和人物同意",
+      });
+    }
+
+    if (asset.assetStatus === "ready") {
+      if (asset.finalSrc !== `/media/${asset.id}.webp`) {
+        issues.push({
+          code: "invalid-ready-asset-path",
+          recordId: asset.id,
+          message: "正式素材必须使用由固定 ID 生成的 WebP 交付路径",
+        });
+      }
+      if (
+        asset.credit.trim() === "" ||
+        !/^\d{4}-\d{2}-\d{2}$/.test(asset.captureDate) ||
+        asset.usageScopes.length === 0
+      ) {
+        issues.push({
+          code: "incomplete-ready-asset-metadata",
+          recordId: asset.id,
+          message: "正式素材必须补齐署名、拍摄日期、用途和人物同意状态",
+        });
+      }
+    } else if (
+      asset.placeholderSrc.trim() === "" ||
+      asset.label.trim() === "" ||
+      asset.shotRequirement.trim() === ""
+    ) {
+      issues.push({
+        code: "incomplete-placeholder-asset",
+        recordId: asset.id,
+        message: "占位素材必须具有文件、名称和拍摄要求",
       });
     }
   }

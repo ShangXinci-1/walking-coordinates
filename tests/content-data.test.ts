@@ -12,10 +12,12 @@ import { routes } from "../data/routes";
 import { sites } from "../data/sites";
 import { parseAmapGeocodeResponse } from "../lib/content/amap-geocode";
 import {
+  getAssetRenderSources,
   getProjectCounts,
   getSitesForRoute,
   getVerifiedSitesForRoute,
 } from "../lib/content/selectors";
+import type { AssetRecord } from "../lib/content/types";
 import {
   createJourneySearch,
   resolveJourneySelection,
@@ -153,6 +155,37 @@ describe("content data", () => {
       expect(source).toContain(asset.id);
       expect(source).toContain(asset.label);
     }
+  });
+
+  it("keeps a fixed asset ID while switching between placeholder and ready sources", () => {
+    const placeholder = assets[5];
+    const ready: AssetRecord = {
+      ...placeholder,
+      assetStatus: "ready",
+      reviewStatus: "reviewed",
+      publicationStatus: "ready",
+      rightsStatus: "cleared",
+      consentStatus: "not-required",
+      rightsRecordRef: "rights:outcome-01",
+      finalSrc: "/media/outcome-01.webp",
+      credit: "北京科技大学社会实践团队",
+      captureDate: "2026-07-28",
+    };
+
+    expect(placeholder.id).toBe("outcome-01");
+    expect(ready.id).toBe(placeholder.id);
+    expect(getAssetRenderSources(placeholder)).toEqual({
+      fallbackSrc: "/walking-coordinates/images/outcome-01.svg",
+      avifSrcSet: null,
+      webpSrcSet: null,
+    });
+    expect(getAssetRenderSources(ready)).toEqual({
+      fallbackSrc: "/walking-coordinates/media/outcome-01.webp",
+      avifSrcSet:
+        "/walking-coordinates/media/outcome-01-480.avif 480w, /walking-coordinates/media/outcome-01.avif 960w",
+      webpSrcSet:
+        "/walking-coordinates/media/outcome-01-480.webp 480w, /walking-coordinates/media/outcome-01.webp 960w",
+    });
   });
 
   it("keeps pending outcomes without invented access actions", () => {

@@ -19,10 +19,10 @@ export default function LegacyPage() {
   const quote = getLegacyQuote();
   const impacts = getOrderedLegacyImpacts();
   const timeline = getOrderedLegacyTimeline();
-  const portraitAsset = getRequiredAssetById("placeholder-legacy-01");
-  const actionAsset = getRequiredAssetById("placeholder-legacy-02");
-  const evidenceAsset = getRequiredAssetById("placeholder-legacy-03");
-  const closingAsset = getRequiredAssetById("placeholder-legacy-04");
+  const portraitAsset = getRequiredAssetById("legacy-01");
+  const actionAsset = getRequiredAssetById("legacy-02");
+  const evidenceAsset = getRequiredAssetById("legacy-03");
+  const closingAsset = getRequiredAssetById("legacy-04");
 
   return (
     <main className="legacy-page">

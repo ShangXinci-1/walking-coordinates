@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import type { AssetRecord } from "../lib/content/types";
-import { getAssetSrc } from "../lib/content/selectors";
+import { getAssetRenderSources } from "../lib/content/selectors";
 
 interface ResponsiveMediaProps {
   asset: AssetRecord;
@@ -18,7 +18,8 @@ export function ResponsiveMedia({
   priority = false,
   sizes = "100vw",
 }: ResponsiveMediaProps) {
-  const src = getAssetSrc(asset);
+  const sources = getAssetRenderSources(asset);
+  const src = sources.fallbackSrc;
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
   const failed = failedSrc === src;
 
@@ -37,16 +38,32 @@ export function ResponsiveMedia({
   }
 
   return (
-    <Image
-      src={src}
-      alt={asset.alt}
-      width={asset.width}
-      height={asset.height}
-      className={className}
-      priority={priority}
-      sizes={sizes}
-      unoptimized
-      onError={() => setFailedSrc(src)}
-    />
+    <picture className="responsive-picture">
+      {sources.avifSrcSet && (
+        <source
+          type="image/avif"
+          srcSet={sources.avifSrcSet}
+          sizes={sizes}
+        />
+      )}
+      {sources.webpSrcSet && (
+        <source
+          type="image/webp"
+          srcSet={sources.webpSrcSet}
+          sizes={sizes}
+        />
+      )}
+      <Image
+        src={src}
+        alt={asset.alt}
+        width={asset.width}
+        height={asset.height}
+        className={className}
+        priority={priority}
+        sizes={sizes}
+        unoptimized
+        onError={() => setFailedSrc(src)}
+      />
+    </picture>
   );
 }

@@ -41,6 +41,32 @@ test("desktop navigation marks the current page", async ({ page }, testInfo) => 
   await expect(currentLink).toBeVisible();
 });
 
+test("media keeps intrinsic dimensions and defers non-priority loading", async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1024");
+
+  for (const pageCase of pages) {
+    await page.goto(pageCase.path);
+    const images = page.locator("picture > img");
+    const imageCount = await images.count();
+    expect(imageCount).toBeGreaterThan(0);
+    let nonLazyImageCount = 0;
+
+    for (let index = 0; index < imageCount; index += 1) {
+      const image = images.nth(index);
+      expect(Number(await image.getAttribute("width"))).toBeGreaterThan(0);
+      expect(Number(await image.getAttribute("height"))).toBeGreaterThan(0);
+
+      const loading = await image.getAttribute("loading");
+      if (loading === "lazy") continue;
+      nonLazyImageCount += 1;
+    }
+
+    expect(nonLazyImageCount).toBeLessThanOrEqual(1);
+  }
+});
+
 test("mobile navigation opens, meets the touch target, and closes with Escape", async ({
   page,
 }, testInfo) => {

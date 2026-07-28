@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-labelledby="title description" data-placeholder-artwork="true">
   <title id="title">占位图片：社区行动</title>
-  <desc id="description">蓝绿渐变的示意素材占位图，素材编号 placeholder-legacy-02，用于传承页·行动结果。</desc>
+  <desc id="description">蓝绿渐变的示意素材占位图，素材编号 legacy-02，用于传承页·行动结果。</desc>
   <defs>
     <linearGradient id="placeholder-gradient" x1="22" y1="22" x2="938" y2="518" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#075985"/>
@@ -15,7 +15,7 @@
   </g>
   <rect x="22" y="22" width="916" height="496" fill="none" stroke="#FFFFFF" opacity="0.52"/>
   <g fill="#FFFFFF" font-family="&apos;Microsoft YaHei&apos;, &apos;PingFang SC&apos;, sans-serif">
-    <text x="44" y="59.400000000000006" font-size="14" font-weight="700">placeholder-legacy-02</text>
+    <text x="44" y="59.400000000000006" font-size="14" font-weight="700">legacy-02</text>
     <text x="916" y="59.400000000000006" font-size="14" text-anchor="end">960 × 540</text>
     <g text-anchor="middle">
       <text x="480" y="232.2" font-size="50" font-weight="800">占位图片</text>

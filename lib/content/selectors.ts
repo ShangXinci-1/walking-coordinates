@@ -66,13 +66,50 @@ export function getAssetSrc(asset: AssetRecord) {
   );
 }
 
+function appendWidthSuffix(src: string, width: number) {
+  return src.replace(/(\.[a-z0-9]+)$/i, `-${width}$1`);
+}
+
+export function getAssetRenderSources(asset: AssetRecord) {
+  const fallbackSrc = getAssetSrc(asset);
+
+  if (asset.assetStatus !== "ready") {
+    return {
+      fallbackSrc,
+      avifSrcSet: null,
+      webpSrcSet: null,
+    };
+  }
+
+  const webpSrc = asset.finalSrc;
+  const avifSrc = webpSrc.replace(/\.webp$/i, ".avif");
+  const responsiveWidth = Math.min(480, asset.width);
+  const withResponsiveVariant = responsiveWidth < asset.width;
+  const buildSrcSet = (src: string) => {
+    const entries = withResponsiveVariant
+      ? [
+          `${withBasePath(appendWidthSuffix(src, responsiveWidth))} ${responsiveWidth}w`,
+          `${withBasePath(src)} ${asset.width}w`,
+        ]
+      : [`${withBasePath(src)} ${asset.width}w`];
+
+    return entries.join(", ");
+  };
+
+  return {
+    fallbackSrc,
+    avifSrcSet: buildSrcSet(avifSrc),
+    webpSrcSet: buildSrcSet(webpSrc),
+  };
+}
+
 export function getGalleryAssets() {
   const galleryAssetIds = [
-    "placeholder-field-01",
-    "placeholder-field-05",
-    "placeholder-field-04",
-    "placeholder-field-02",
-    "placeholder-field-03",
+    "field-01",
+    "field-05",
+    "field-04",
+    "field-02",
+    "field-03",
   ];
 
   return galleryAssetIds.map((assetId) => getRequiredAssetById(assetId));

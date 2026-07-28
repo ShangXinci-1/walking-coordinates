@@ -44,7 +44,7 @@ const practiceSteps = [
 export default function Home() {
   const { routeCount, siteCount } = getProjectCounts();
   const outcomes = getOrderedOutcomes();
-  const heroAsset = getRequiredAssetById("placeholder-field-05");
+  const heroAsset = getRequiredAssetById("field-05");
 
   return (
     <main className="home-page">

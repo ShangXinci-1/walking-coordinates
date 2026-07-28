@@ -2,7 +2,7 @@ import type { AssetRecord } from "../lib/content/types";
 
 export const assets: readonly AssetRecord[] = [
   {
-    id: "placeholder-field-01",
+    id: "field-01",
     label: "现场寻访",
     displayUse: "路线主视觉",
     role: "route",
@@ -20,7 +20,7 @@ export const assets: readonly AssetRecord[] = [
     rightsRecordRef: "repo-generated-placeholder:field-01",
   },
   {
-    id: "placeholder-field-02",
+    id: "field-02",
     label: "深度访谈",
     displayUse: "实践行动记录",
     role: "action",
@@ -38,7 +38,7 @@ export const assets: readonly AssetRecord[] = [
     rightsRecordRef: "repo-generated-placeholder:field-02",
   },
   {
-    id: "placeholder-field-03",
+    id: "field-03",
     label: "社区传播",
     displayUse: "实践行动记录",
     role: "action",
@@ -56,7 +56,7 @@ export const assets: readonly AssetRecord[] = [
     rightsRecordRef: "repo-generated-placeholder:field-03",
   },
   {
-    id: "placeholder-field-04",
+    id: "field-04",
     label: "数字采集",
     displayUse: "实践行动记录",
     role: "action",
@@ -74,7 +74,7 @@ export const assets: readonly AssetRecord[] = [
     rightsRecordRef: "repo-generated-placeholder:field-04",
   },
   {
-    id: "placeholder-field-05",
+    id: "field-05",
     label: "青年同行",
     displayUse: "首页首屏",
     role: "hero",
@@ -92,7 +92,7 @@ export const assets: readonly AssetRecord[] = [
     rightsRecordRef: "repo-generated-placeholder:field-05",
   },
   {
-    id: "placeholder-outcome-01",
+    id: "outcome-01",
     label: "数字线上展厅",
     displayUse: "成果页·数字展厅",
     role: "outcome",
@@ -110,7 +110,7 @@ export const assets: readonly AssetRecord[] = [
     rightsRecordRef: "repo-generated-placeholder:outcome-01",
   },
   {
-    id: "placeholder-outcome-02",
+    id: "outcome-02",
     label: "数字档案",
     displayUse: "成果页·数字档案",
     role: "outcome",
@@ -128,7 +128,7 @@ export const assets: readonly AssetRecord[] = [
     rightsRecordRef: "repo-generated-placeholder:outcome-02",
   },
   {
-    id: "placeholder-outcome-03",
+    id: "outcome-03",
     label: "主题微电影",
     displayUse: "成果页·影片封面",
     role: "video",
@@ -146,7 +146,7 @@ export const assets: readonly AssetRecord[] = [
     rightsRecordRef: "repo-generated-placeholder:outcome-03",
   },
   {
-    id: "placeholder-outcome-04",
+    id: "outcome-04",
     label: "实践调研报告",
     displayUse: "成果页·报告预览",
     role: "document",
@@ -164,7 +164,7 @@ export const assets: readonly AssetRecord[] = [
     rightsRecordRef: "repo-generated-placeholder:outcome-04",
   },
   {
-    id: "placeholder-legacy-01",
+    id: "legacy-01",
     label: "首屏人物",
     displayUse: "传承页·人物原话",
     role: "portrait",
@@ -182,7 +182,7 @@ export const assets: readonly AssetRecord[] = [
     rightsRecordRef: "repo-generated-placeholder:legacy-01",
   },
   {
-    id: "placeholder-legacy-02",
+    id: "legacy-02",
     label: "社区行动",
     displayUse: "传承页·行动结果",
     role: "action",
@@ -200,7 +200,7 @@ export const assets: readonly AssetRecord[] = [
     rightsRecordRef: "repo-generated-placeholder:legacy-02",
   },
   {
-    id: "placeholder-legacy-03",
+    id: "legacy-03",
     label: "结果证据",
     displayUse: "传承页·影响证据",
     role: "detail",
@@ -218,7 +218,7 @@ export const assets: readonly AssetRecord[] = [
     rightsRecordRef: "repo-generated-placeholder:legacy-03",
   },
   {
-    id: "placeholder-legacy-04",
+    id: "legacy-04",
     label: "继续行进",
     displayUse: "传承页·结尾行动",
     role: "hero",

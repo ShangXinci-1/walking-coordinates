@@ -133,7 +133,7 @@
   height: 100%;
 }
 
-.home-hero__visual .asset-media > img {
+.home-hero__visual .asset-media img {
   filter: saturate(0.55) contrast(1.08) brightness(0.72);
 }
 

@@ -220,6 +220,66 @@
   font-weight: 750;
 }
 
+.global-footer {
+  min-height: 150px;
+  padding: 30px var(--gutter);
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 48px;
+  background: var(--ink);
+  color: var(--paper-pure);
+}
+
+.global-footer__identity {
+  min-height: var(--target-size);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.global-footer__mark {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid currentColor;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+}
+
+.global-footer__wordmark strong,
+.global-footer__wordmark small {
+  display: block;
+}
+
+.global-footer__wordmark strong {
+  font-size: 15px;
+  letter-spacing: 0.06em;
+}
+
+.global-footer__wordmark small {
+  margin-top: 4px;
+  color: var(--muted-dark);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+}
+
+.global-footer p {
+  color: oklch(1 0 0 / 0.5);
+  font-size: 12px;
+}
+
+.global-footer__home {
+  min-height: var(--target-size);
+  display: inline-flex;
+  align-items: center;
+  color: var(--amber);
+  font-size: 13px;
+  font-weight: 800;
+}
+
 .status-badge {
   width: fit-content;
   min-height: 28px;
@@ -257,6 +317,10 @@
 
 .status-badge[data-status="ready"] {
   color: var(--success);
+}
+
+.responsive-picture {
+  display: contents;
 }
 
 .responsive-media-fallback {
@@ -333,44 +397,6 @@
   overflow-wrap: anywhere;
 }
 
-.media-placeholder {
-  position: relative;
-  min-width: 0;
-  margin: 0;
-  overflow: hidden;
-  background: var(--ink);
-}
-
-.media-placeholder > img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.media-placeholder__caption {
-  position: absolute;
-  right: 14px;
-  bottom: 14px;
-  left: 14px;
-  padding: 12px;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: center;
-  gap: 8px 12px;
-  background: oklch(0.08 0 0 / 0.9);
-  color: var(--paper-pure);
-}
-
-.media-placeholder__caption .status-badge {
-  color: var(--amber);
-}
-
-.media-placeholder__caption small {
-  grid-column: 1 / -1;
-  color: var(--muted-dark);
-  line-height: 1.5;
-}
-
 .asset-media {
   position: relative;
   min-width: 0;
@@ -379,7 +405,7 @@
   background: var(--ink);
 }
 
-.asset-media > img {
+.asset-media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -433,6 +459,11 @@
 
   .evidence-strip__item:nth-child(n + 3) {
     border-top: 1px solid var(--line-dark);
+  }
+
+  .global-footer {
+    grid-template-columns: 1fr;
+    gap: 22px;
   }
 }
 

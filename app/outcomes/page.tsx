@@ -20,7 +20,7 @@ export default function OutcomesPage() {
   const outcomes = getOrderedOutcomes();
   const galleryAssets = getGalleryAssets();
   const heroAsset = getRequiredAssetById(
-    outcomes[0].assetId ?? "placeholder-outcome-01",
+    outcomes[0].assetId ?? "outcome-01",
   );
   const readyCount = outcomes.filter(
     (outcome) => outcome.publicationStatus === "ready",

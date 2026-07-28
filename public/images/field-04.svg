@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-labelledby="title description" data-placeholder-artwork="true">
   <title id="title">占位图片：数字采集</title>
-  <desc id="description">蓝绿渐变的示意素材占位图，素材编号 placeholder-field-04，用于实践行动记录。</desc>
+  <desc id="description">蓝绿渐变的示意素材占位图，素材编号 field-04，用于实践行动记录。</desc>
   <defs>
     <linearGradient id="placeholder-gradient" x1="24" y1="24" x2="776" y2="576" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#075985"/>
@@ -15,7 +15,7 @@
   </g>
   <rect x="24" y="24" width="752" height="552" fill="none" stroke="#FFFFFF" opacity="0.52"/>
   <g fill="#FFFFFF" font-family="&apos;Microsoft YaHei&apos;, &apos;PingFang SC&apos;, sans-serif">
-    <text x="48" y="64.80000000000001" font-size="16" font-weight="700">placeholder-field-04</text>
+    <text x="48" y="64.80000000000001" font-size="16" font-weight="700">field-04</text>
     <text x="752" y="64.80000000000001" font-size="16" text-anchor="end">800 × 600</text>
     <g text-anchor="middle">
       <text x="400" y="258" font-size="56" font-weight="800">占位图片</text>
