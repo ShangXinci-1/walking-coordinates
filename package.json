@@ -5,6 +5,14 @@
   "engines": {
     "node": ">=22.13.0"
   },
+  "knip": {
+    "ignoreDependencies": [
+      "postcss"
+    ],
+    "ignoreFiles": [
+      "lighthouserc.cjs"
+    ]
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -15,6 +23,7 @@
     "test": "vitest run",
     "test:e2e": "npm run build && playwright test",
     "test:a11y": "npm run build && playwright test --grep @a11y",
+    "test:lighthouse": "node scripts/prepare-lighthouse.mjs && npm run build && lhci autorun",
     "test:visual": "npm run build && playwright test --grep @visual",
     "assets:placeholders": "tsx scripts/generate-placeholder-assets.ts",
     "assets:convert": "tsx scripts/process-asset.ts",
@@ -24,6 +33,10 @@
     "data:geocode": "tsx scripts/geocode-candidates.ts",
     "check": "npm run typecheck && npm run lint && npm run test && npm run assets:check && npm run check:hygiene && npm run build && tsx scripts/check-static-export.ts"
   },
+  "overrides": {
+    "postcss": "$postcss",
+    "sharp": "$sharp"
+  },
   "dependencies": {
     "next": "^16.2.12",
     "react": "19.2.6",
@@ -31,6 +44,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.12.1",
+    "@lhci/cli": "0.15.1",
     "@playwright/test": "^1.62.0",
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
@@ -38,6 +52,7 @@
     "eslint": "9.39.4",
     "eslint-config-next": "^16.2.12",
     "knip": "^6.29.0",
+    "postcss": "8.5.23",
     "sharp": "^0.35.3",
     "tsx": "^4.20.6",
     "typescript": "5.9.3",

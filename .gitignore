@@ -11,3 +11,5 @@ Deploy.local.md
 data/generated/
 playwright-report/
 test-results/
+lighthouse-results/
+.lighthouseci/

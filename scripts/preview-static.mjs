@@ -1,12 +1,14 @@
 import { createReadStream, existsSync, statSync } from "node:fs";
 import { createServer } from "node:http";
 import { extname, resolve, sep } from "node:path";
+import { createBrotliCompress, createGzip } from "node:zlib";
 
 const port = Number(process.env.WC_PREVIEW_PORT ?? 4173);
 const basePath = "/walking-coordinates";
 const outputRoot = resolve("out");
 
 const contentTypes = {
+  ".avif": "image/avif",
   ".css": "text/css; charset=utf-8",
   ".html": "text/html; charset=utf-8",
   ".ico": "image/x-icon",
@@ -16,6 +18,7 @@ const contentTypes = {
   ".svg": "image/svg+xml",
   ".webp": "image/webp",
 };
+const compressibleExtensions = new Set([".css", ".html", ".js", ".json", ".svg"]);
 
 function resolveRequestPath(requestPath) {
   if (requestPath === "/") return { redirect: `${basePath}/` };
@@ -63,12 +66,48 @@ createServer((request, response) => {
     return;
   }
 
-  response.writeHead(200, {
+  const extension = extname(resolved.absolutePath);
+  const cacheControl = requestUrl.pathname.includes(
+    `${basePath}/_next/static/`,
+  )
+    ? "public, max-age=31536000, immutable"
+    : extension === ".html"
+      ? "no-cache"
+      : "public, max-age=3600";
+  const headers = {
+    "Cache-Control": cacheControl,
     "Content-Type":
-      contentTypes[extname(resolved.absolutePath)] ??
+      contentTypes[extension] ??
       "application/octet-stream",
-  });
-  createReadStream(resolved.absolutePath).pipe(response);
+  };
+  const source = createReadStream(resolved.absolutePath);
+  const acceptEncoding = request.headers["accept-encoding"] ?? "";
+
+  if (compressibleExtensions.has(extension) && acceptEncoding.includes("br")) {
+    response.writeHead(200, {
+      ...headers,
+      "Content-Encoding": "br",
+      Vary: "Accept-Encoding",
+    });
+    source.pipe(createBrotliCompress()).pipe(response);
+    return;
+  }
+
+  if (
+    compressibleExtensions.has(extension) &&
+    acceptEncoding.includes("gzip")
+  ) {
+    response.writeHead(200, {
+      ...headers,
+      "Content-Encoding": "gzip",
+      Vary: "Accept-Encoding",
+    });
+    source.pipe(createGzip()).pipe(response);
+    return;
+  }
+
+  response.writeHead(200, headers);
+  source.pipe(response);
 }).listen(port, "127.0.0.1", () => {
   console.log(`Static preview: http://127.0.0.1:${port}${basePath}/`);
 });

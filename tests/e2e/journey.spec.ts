@@ -127,6 +127,10 @@ test("mobile selection prioritizes and focuses the current dossier", async ({
   await expect(
     page.getByRole("button", { name: "展开在线地图" }),
   ).toHaveAttribute("aria-expanded", "false");
+  await expect(page.getByTestId("amap-route-map")).toHaveCount(0);
+
+  await page.getByRole("button", { name: "展开在线地图" }).click();
+  await expect(page.getByTestId("amap-route-map")).toBeVisible();
 });
 
 test("AMap failure leaves a blank map while the archive remains usable", async ({

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "../../styles/pages/outcomes.css";
 
 export const metadata: Metadata = {
   title: "实践成果",

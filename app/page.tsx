@@ -1,4 +1,5 @@
 import { routes } from "../data/routes";
+import "../styles/pages/home.css";
 import {
   AssetMedia,
   EvidenceStrip,

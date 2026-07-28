@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { routes } from "../../data/routes";
 import {
   getAssetById,
@@ -19,10 +18,8 @@ import { SiteDossier } from "./SiteDossier";
 import { SiteList } from "./SiteList";
 
 export function JourneyExplorer() {
-  const searchParams = useSearchParams();
-  const selection = resolveJourneySelection(
-    searchParams.get("route"),
-    searchParams.get("site"),
+  const [selection, setSelection] = useState(() =>
+    resolveJourneySelection(null, null),
   );
   const routeSites = getSitesForRoute(selection.route.id);
   const siteIndex = routeSites.findIndex((site) => site.id === selection.site.id);
@@ -43,10 +40,27 @@ export function JourneyExplorer() {
   const pendingMobileDossierFocus = useRef<string | null>(null);
 
   useEffect(() => {
-    if (!selection.isCanonical) {
-      window.history.replaceState(null, "", `?${selection.canonicalSearch}`);
-    }
-  }, [selection.canonicalSearch, selection.isCanonical]);
+    const syncSelectionFromUrl = () => {
+      const search = new URLSearchParams(window.location.search);
+      const nextSelection = resolveJourneySelection(
+        search.get("route"),
+        search.get("site"),
+      );
+      setSelection(nextSelection);
+
+      if (!nextSelection.isCanonical) {
+        window.history.replaceState(
+          null,
+          "",
+          `?${nextSelection.canonicalSearch}`,
+        );
+      }
+    };
+
+    syncSelectionFromUrl();
+    window.addEventListener("popstate", syncSelectionFromUrl);
+    return () => window.removeEventListener("popstate", syncSelectionFromUrl);
+  }, []);
 
   useEffect(() => {
     const media = window.matchMedia("(min-width: 48rem)");
@@ -69,6 +83,7 @@ export function JourneyExplorer() {
 
   function navigate(route: RouteRecord, site: SiteRecord) {
     window.history.pushState(null, "", `?${createJourneySearch(route, site)}`);
+    setSelection(resolveJourneySelection(route.id, site.id));
   }
 
   function selectRoute(route: RouteRecord) {
@@ -188,11 +203,13 @@ export function JourneyExplorer() {
             <span aria-hidden="true">{mapOpen ? "−" : "+"}</span>
           </button>
           <div id="journey-map-content" hidden={!mapOpen}>
-            <AMapRouteMap
-              activeRouteId={selection.route.id}
-              activeSiteId={selection.site.id}
-              onSelectSite={(site) => selectSite(site, false)}
-            />
+            {mapOpen ? (
+              <AMapRouteMap
+                activeRouteId={selection.route.id}
+                activeSiteId={selection.site.id}
+                onSelectSite={(site) => selectSite(site, false)}
+              />
+            ) : null}
           </div>
           <footer className="journey-map-panel__footer">
             <span>

@@ -12,6 +12,11 @@ const viewports = [
 export default defineConfig({
   testDir: "./tests/e2e",
   outputDir: "test-results",
+  expect: {
+    toHaveScreenshot: {
+      maxDiffPixels: 10,
+    },
+  },
   fullyParallel: true,
   workers: process.env.CI ? 2 : 5,
   forbidOnly: Boolean(process.env.CI),

@@ -50,7 +50,6 @@ export function SiteHeader() {
         <a
           className="global-header__logo"
           href={withBasePath("/")}
-          aria-label={`${project.title.value}首页`}
         >
           <span className="global-header__mark" aria-hidden="true">
             北科

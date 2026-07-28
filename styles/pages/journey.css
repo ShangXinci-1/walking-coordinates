@@ -8,11 +8,6 @@
   border-bottom-color: rgba(222, 190, 151, 0.22);
 }
 
-.journey-page__fallback {
-  min-height: 80vh;
-  background: #090a0a;
-}
-
 .journey-intro {
   width: min(100%, var(--content-max));
   margin-inline: auto;

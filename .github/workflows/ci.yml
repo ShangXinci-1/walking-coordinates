@@ -13,7 +13,7 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
 
     steps:
       - name: Checkout
@@ -29,22 +29,21 @@ jobs:
         run: npm ci
 
       - name: Install Chromium
-        run: npx playwright install --with-deps chromium
+        run: |
+          npx playwright install --with-deps chromium
+          node -e "const { chromium } = require('@playwright/test'); console.log('CHROME_PATH=' + chromium.executablePath())" >> "$GITHUB_ENV"
 
-      - name: Typecheck
-        run: npm run typecheck
+      - name: Dependency security audit
+        run: npm audit --omit=dev --audit-level=high
 
-      - name: Lint
-        run: npm run lint
-
-      - name: Unit tests
-        run: npm run test
-
-      - name: Static build
-        run: npm run build
+      - name: Code, data, asset and static export checks
+        run: npm run check
 
       - name: Browser and accessibility tests
         run: npx playwright test --grep-invert @visual
+
+      - name: Lighthouse release gates
+        run: npm run test:lighthouse
 
       - name: Upload browser report
         if: always()
@@ -54,4 +53,12 @@ jobs:
           path: |
             playwright-report/
             test-results/
+          if-no-files-found: ignore
+
+      - name: Upload Lighthouse report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-report
+          path: lighthouse-results/
           if-no-files-found: ignore

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "../../styles/pages/legacy.css";
 
 export const metadata: Metadata = {
   title: "薪火相传",
