@@ -3,6 +3,8 @@ import "./globals.css";
 import "./custom.css";
 import "../styles/components/foundation.css";
 import "../styles/pages/home.css";
+import "../styles/pages/outcomes.css";
+import "../styles/pages/legacy.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://shangxinci-1.github.io/walking-coordinates/"),

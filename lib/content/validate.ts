@@ -1,4 +1,9 @@
 import { assets } from "../../data/assets";
+import {
+  legacyImpacts,
+  legacyQuote,
+  legacyTimeline,
+} from "../../data/legacy";
 import { outcomes } from "../../data/outcomes";
 import { project } from "../../data/project";
 import { routes } from "../../data/routes";
@@ -349,6 +354,14 @@ export function validateContent() {
   }
 
   for (const asset of assets) {
+    if (asset.displayUse.trim() === "") {
+      issues.push({
+        code: "missing-asset-display-use",
+        recordId: asset.id,
+        message: "素材必须声明页面用途",
+      });
+    }
+
     if (asset.rightsStatus === "cleared" && !asset.rightsRecordRef) {
       issues.push({
         code: "missing-rights-record",
@@ -419,6 +432,105 @@ export function validateContent() {
         message: "未完成成果必须具有交付条件且不能具有访问动作",
       });
     }
+  }
+
+  if (legacyQuote.status === "missing") {
+    validateSourcedField(
+      "legacy-quote",
+      "placeholder",
+      legacyQuote.placeholder,
+      sourceIds,
+      issues,
+    );
+    if (legacyQuote.evidenceRequirement.trim() === "") {
+      issues.push({
+        code: "missing-legacy-quote-requirement",
+        recordId: "legacy-quote",
+        message: "缺失人物原话必须声明核验材料要求",
+      });
+    }
+  } else {
+    validateSourcedField(
+      "legacy-quote",
+      "quote",
+      legacyQuote.quote,
+      sourceIds,
+      issues,
+    );
+    validateSourcedField(
+      "legacy-quote",
+      "speaker",
+      legacyQuote.speaker,
+      sourceIds,
+      issues,
+    );
+    validateSourcedField(
+      "legacy-quote",
+      "context",
+      legacyQuote.context,
+      sourceIds,
+      issues,
+    );
+  }
+
+  for (const impact of legacyImpacts) {
+    validateSourcedField(
+      impact.id,
+      "title",
+      impact.title,
+      sourceIds,
+      issues,
+    );
+    validateContentBlocks(
+      impact.id,
+      "description",
+      impact.description,
+      sourceIds,
+      issues,
+    );
+
+    if (!assetIds.has(impact.assetId)) {
+      issues.push({
+        code: "missing-legacy-impact-asset",
+        recordId: impact.id,
+        message: `传承行动引用了不存在的素材：${impact.assetId}`,
+      });
+    }
+
+    if (
+      impact.evidenceStatus === "missing" &&
+      (!impact.evidenceRequirement || impact.evidenceRef !== null)
+    ) {
+      issues.push({
+        code: "invalid-pending-legacy-impact",
+        recordId: impact.id,
+        message: "未核验行动必须声明证据要求且不能具有证据引用",
+      });
+    }
+  }
+
+  for (const entry of legacyTimeline) {
+    validateSourcedField(
+      entry.id,
+      "period",
+      entry.period,
+      sourceIds,
+      issues,
+    );
+    validateSourcedField(
+      entry.id,
+      "title",
+      entry.title,
+      sourceIds,
+      issues,
+    );
+    validateContentBlocks(
+      entry.id,
+      "description",
+      entry.description,
+      sourceIds,
+      issues,
+    );
   }
 
   return issues;

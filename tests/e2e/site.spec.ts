@@ -1,27 +1,13 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
+import { prepareFullPageVisual } from "./visual-helpers";
 
 const pages = [
   { path: ".", heading: "革命史迹" },
   { path: "./journey", heading: "以脚步丈量" },
-  { path: "./outcomes", heading: "让成果被看见" },
-  { path: "./legacy", heading: "我们不是历史的访客" },
+  { path: "./outcomes", heading: "让每一项成果" },
+  { path: "./legacy", heading: "寻访之后" },
 ];
-
-async function prepareFullPageVisual(page: Page) {
-  const images = page.locator("img");
-
-  for (let index = 0; index < (await images.count()); index += 1) {
-    await images.nth(index).scrollIntoViewIfNeeded();
-  }
-
-  await page.waitForFunction(() =>
-    Array.from(document.images).every(
-      (image) => image.complete && image.naturalWidth > 0,
-    ),
-  );
-  await page.evaluate(() => window.scrollTo(0, 0));
-}
 
 for (const pageCase of pages) {
   test(`${pageCase.path} renders its primary heading`, async ({ page }) => {

@@ -94,6 +94,7 @@ export interface SiteRecord {
 export interface AssetBase {
   id: string;
   label: string;
+  displayUse: string;
   role:
     | "hero"
     | "route"
@@ -160,6 +161,59 @@ export type OutcomeRecord =
       };
       publishedAt: string;
     });
+
+export type LegacyQuoteRecord =
+  | {
+      status: "missing";
+      placeholder: SourcedField<string>;
+      evidenceRequirement: string;
+      reviewStatus: ReviewStatus;
+      publicationStatus: "planned";
+    }
+  | {
+      status: "verified";
+      quote: SourcedField<string>;
+      speaker: SourcedField<string>;
+      context: SourcedField<string>;
+      verifiedAt: string;
+      reviewStatus: "reviewed";
+      publicationStatus: "partial" | "ready";
+    };
+
+interface LegacyImpactBase {
+  id: string;
+  order: number;
+  title: SourcedField<string>;
+  description: SourcedContentBlock[];
+  assetId: string;
+  reviewStatus: ReviewStatus;
+  publicationStatus: PublicationStatus;
+}
+
+export type LegacyImpactRecord =
+  | (LegacyImpactBase & {
+      evidenceStatus: "missing";
+      evidenceRequirement: string;
+      evidenceRef: null;
+    })
+  | (LegacyImpactBase & {
+      evidenceStatus: "verified";
+      evidenceRequirement: null;
+      evidenceRef: string;
+      reviewStatus: "reviewed";
+      publicationStatus: "partial" | "ready";
+    });
+
+export interface LegacyTimelineRecord {
+  id: string;
+  order: number;
+  period: SourcedField<string>;
+  title: SourcedField<string>;
+  description: SourcedContentBlock[];
+  evidenceStatus: "planned" | "verified";
+  reviewStatus: ReviewStatus;
+  publicationStatus: PublicationStatus;
+}
 
 export interface ProjectRecord {
   title: SourcedField<string>;

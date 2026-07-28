@@ -1,82 +1,120 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { ResponsiveMedia, StatusBadge } from "../../components";
+import type { Metadata } from "next";
+import { AssetMedia, StatusBadge } from "../../components";
+import { OutcomeGallery } from "../../components/outcomes/OutcomeGallery";
+import { OutcomeRecordView } from "../../components/outcomes/OutcomeRecord";
 import {
   getGalleryAssets,
   getOrderedOutcomes,
   getRequiredAssetById,
 } from "../../lib/content/selectors";
-import { SiteHeader, SiteFooter } from "../shared";
+import { withBasePath } from "../../lib/site";
+import { SiteFooter, SiteHeader } from "../shared";
 
-const gallery = getGalleryAssets().map((asset) => ({
-  id: asset.id,
-  asset,
-  label: `${asset.label} · 示意素材`,
-}));
-const outcomes = getOrderedOutcomes();
-const featuredOutcome = outcomes[0];
-const outcomeHero = getRequiredAssetById("placeholder-field-04");
+export const metadata: Metadata = {
+  title: "数字成果",
+  description:
+    "查看数字线上展厅、数字档案、主题微电影和实践调研报告的真实完成与公开状态。",
+};
 
 export default function OutcomesPage() {
-  const [lightbox, setLightbox] = useState<number | null>(null);
-  useEffect(() => {
-    if (lightbox === null) return;
-    const close = (e: KeyboardEvent) => { if (e.key === "Escape") setLightbox(null); };
-    window.addEventListener("keydown", close);
-    return () => window.removeEventListener("keydown", close);
-  }, [lightbox]);
+  const outcomes = getOrderedOutcomes();
+  const galleryAssets = getGalleryAssets();
+  const heroAsset = getRequiredAssetById(
+    outcomes[0].assetId ?? "placeholder-outcome-01",
+  );
+  const readyCount = outcomes.filter(
+    (outcome) => outcome.publicationStatus === "ready",
+  ).length;
+  const inProgressCount = outcomes.filter(
+    (outcome) => outcome.completionStatus === "in-progress",
+  ).length;
 
   return (
-    <main>
+    <main className="outcomes-page">
       <SiteHeader />
-      <section className="page-hero" style={{background:"linear-gradient(135deg, #8B0000 0%, #4a0000 50%, #1a0000 100%)"}}>
-        <div className="page-hero-inner">
-          <div className="page-hero-text" style={{maxWidth:"100%"}}>
-            <div className="page-hero-watermark">DIGITAL</div>
-            <span className="page-hero-badge">DIGITAL OUTCOMES</span>
-            <h1>让成果被看见<br />让记忆可抵达</h1>
-            <p className="page-hero-summary">以寻访路线为叙事骨架，整合高清影像、全景记录与口述史，让红色记忆可感可触。</p>
-            <div className="page-hero-meta">
-              <span>🏛️ 数字线上展厅</span>
-              <span>🎬 主题微电影</span>
-              <span>📄 实践调研报告</span>
-            </div>
+
+      <section className="outcomes-hero" aria-labelledby="outcomes-title">
+        <div className="outcomes-hero__copy">
+          <p>成果公开，以真实交付为准</p>
+          <h1 id="outcomes-title">让每一项成果，都带着清楚的状态被看见。</h1>
+          <p className="outcomes-hero__lead">
+            数字展厅、档案、影片与报告分别记录完成度、更新时间和交付条件。
+            没有真实访问地址的成果不会生成虚假入口。
+          </p>
+          <a href="#outcome-ledger">
+            查看成果档案 <span aria-hidden="true">↓</span>
+          </a>
+        </div>
+
+        <div className="outcomes-hero__media">
+          <AssetMedia
+            asset={heroAsset}
+            priority
+            sizes="(min-width: 980px) 48vw, 100vw"
+          />
+        </div>
+
+        <dl className="outcomes-hero__summary" aria-label="成果状态总览">
+          <div>
+            <dt>成果记录</dt>
+            <dd>{outcomes.length} 项</dd>
           </div>
-          <div className="page-hero-visual"><ResponsiveMedia asset={outcomeHero} priority sizes="(min-width: 1050px) 40vw, 100vw" /></div>
-        </div>
+          <div>
+            <dt>已开放</dt>
+            <dd>{readyCount} 项</dd>
+          </div>
+          <div>
+            <dt>制作中</dt>
+            <dd>{inProgressCount} 项</dd>
+          </div>
+          <div>
+            <dt>当前发布判断</dt>
+            <dd>{readyCount === 0 ? "尚无公开入口" : "按状态开放"}</dd>
+          </div>
+        </dl>
       </section>
 
-      <section className="outcomes" id="outcomes">
-        <div className="outcome-feature">
-          <div><StatusBadge status={featuredOutcome.publicationStatus} /><h3>{featuredOutcome.title.value}</h3><p>{featuredOutcome.description[0].text}</p></div>
-          <div className="map-visual"><span className="map-label label-one">觉醒之路</span><span className="map-label label-two">烽火之路</span><span className="map-label label-three">进京之路</span><i className="map-path path-one" /><i className="map-path path-two" /><i className="map-path path-three" /><b className="map-node node-one" /><b className="map-node node-two" /><b className="map-node node-three" /></div>
-        </div>
-        <div className="outcome-list">
-          {outcomes.slice(1).map((outcome) => (
-            <article key={outcome.id}><span>{String(outcome.order).padStart(2, "0")}</span><h3>{outcome.title.value}</h3><p>{outcome.description[0].text}</p><StatusBadge status={outcome.publicationStatus} /></article>
+      <section
+        className="outcome-ledger"
+        id="outcome-ledger"
+        aria-labelledby="outcome-ledger-title"
+      >
+        <header className="outcome-ledger__heading">
+          <p>每项成果独立过门禁</p>
+          <div>
+            <h2 id="outcome-ledger-title">成果档案不是愿景清单，而是交付记录。</h2>
+            <p>
+              状态、负责人、更新时间、交付条件与访问动作来自同一条成果记录。
+              只有完成审核且具备真实地址的成果才显示访问按钮。
+            </p>
+          </div>
+        </header>
+
+        <div className="outcome-ledger__records">
+          {outcomes.map((outcome) => (
+            <OutcomeRecordView outcome={outcome} key={outcome.id} />
           ))}
         </div>
       </section>
 
-      <section className="gallery-section" id="gallery">
-        <div className="gallery-intro"><p>FIELD RECORDS</p><h2>现场，是最有力量的课堂。</h2><p>点击影像，查看实践现场记录。</p></div>
-        <div className="gallery-grid">
-          {gallery.map((image, index) => (
-            <button key={image.id} type="button" onClick={() => setLightbox(index)}>
-              <ResponsiveMedia asset={image.asset} sizes="(min-width: 700px) 33vw, 100vw" /><span>{String(index + 1).padStart(2, "0")} / {image.label}</span>
-            </button>
-          ))}
+      <OutcomeGallery assets={galleryAssets} />
+
+      <section className="outcomes-closing" aria-labelledby="outcomes-next-title">
+        <div>
+          <StatusBadge status="planned" />
+          <h2 id="outcomes-next-title">成果尚在形成，路线与地点档案已经可以继续核验。</h2>
+        </div>
+        <div className="outcomes-closing__actions">
+          <a href={withBasePath("/journey")}>
+            浏览完整路线 <span aria-hidden="true">→</span>
+          </a>
+          <a href={withBasePath("/legacy")}>
+            查看后续行动 <span aria-hidden="true">→</span>
+          </a>
         </div>
       </section>
+
       <SiteFooter />
-
-      {lightbox !== null && (
-        <div className="lightbox" role="dialog" aria-modal="true" onClick={() => setLightbox(null)}>
-          <button type="button" onClick={() => setLightbox(null)}>关闭 ×</button>
-          <figure onClick={(e) => e.stopPropagation()}><ResponsiveMedia asset={gallery[lightbox].asset} sizes="92vw" /><figcaption>{String(lightbox + 1).padStart(2, "0")} / {gallery[lightbox].label}</figcaption></figure>
-        </div>
-      )}
     </main>
   );
 }

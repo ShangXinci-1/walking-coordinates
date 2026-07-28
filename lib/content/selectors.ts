@@ -1,4 +1,9 @@
 import { assets } from "../../data/assets";
+import {
+  legacyImpacts,
+  legacyQuote,
+  legacyTimeline,
+} from "../../data/legacy";
 import { outcomes } from "../../data/outcomes";
 import { routes } from "../../data/routes";
 import { sites } from "../../data/sites";
@@ -62,13 +67,31 @@ export function getAssetSrc(asset: AssetRecord) {
 }
 
 export function getGalleryAssets() {
-  return assets.filter((asset) =>
-    ["action", "route", "hero"].includes(asset.role),
-  );
+  const galleryAssetIds = [
+    "placeholder-field-01",
+    "placeholder-field-05",
+    "placeholder-field-04",
+    "placeholder-field-02",
+    "placeholder-field-03",
+  ];
+
+  return galleryAssetIds.map((assetId) => getRequiredAssetById(assetId));
 }
 
 export function getOrderedOutcomes() {
   return [...outcomes].sort((left, right) => left.order - right.order);
+}
+
+export function getLegacyQuote() {
+  return legacyQuote;
+}
+
+export function getOrderedLegacyImpacts() {
+  return [...legacyImpacts].sort((left, right) => left.order - right.order);
+}
+
+export function getOrderedLegacyTimeline() {
+  return [...legacyTimeline].sort((left, right) => left.order - right.order);
 }
 
 export function getProjectCounts() {

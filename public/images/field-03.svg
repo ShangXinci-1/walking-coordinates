@@ -2,7 +2,7 @@
   <title id="title">占位图片：社区传播</title>
   <desc id="description">蓝绿渐变的示意素材占位图，素材编号 placeholder-field-03，用于实践行动记录。</desc>
   <defs>
-    <linearGradient id="placeholder-gradient" x1="40" y1="20" x2="760" y2="580" gradientUnits="userSpaceOnUse">
+    <linearGradient id="placeholder-gradient" x1="24" y1="24" x2="776" y2="576" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#075985"/>
       <stop offset="0.52" stop-color="#087A78"/>
       <stop offset="1" stop-color="#047857"/>
@@ -14,16 +14,16 @@
     <path d="M800 0 0 600"/>
   </g>
   <rect x="24" y="24" width="752" height="552" fill="none" stroke="#FFFFFF" opacity="0.52"/>
-  <g fill="#FFFFFF" font-family="'Microsoft YaHei', 'PingFang SC', sans-serif">
-    <text x="48" y="64" font-size="16" font-weight="700">placeholder-field-03</text>
-    <text x="752" y="64" font-size="16" text-anchor="end">800 × 600 · 4:3</text>
+  <g fill="#FFFFFF" font-family="&apos;Microsoft YaHei&apos;, &apos;PingFang SC&apos;, sans-serif">
+    <text x="48" y="64.80000000000001" font-size="16" font-weight="700">placeholder-field-03</text>
+    <text x="752" y="64.80000000000001" font-size="16" text-anchor="end">800 × 600</text>
     <g text-anchor="middle">
       <text x="400" y="258" font-size="56" font-weight="800">占位图片</text>
       <text x="400" y="296" font-size="15" font-weight="700" letter-spacing="3">PLACEHOLDER ASSET</text>
-      <line x1="322" y1="324" x2="478" y2="324" stroke="#FFFFFF" stroke-width="2"/>
+      <line x1="320" y1="324" x2="480" y2="324" stroke="#FFFFFF" stroke-width="2"/>
       <text x="400" y="370" font-size="28" font-weight="700">社区传播</text>
     </g>
-    <text x="48" y="548" font-size="16">用途：实践行动记录</text>
-    <text x="752" y="548" font-size="16" font-weight="700" text-anchor="end">示意素材</text>
+    <text x="48" y="552" font-size="16">用途：实践行动记录</text>
+    <text x="752" y="552" font-size="16" font-weight="700" text-anchor="end">示意素材</text>
   </g>
 </svg>

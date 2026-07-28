@@ -2,6 +2,12 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { assets } from "../data/assets";
+import {
+  legacyImpacts,
+  legacyQuote,
+  legacyTimeline,
+} from "../data/legacy";
+import { outcomes } from "../data/outcomes";
 import { routes } from "../data/routes";
 import { sites } from "../data/sites";
 import { parseAmapGeocodeResponse } from "../lib/content/amap-geocode";
@@ -147,5 +153,39 @@ describe("content data", () => {
       expect(source).toContain(asset.id);
       expect(source).toContain(asset.label);
     }
+  });
+
+  it("keeps pending outcomes without invented access actions", () => {
+    expect(outcomes).toHaveLength(4);
+    expect(
+      outcomes.every(
+        (outcome) =>
+          outcome.completionStatus !== "complete" &&
+          outcome.publicationStatus === "planned" &&
+          outcome.access === null &&
+          outcome.publishedAt === null &&
+          Boolean(outcome.assetId),
+      ),
+    ).toBe(true);
+  });
+
+  it("keeps legacy claims behind explicit evidence gates", () => {
+    expect(legacyQuote.status).toBe("missing");
+    expect(legacyImpacts).toHaveLength(4);
+    expect(
+      legacyImpacts.every(
+        (impact) =>
+          impact.evidenceStatus === "missing" &&
+          impact.evidenceRef === null &&
+          impact.publicationStatus === "planned",
+      ),
+    ).toBe(true);
+    expect(
+      legacyTimeline.every(
+        (entry) =>
+          entry.evidenceStatus === "planned" &&
+          entry.publicationStatus === "planned",
+      ),
+    ).toBe(true);
   });
 });

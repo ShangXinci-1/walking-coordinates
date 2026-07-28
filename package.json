@@ -16,6 +16,7 @@
     "test:e2e": "npm run build && playwright test",
     "test:a11y": "npm run build && playwright test --grep @a11y",
     "test:visual": "npm run build && playwright test --grep @visual",
+    "assets:placeholders": "tsx scripts/generate-placeholder-assets.ts",
     "data:geocode": "tsx scripts/geocode-candidates.ts",
     "check": "npm run typecheck && npm run lint && npm run test && npm run build"
   },
