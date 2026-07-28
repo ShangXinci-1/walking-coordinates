@@ -1,5 +1,5 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
 const pages = [
   { path: ".", heading: "革命史迹" },
@@ -7,6 +7,21 @@ const pages = [
   { path: "./outcomes", heading: "让成果被看见" },
   { path: "./legacy", heading: "我们不是历史的访客" },
 ];
+
+async function prepareFullPageVisual(page: Page) {
+  const images = page.locator("img");
+
+  for (let index = 0; index < (await images.count()); index += 1) {
+    await images.nth(index).scrollIntoViewIfNeeded();
+  }
+
+  await page.waitForFunction(() =>
+    Array.from(document.images).every(
+      (image) => image.complete && image.naturalWidth > 0,
+    ),
+  );
+  await page.evaluate(() => window.scrollTo(0, 0));
+}
 
 for (const pageCase of pages) {
   test(`${pageCase.path} renders its primary heading`, async ({ page }) => {
@@ -104,6 +119,7 @@ test("430px home page stays within the viewport and separates the hero quote", a
 
 test("@visual home page baseline", async ({ page }) => {
   await page.goto(".");
+  await prepareFullPageVisual(page);
   await expect(page).toHaveScreenshot("home-page.png", {
     animations: "disabled",
     fullPage: true,
@@ -115,6 +131,7 @@ test("@visual home page reduced motion baseline", async ({ page }, testInfo) => 
 
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto(".");
+  await prepareFullPageVisual(page);
   await expect(page).toHaveScreenshot("home-page-reduced-motion.png", {
     animations: "disabled",
     fullPage: true,

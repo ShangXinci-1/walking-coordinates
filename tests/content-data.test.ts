@@ -1,4 +1,7 @@
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import { describe, expect, it } from "vitest";
+import { assets } from "../data/assets";
 import { routes } from "../data/routes";
 import { sites } from "../data/sites";
 import { parseAmapGeocodeResponse } from "../lib/content/amap-geocode";
@@ -122,5 +125,27 @@ describe("content data", () => {
     expect(routes.flatMap((route) => getVerifiedSitesForRoute(route.id))).toEqual(
       [],
     );
+  });
+
+  it("keeps every placeholder asset unmistakable and self-describing", () => {
+    const placeholderAssets = assets.filter(
+      (asset) => asset.assetStatus !== "ready",
+    );
+
+    for (const asset of placeholderAssets) {
+      const sourcePath = path.join(
+        process.cwd(),
+        "public",
+        asset.placeholderSrc.replace(/^\//, ""),
+      );
+      const source = readFileSync(sourcePath, "utf8");
+
+      expect(source).toContain('data-placeholder-artwork="true"');
+      expect(source).toContain('data-placeholder-cross-lines="true"');
+      expect(source).toContain("<linearGradient");
+      expect(source).toContain(">占位图片<");
+      expect(source).toContain(asset.id);
+      expect(source).toContain(asset.label);
+    }
   });
 });

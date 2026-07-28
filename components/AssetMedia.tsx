@@ -14,12 +14,6 @@ export function AssetMedia({ asset, priority, sizes }: AssetMediaProps) {
   return (
     <figure className="asset-media">
       <ResponsiveMedia asset={asset} priority={priority} sizes={sizes} />
-      {!isReady && (
-        <span className="asset-media__slate" aria-hidden="true">
-          <small>{asset.id}</small>
-          <strong>{asset.label}</strong>
-        </span>
-      )}
       <figcaption className="asset-media__caption">
         <StatusBadge
           status={isReady ? asset.publicationStatus : "placeholder"}
