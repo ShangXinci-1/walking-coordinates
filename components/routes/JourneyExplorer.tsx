@@ -36,6 +36,7 @@ export function JourneyExplorer() {
   const copyState =
     copyResult?.siteId === selection.site.id ? copyResult.state : "idle";
   const [mapOpen, setMapOpen] = useState(false);
+  const [mapMounted, setMapMounted] = useState(false);
   const [announcement, setAnnouncement] = useState("");
   const pendingMobileDossierFocus = useRef<string | null>(null);
 
@@ -64,7 +65,10 @@ export function JourneyExplorer() {
 
   useEffect(() => {
     const media = window.matchMedia("(min-width: 48rem)");
-    const updateMapVisibility = () => setMapOpen(media.matches);
+    const updateMapVisibility = () => {
+      setMapOpen(media.matches);
+      if (media.matches) setMapMounted(true);
+    };
     updateMapVisibility();
     media.addEventListener("change", updateMapVisibility);
     return () => media.removeEventListener("change", updateMapVisibility);
@@ -117,6 +121,14 @@ export function JourneyExplorer() {
     } catch {
       setCopyResult({ siteId: selection.site.id, state: "failed" });
     }
+  }
+
+  function toggleMap() {
+    setMapOpen((open) => {
+      const nextOpen = !open;
+      if (nextOpen) setMapMounted(true);
+      return nextOpen;
+    });
   }
 
   return (
@@ -197,13 +209,13 @@ export function JourneyExplorer() {
             type="button"
             aria-expanded={mapOpen}
             aria-controls="journey-map-content"
-            onClick={() => setMapOpen((open) => !open)}
+            onClick={toggleMap}
           >
             {mapOpen ? "收起在线地图" : "展开在线地图"}
             <span aria-hidden="true">{mapOpen ? "−" : "+"}</span>
           </button>
           <div id="journey-map-content" hidden={!mapOpen}>
-            {mapOpen ? (
+            {mapMounted ? (
               <AMapRouteMap
                 activeRouteId={selection.route.id}
                 activeSiteId={selection.site.id}

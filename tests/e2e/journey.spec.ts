@@ -13,10 +13,20 @@ async function installWheelAwareAMapStub(page: import("@playwright/test").Page) 
             this.container = container;
             this.handlers = new Map();
             this.zoom = options.zoom;
+            this.zooms = [...options.zooms];
+            const previousState = window.__amapTestState;
             window.__amapTestState = {
               initialZoom: options.zoom,
-              zooms: options.zooms,
+              initialZooms: options.zooms,
+              zooms: this.zooms,
               currentZoom: this.zoom,
+              mapCreateCount: (previousState?.mapCreateCount ?? 0) + 1,
+              destroyCount: previousState?.destroyCount ?? 0,
+              fitCallCount: 0,
+              zoomAndCenterCallCount: 0,
+              lastFitRoute: null,
+              lastCameraImmediate: null,
+              lastCameraDuration: null,
               markerCount: 0,
               polylineCount: 0,
               routePointCounts: [],
@@ -25,9 +35,9 @@ async function installWheelAwareAMapStub(page: import("@playwright/test").Page) 
             container.addEventListener("wheel", (event) => {
               event.preventDefault();
               this.zoom = Math.min(
-                options.zooms[1],
+                this.zooms[1],
                 Math.max(
-                  options.zooms[0],
+                  this.zooms[0],
                   this.zoom + (event.deltaY < 0 ? 1 : -1),
                 ),
               );
@@ -35,8 +45,27 @@ async function installWheelAwareAMapStub(page: import("@playwright/test").Page) 
             }, { passive: false });
             setTimeout(() => this.handlers.get("complete")?.(), 0);
           }
-          add() {}
-          destroy() {}
+          add(overlays) {
+            const overlayList = Array.isArray(overlays) ? overlays : [overlays];
+            overlayList.forEach((overlay) => {
+              if (overlay.content) this.container.append(overlay.content);
+            });
+          }
+          destroy() {
+            window.__amapTestState.destroyCount += 1;
+          }
+          getFitZoomAndCenterByOverlays(overlays) {
+            const routeId = overlays.find((overlay) => overlay.routeId)?.routeId;
+            const fitViews = {
+              awakening: [11.2, [116.38, 39.92]],
+              war: [10.7, [116.3, 39.94]],
+              capital: [11.4, [116.39, 39.99]],
+            };
+            const fitView = fitViews[routeId] ?? [10, [116.4074, 39.9042]];
+            window.__amapTestState.fitCallCount += 1;
+            window.__amapTestState.lastFitRoute = routeId;
+            return fitView;
+          }
           getZoom() { return this.zoom; }
           off(eventName, handler) {
             if (this.handlers.get(eventName) === handler) {
@@ -44,18 +73,27 @@ async function installWheelAwareAMapStub(page: import("@playwright/test").Page) 
             }
           }
           on(eventName, handler) { this.handlers.set(eventName, handler); }
-          setCenter() {}
-          setZoom(zoom) {
+          setZoomAndCenter(zoom, center, immediately, duration) {
             this.zoom = zoom;
             window.__amapTestState.currentZoom = zoom;
+            window.__amapTestState.zoomAndCenterCallCount += 1;
+            window.__amapTestState.lastCameraImmediate = immediately;
+            window.__amapTestState.lastCameraDuration = duration;
+          }
+          setZooms(zooms) {
+            this.zooms = [...zooms];
+            window.__amapTestState.zooms = this.zooms;
           }
         }
 
         class FakeMarker {
-          constructor() {
+          constructor(options) {
+            this.content = options.content;
+            this.routeId = options.content.dataset.routeId;
             window.__amapTestState.markerCount += 1;
           }
           on() {}
+          setzIndex() {}
         }
 
         class FakePolyline {
@@ -64,6 +102,7 @@ async function installWheelAwareAMapStub(page: import("@playwright/test").Page) 
             window.__amapTestState.routePointCounts.push(options.path.length);
           }
           on() {}
+          setOptions() {}
         }
 
         window.AMap = {
@@ -184,6 +223,7 @@ test("mobile selection prioritizes and focuses the current dossier", async ({
   page,
 }, testInfo) => {
   test.skip(testInfo.project.name !== "mobile-375");
+  await installWheelAwareAMapStub(page);
   await page.goto("./journey?route=capital&site=xiangshan-revolutionary-site");
 
   await page
@@ -204,6 +244,22 @@ test("mobile selection prioritizes and focuses the current dossier", async ({
 
   await page.getByRole("button", { name: "展开在线地图" }).click();
   await expect(page.getByTestId("amap-route-map")).toBeVisible();
+  await page.getByRole("button", { name: "收起在线地图" }).click();
+  await expect(page.getByTestId("amap-route-map")).toBeHidden();
+  await page.getByRole("button", { name: "展开在线地图" }).click();
+  await expect(page.getByTestId("amap-route-map")).toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () =>
+          (
+            window as typeof window & {
+              __amapTestState?: { mapCreateCount: number };
+            }
+          ).__amapTestState?.mapCreateCount,
+      ),
+    )
+    .toBe(1);
 });
 
 test("AMap failure leaves a blank map while the archive remains usable", async ({
@@ -235,7 +291,7 @@ test("desktop map is horizontal and releases downward wheel scrolling at minimum
 
   const map = page.getByTestId("amap-route-map");
   await expect(map).toHaveAttribute("data-map-status", "ready");
-  await expect(map).toHaveAttribute("data-map-min-zoom", "10");
+  await expect(map).toHaveAttribute("data-map-min-zoom", "11.2");
   await expect
     .poll(() =>
       page.evaluate(
@@ -244,8 +300,16 @@ test("desktop map is horizontal and releases downward wheel scrolling at minimum
             window as typeof window & {
               __amapTestState?: {
                 initialZoom: number;
+                initialZooms: number[];
                 zooms: number[];
                 currentZoom: number;
+                mapCreateCount: number;
+                destroyCount: number;
+                fitCallCount: number;
+                zoomAndCenterCallCount: number;
+                lastFitRoute: string;
+                lastCameraImmediate: boolean;
+                lastCameraDuration: number;
                 markerCount: number;
                 polylineCount: number;
                 routePointCounts: number[];
@@ -256,12 +320,26 @@ test("desktop map is horizontal and releases downward wheel scrolling at minimum
     )
     .toMatchObject({
       initialZoom: 10,
-      zooms: [10, 18],
-      currentZoom: 10,
+      initialZooms: [2, 18],
+      zooms: [11.2, 18],
+      currentZoom: 11.2,
+      mapCreateCount: 1,
+      destroyCount: 0,
+      fitCallCount: 1,
+      zoomAndCenterCallCount: 1,
+      lastFitRoute: "awakening",
+      lastCameraImmediate: true,
+      lastCameraDuration: 0,
       markerCount: 13,
       polylineCount: 3,
       routePointCounts: [5, 5, 3],
     });
+  await expect(
+    map.locator('.journey-map-marker[data-route-active="true"]'),
+  ).toHaveCount(5);
+  await expect(
+    map.locator('.journey-map-marker[data-active="true"]'),
+  ).toHaveCount(1);
 
   const mapBox = await map.boundingBox();
   expect(mapBox).not.toBeNull();
@@ -279,6 +357,102 @@ test("desktop map is horizontal and releases downward wheel scrolling at minimum
   await expect
     .poll(() => page.evaluate(() => window.scrollY))
     .toBeGreaterThan(initialScrollY);
+
+  await page.getByRole("tab", { name: /烽火之路/ }).click();
+  await expect(map).toHaveAttribute("data-map-min-zoom", "10.7");
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () =>
+          (
+            window as typeof window & {
+              __amapTestState?: {
+                mapCreateCount: number;
+                destroyCount: number;
+                fitCallCount: number;
+                zoomAndCenterCallCount: number;
+                lastFitRoute: string;
+                lastCameraImmediate: boolean;
+                lastCameraDuration: number;
+              };
+            }
+          ).__amapTestState,
+      ),
+    )
+    .toMatchObject({
+      mapCreateCount: 1,
+      destroyCount: 0,
+      fitCallCount: 2,
+      zoomAndCenterCallCount: 2,
+      lastFitRoute: "war",
+      lastCameraImmediate: false,
+      lastCameraDuration: 480,
+    });
+  await expect(
+    map.locator('.journey-map-marker[data-route-active="true"]'),
+  ).toHaveCount(5);
+
+  await page
+    .getByRole("navigation", { name: "当前路线地点" })
+    .getByRole("button", { name: /卢沟桥/ })
+    .click();
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () =>
+          (
+            window as typeof window & {
+              __amapTestState?: {
+                mapCreateCount: number;
+                destroyCount: number;
+                fitCallCount: number;
+                zoomAndCenterCallCount: number;
+              };
+            }
+          ).__amapTestState,
+      ),
+    )
+    .toMatchObject({
+      mapCreateCount: 1,
+      destroyCount: 0,
+      fitCallCount: 2,
+      zoomAndCenterCallCount: 2,
+    });
+});
+
+test("map route changes honor reduced-motion preferences", async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await installWheelAwareAMapStub(page);
+  await page.goto("./journey?route=awakening&site=beida-honglou");
+
+  await page.getByRole("tab", { name: /进京之路/ }).click();
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () =>
+          (
+            window as typeof window & {
+              __amapTestState?: {
+                mapCreateCount: number;
+                fitCallCount: number;
+                lastFitRoute: string;
+                lastCameraImmediate: boolean;
+                lastCameraDuration: number;
+              };
+            }
+          ).__amapTestState,
+      ),
+    )
+    .toMatchObject({
+      mapCreateCount: 1,
+      fitCallCount: 2,
+      lastFitRoute: "capital",
+      lastCameraImmediate: true,
+      lastCameraDuration: 0,
+    });
 });
 
 test("journey page never overflows the configured viewport", async ({ page }) => {
