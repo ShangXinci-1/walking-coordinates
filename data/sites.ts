@@ -1,7 +1,37 @@
-import type { SiteRecord } from "../lib/content/types";
-import { PROJECT_SCOPE_SOURCE_ID } from "./sources";
+import type {
+  CoordinateRecord,
+  CoordinateTarget,
+  SiteRecord,
+} from "../lib/content/types";
+import {
+  AMAP_GEOCODER_SOURCE_ID,
+  PROJECT_SCOPE_SOURCE_ID,
+} from "./sources";
 
 const directorySource = "source-beijing-red-tourism-directory";
+const coordinateVerifiedAt = "2026-07-29";
+
+function verifiedCoordinate(
+  lng: number,
+  lat: number,
+  target: CoordinateTarget,
+  precision: Extract<
+    CoordinateRecord,
+    { status: "verified" }
+  >["precision"] = "verified-poi",
+): Extract<CoordinateRecord, { status: "verified" }> {
+  return {
+    status: "verified",
+    lat,
+    lng,
+    crs: "GCJ-02",
+    target,
+    precision,
+    sourceId: AMAP_GEOCODER_SOURCE_ID,
+    verifiedAt: coordinateVerifiedAt,
+    verifiedBy: "project-owner",
+  };
+}
 
 export const sites: readonly SiteRecord[] = [
   {
@@ -22,7 +52,11 @@ export const sites: readonly SiteRecord[] = [
       sourceIds: ["source-beida-honglou-beijing-gov"],
     },
     coordinateTarget: "main-entrance",
-    coordinate: { status: "missing" },
+    coordinate: verifiedCoordinate(
+      116.40534,
+      39.924634,
+      "main-entrance",
+    ),
     historySummary: [],
     practiceSummary: [],
     assetIds: ["field-01"],
@@ -40,7 +74,11 @@ export const sites: readonly SiteRecord[] = [
     },
     officialAddress: null,
     coordinateTarget: "main-entrance",
-    coordinate: { status: "missing" },
+    coordinate: verifiedCoordinate(
+      116.404106,
+      39.917353,
+      "main-entrance",
+    ),
     historySummary: [],
     practiceSummary: [],
     assetIds: [],
@@ -65,7 +103,11 @@ export const sites: readonly SiteRecord[] = [
       sourceIds: ["source-li-dazhao-residence-beijing-heritage"],
     },
     coordinateTarget: "main-entrance",
-    coordinate: { status: "missing" },
+    coordinate: verifiedCoordinate(
+      116.365919,
+      39.904855,
+      "main-entrance",
+    ),
     historySummary: [],
     practiceSummary: [],
     assetIds: [],
@@ -83,7 +125,11 @@ export const sites: readonly SiteRecord[] = [
     },
     officialAddress: null,
     coordinateTarget: "main-entrance",
-    coordinate: { status: "missing" },
+    coordinate: verifiedCoordinate(
+      116.380723,
+      39.891063,
+      "main-entrance",
+    ),
     historySummary: [],
     practiceSummary: [],
     assetIds: [],
@@ -101,7 +147,11 @@ export const sites: readonly SiteRecord[] = [
     },
     officialAddress: null,
     coordinateTarget: "main-entrance",
-    coordinate: { status: "missing" },
+    coordinate: verifiedCoordinate(
+      116.358707,
+      39.925314,
+      "main-entrance",
+    ),
     historySummary: [],
     practiceSummary: [],
     assetIds: [],
@@ -119,7 +169,11 @@ export const sites: readonly SiteRecord[] = [
     },
     officialAddress: null,
     coordinateTarget: "site-center",
-    coordinate: { status: "missing" },
+    coordinate: verifiedCoordinate(
+      116.22681,
+      39.84903,
+      "site-center",
+    ),
     historySummary: [],
     practiceSummary: [],
     assetIds: ["field-03"],
@@ -137,7 +191,11 @@ export const sites: readonly SiteRecord[] = [
     },
     officialAddress: null,
     coordinateTarget: "site-center",
-    coordinate: { status: "missing" },
+    coordinate: verifiedCoordinate(
+      116.218791,
+      39.850278,
+      "site-center",
+    ),
     historySummary: [],
     practiceSummary: [],
     assetIds: [],
@@ -155,7 +213,11 @@ export const sites: readonly SiteRecord[] = [
     },
     officialAddress: null,
     coordinateTarget: "site-center",
-    coordinate: { status: "missing" },
+    coordinate: verifiedCoordinate(
+      116.226098,
+      39.851436,
+      "site-center",
+    ),
     historySummary: [],
     practiceSummary: [],
     assetIds: [],
@@ -173,7 +235,11 @@ export const sites: readonly SiteRecord[] = [
     },
     officialAddress: null,
     coordinateTarget: "main-entrance",
-    coordinate: { status: "missing" },
+    coordinate: verifiedCoordinate(
+      116.226007,
+      39.851669,
+      "main-entrance",
+    ),
     historySummary: [],
     practiceSummary: [],
     assetIds: [],
@@ -191,7 +257,11 @@ export const sites: readonly SiteRecord[] = [
     },
     officialAddress: null,
     coordinateTarget: "site-center",
-    coordinate: { status: "missing" },
+    coordinate: verifiedCoordinate(
+      116.256684,
+      40.029841,
+      "site-center",
+    ),
     historySummary: [],
     practiceSummary: [],
     assetIds: [],
@@ -209,7 +279,12 @@ export const sites: readonly SiteRecord[] = [
     },
     officialAddress: null,
     coordinateTarget: "site-center",
-    coordinate: { status: "missing" },
+    coordinate: verifiedCoordinate(
+      116.194052,
+      39.989342,
+      "site-center",
+      "manual-pin",
+    ),
     historySummary: [],
     practiceSummary: [],
     assetIds: ["field-04"],
@@ -227,7 +302,11 @@ export const sites: readonly SiteRecord[] = [
     },
     officialAddress: null,
     coordinateTarget: "main-entrance",
-    coordinate: { status: "missing" },
+    coordinate: verifiedCoordinate(
+      116.398266,
+      40.003639,
+      "main-entrance",
+    ),
     historySummary: [],
     practiceSummary: [],
     assetIds: [],
@@ -245,7 +324,11 @@ export const sites: readonly SiteRecord[] = [
     },
     officialAddress: null,
     coordinateTarget: "main-entrance",
-    coordinate: { status: "missing" },
+    coordinate: verifiedCoordinate(
+      116.33176,
+      39.99151,
+      "main-entrance",
+    ),
     historySummary: [],
     practiceSummary: [],
     assetIds: [],

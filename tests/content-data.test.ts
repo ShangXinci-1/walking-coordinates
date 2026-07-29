@@ -46,7 +46,7 @@ describe("content data", () => {
     expect(
       sites.every(
         (site) =>
-          site.coordinate.status === "missing" &&
+          site.coordinate.status === "verified" &&
           site.reviewStatus === "draft" &&
           site.publicationStatus === "planned",
       ),
@@ -130,9 +130,55 @@ describe("content data", () => {
   });
 
   it("exposes only verified GCJ-02 coordinates to the map layer", () => {
-    expect(routes.flatMap((route) => getVerifiedSitesForRoute(route.id))).toEqual(
-      [],
-    );
+    expect(
+      routes.map((route) => getVerifiedSitesForRoute(route.id).length),
+    ).toEqual([5, 5, 3]);
+
+    expect(
+      routes.flatMap((route) => getVerifiedSitesForRoute(route.id)),
+    ).toHaveLength(13);
+
+    expect(
+      sites.every(
+        (site) =>
+          site.coordinate.status === "verified" &&
+          site.coordinate.crs === "GCJ-02" &&
+          site.coordinate.target === site.coordinateTarget &&
+          site.coordinate.sourceId === "source-amap-geocoder" &&
+          site.coordinate.verifiedAt === "2026-07-29" &&
+          site.coordinate.verifiedBy === "project-owner",
+      ),
+    ).toBe(true);
+
+    expect(
+      sites.find((site) => site.id === "xiangshan-revolutionary-site")
+        ?.coordinate,
+    ).toMatchObject({
+      status: "verified",
+      precision: "manual-pin",
+      lng: 116.194052,
+      lat: 39.989342,
+    });
+
+    expect(
+      sites
+        .filter((site) => site.id !== "xiangshan-revolutionary-site")
+        .every(
+          (site) =>
+            site.coordinate.status === "verified" &&
+            site.coordinate.precision === "verified-poi",
+        ),
+    ).toBe(true);
+
+    expect(
+      new Set(
+        sites.map((site) =>
+          site.coordinate.status === "verified"
+            ? `${site.coordinate.lng},${site.coordinate.lat}`
+            : "",
+        ),
+      ).size,
+    ).toBe(13);
   });
 
   it("keeps every example asset unmistakable and self-describing", () => {

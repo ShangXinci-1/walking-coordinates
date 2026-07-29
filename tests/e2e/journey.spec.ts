@@ -17,6 +17,9 @@ async function installWheelAwareAMapStub(page: import("@playwright/test").Page) 
               initialZoom: options.zoom,
               zooms: options.zooms,
               currentZoom: this.zoom,
+              markerCount: 0,
+              polylineCount: 0,
+              routePointCounts: [],
             };
             container.replaceChildren(document.createElement("div"));
             container.addEventListener("wheel", (event) => {
@@ -48,15 +51,26 @@ async function installWheelAwareAMapStub(page: import("@playwright/test").Page) 
           }
         }
 
-        class FakeOverlay {
+        class FakeMarker {
+          constructor() {
+            window.__amapTestState.markerCount += 1;
+          }
+          on() {}
+        }
+
+        class FakePolyline {
+          constructor(options) {
+            window.__amapTestState.polylineCount += 1;
+            window.__amapTestState.routePointCounts.push(options.path.length);
+          }
           on() {}
         }
 
         window.AMap = {
           Map: FakeMap,
-          Marker: FakeOverlay,
+          Marker: FakeMarker,
           Pixel: class FakePixel {},
-          Polyline: FakeOverlay,
+          Polyline: FakePolyline,
         };
       })();
     `,
@@ -232,6 +246,9 @@ test("desktop map is horizontal and releases downward wheel scrolling at minimum
                 initialZoom: number;
                 zooms: number[];
                 currentZoom: number;
+                markerCount: number;
+                polylineCount: number;
+                routePointCounts: number[];
               };
             }
           ).__amapTestState,
@@ -241,6 +258,9 @@ test("desktop map is horizontal and releases downward wheel scrolling at minimum
       initialZoom: 10,
       zooms: [10, 18],
       currentZoom: 10,
+      markerCount: 13,
+      polylineCount: 3,
+      routePointCounts: [5, 5, 3],
     });
 
   const mapBox = await map.boundingBox();
