@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from "react";
 import type { KeyboardEvent } from "react";
+import { ResponsiveMedia } from "../ResponsiveMedia";
+import { getAssetById } from "../../lib/content/selectors";
 import type { RouteId, RouteRecord } from "../../lib/content/types";
 
 interface RouteIndexProps {
@@ -60,6 +62,7 @@ export function RouteIndex({
       <div className="route-index__tabs" role="tablist" aria-label="选择路线">
         {routes.map((route, index) => {
           const selected = route.id === activeRouteId;
+          const asset = getAssetById(route.heroAssetId);
           return (
             <button
               type="button"
@@ -73,11 +76,22 @@ export function RouteIndex({
               onKeyDown={(event) => moveFocus(event, index)}
               key={route.id}
             >
-              <span className="route-index__code">路线 {route.code}</span>
-              <strong>{route.title.value}</strong>
-              <small>
-                {route.dayRange.value} · {route.siteIds.length} 处地点
-              </small>
+              {asset ? (
+                <span className="route-index__visual" aria-hidden="true">
+                  <ResponsiveMedia
+                    asset={asset}
+                    className="route-index__image"
+                    sizes="(min-width: 1280px) 20vw, 1px"
+                  />
+                </span>
+              ) : null}
+              <span className="route-index__copy">
+                <span className="route-index__code">路线 {route.code}</span>
+                <strong>{route.title.value}</strong>
+                <small>
+                  {route.dayRange.value} · {route.siteIds.length} 处地点
+                </small>
+              </span>
             </button>
           );
         })}

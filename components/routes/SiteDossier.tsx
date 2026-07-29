@@ -72,7 +72,13 @@ export function SiteDossier({
   const archiveId = `WC-${route.code}-${String(site.order).padStart(2, "0")}`;
 
   return (
-    <article className="site-dossier" id="site-dossier" key={site.id}>
+    <article
+      className="site-dossier"
+      id="site-dossier"
+      key={site.id}
+      tabIndex={0}
+      aria-label={`${site.name.value}坐标档案内容`}
+    >
       <header className="site-dossier__header">
         <div>
           <span className="site-dossier__eyebrow">坐标档案 · {archiveId}</span>

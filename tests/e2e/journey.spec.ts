@@ -167,7 +167,10 @@ test("previous, next, browser history, and copy-link actions preserve archive st
   await context.grantPermissions(["clipboard-read", "clipboard-write"]);
   await page.goto("./journey?route=awakening&site=beida-honglou");
 
-  const pager = page.getByRole("navigation", { name: "相邻地点" });
+  const pager =
+    (page.viewportSize()?.width ?? 0) >= 1280
+      ? page.getByRole("navigation", { name: "线性浏览地点" })
+      : page.getByRole("navigation", { name: "相邻地点" });
   await expect(pager.getByRole("button", { name: /上一地点/ })).toBeDisabled();
   await pager.getByRole("button", { name: /下一地点/ }).click();
   await expect(page).toHaveURL(
@@ -217,6 +220,71 @@ test("route tabs and site list support directional keyboard navigation", async (
       .getByRole("navigation", { name: "当前路线地点" })
       .getByRole("button", { name: /卢沟桥/ }),
   ).toBeFocused();
+});
+
+test("wide-screen linear controls cross route boundaries without leaving the workspace", async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440");
+  await installWheelAwareAMapStub(page);
+  await page.goto(
+    "./journey?route=awakening&site=beijing-lu-xun-museum",
+  );
+
+  const sequence = page.getByRole("navigation", { name: "线性浏览地点" });
+  const nextButton = sequence.locator(".journey-sequence__next");
+  await expect(nextButton).toHaveAccessibleName(/下一路线 · 烽火之路/);
+
+  const dossier = page.getByRole("article", {
+    name: "北京鲁迅博物馆坐标档案内容",
+  });
+  await dossier.evaluate((element) => {
+    element.scrollTop = element.scrollHeight;
+  });
+  await expect.poll(() => dossier.evaluate((element) => element.scrollTop)).toBeGreaterThan(0);
+
+  await nextButton.click();
+
+  await expect(page).toHaveURL(/route=war&site=war-sculpture-park/);
+  await expect(
+    page.getByRole("heading", {
+      level: 2,
+      name: "中国人民抗日战争纪念雕塑园",
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("tab", { name: /烽火之路/ }),
+  ).toHaveAttribute("aria-selected", "true");
+  await expect(nextButton).toBeFocused();
+  await expect
+    .poll(() =>
+      page
+        .getByRole("article", {
+          name: "中国人民抗日战争纪念雕塑园坐标档案内容",
+        })
+        .evaluate((element) => element.scrollTop),
+    )
+    .toBe(0);
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () =>
+          (
+            window as typeof window & {
+              __amapTestState?: {
+                mapCreateCount: number;
+                fitCallCount: number;
+                lastFitRoute: string;
+              };
+            }
+          ).__amapTestState,
+      ),
+    )
+    .toMatchObject({
+      mapCreateCount: 1,
+      fitCallCount: 2,
+      lastFitRoute: "war",
+    });
 });
 
 test("mobile selection prioritizes and focuses the current dossier", async ({
@@ -282,7 +350,7 @@ test("AMap failure leaves a blank map while the archive remains usable", async (
   ).toBeVisible();
 });
 
-test("desktop map is horizontal and releases downward wheel scrolling at minimum zoom", async ({
+test("wide-screen map remains horizontal inside a single-viewport workspace", async ({
   page,
 }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440");
@@ -343,20 +411,31 @@ test("desktop map is horizontal and releases downward wheel scrolling at minimum
 
   const mapBox = await map.boundingBox();
   expect(mapBox).not.toBeNull();
-  expect(mapBox!.width / mapBox!.height).toBeGreaterThan(1.9);
+  expect(mapBox!.width / mapBox!.height).toBeGreaterThan(1.05);
 
-  await map.scrollIntoViewIfNeeded();
-  const visibleMapBox = await map.boundingBox();
-  expect(visibleMapBox).not.toBeNull();
-  await page.mouse.move(
-    visibleMapBox!.x + visibleMapBox!.width / 2,
-    visibleMapBox!.y + visibleMapBox!.height / 2,
-  );
-  const initialScrollY = await page.evaluate(() => window.scrollY);
-  await page.mouse.wheel(0, 640);
   await expect
-    .poll(() => page.evaluate(() => window.scrollY))
-    .toBeGreaterThan(initialScrollY);
+    .poll(() =>
+      page.evaluate(() => ({
+        viewportHeight: window.innerHeight,
+        pageHeight: document.documentElement.scrollHeight,
+        scrollY: window.scrollY,
+      })),
+    )
+    .toEqual({
+      viewportHeight: 1000,
+      pageHeight: 1000,
+      scrollY: 0,
+    });
+
+  await expect(
+    page.getByRole("navigation", { name: "路线索引" }),
+  ).toBeInViewport();
+  await expect(
+    page.getByRole("article", { name: "北大红楼坐标档案内容" }),
+  ).toBeInViewport();
+  await expect(
+    page.getByRole("navigation", { name: "线性浏览地点" }),
+  ).toBeInViewport();
 
   await page.getByRole("tab", { name: /烽火之路/ }).click();
   await expect(map).toHaveAttribute("data-map-min-zoom", "10.7");

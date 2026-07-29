@@ -21,11 +21,32 @@ export function JourneyExplorer() {
   const [selection, setSelection] = useState(() =>
     resolveJourneySelection(null, null),
   );
+  const orderedSites = routes.flatMap((route) => getSitesForRoute(route.id));
   const routeSites = getSitesForRoute(selection.route.id);
   const siteIndex = routeSites.findIndex((site) => site.id === selection.site.id);
-  const previousSite = siteIndex > 0 ? routeSites[siteIndex - 1] : null;
+  const orderedSiteIndex = orderedSites.findIndex(
+    (site) => site.id === selection.site.id,
+  );
+  const previousSite =
+    orderedSiteIndex > 0 ? orderedSites[orderedSiteIndex - 1] : null;
   const nextSite =
-    siteIndex < routeSites.length - 1 ? routeSites[siteIndex + 1] : null;
+    orderedSiteIndex < orderedSites.length - 1
+      ? orderedSites[orderedSiteIndex + 1]
+      : null;
+  const nextRoute = nextSite
+    ? routes.find((route) => route.id === nextSite.routeId) ?? null
+    : null;
+  const previousRoute = previousSite
+    ? routes.find((route) => route.id === previousSite.routeId) ?? null
+    : null;
+  const nextStepLabel =
+    nextSite && nextSite.routeId !== selection.route.id
+      ? `下一路线 · ${nextRoute?.title.value ?? ""}`
+      : "下一地点";
+  const previousStepLabel =
+    previousSite && previousSite.routeId !== selection.route.id
+      ? `上一条路线 · ${previousRoute?.title.value ?? ""}`
+      : "上一地点";
   const asset = selection.site.assetIds[0]
     ? (getAssetById(selection.site.assetIds[0]) ?? null)
     : null;
@@ -83,6 +104,12 @@ export function JourneyExplorer() {
       pendingMobileDossierFocus.current = null;
     });
     return () => cancelAnimationFrame(frame);
+  }, [selection.site.id]);
+
+  useEffect(() => {
+    if (!window.matchMedia("(min-width: 80rem)").matches) return;
+    const dossier = document.getElementById("site-dossier");
+    dossier?.scrollTo({ top: 0, behavior: "auto" });
   }, [selection.site.id]);
 
   function navigate(route: RouteRecord, site: SiteRecord) {
@@ -230,6 +257,46 @@ export function JourneyExplorer() {
             <span>坐标标准 · GCJ-02</span>
           </footer>
         </section>
+        <nav className="journey-sequence" aria-label="线性浏览地点">
+          <div className="journey-sequence__progress">
+            <span>
+              路线 {selection.route.code} · {selection.route.title.value}
+            </span>
+            <strong>
+              第 {String(siteIndex + 1).padStart(2, "0")} 站 /{" "}
+              {String(routeSites.length).padStart(2, "0")}
+            </strong>
+            <small>
+              全程 {String(orderedSiteIndex + 1).padStart(2, "0")} /{" "}
+              {String(orderedSites.length).padStart(2, "0")}
+            </small>
+          </div>
+          <div className="journey-sequence__current" aria-live="polite">
+            <span>当前坐标档案</span>
+            <strong>{selection.site.name.value}</strong>
+          </div>
+          <div className="journey-sequence__actions">
+            <button
+              type="button"
+              disabled={!previousSite}
+              onClick={() => previousSite && selectSite(previousSite, false)}
+            >
+              <span aria-hidden="true">←</span>
+              <small>{previousStepLabel}</small>
+              <strong>{previousSite?.name.value ?? "已到起点"}</strong>
+            </button>
+            <button
+              className="journey-sequence__next"
+              type="button"
+              disabled={!nextSite}
+              onClick={() => nextSite && selectSite(nextSite, false)}
+            >
+              <small>{nextSite ? nextStepLabel : "浏览完成"}</small>
+              <strong>{nextSite?.name.value ?? "已到终点"}</strong>
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </nav>
       </div>
 
       <p className="sr-only" aria-live="polite">
