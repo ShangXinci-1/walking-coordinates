@@ -64,7 +64,7 @@ test("gallery dialog supports keyboard navigation and focus restoration", async 
 test("failed outcome images keep the page usable", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "mobile-430");
 
-  await page.route("**/images/*.svg", (route) => route.abort());
+  await page.route("**/media/*.webp", (route) => route.abort());
   await page.goto("./outcomes");
 
   await expect(page.locator(".responsive-media-fallback").first()).toBeVisible();

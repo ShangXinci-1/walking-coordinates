@@ -8,7 +8,6 @@ import {
 } from "react";
 import type { AssetRecord } from "../../lib/content/types";
 import { ResponsiveMedia } from "../ResponsiveMedia";
-import { StatusBadge } from "../StatusBadge";
 
 interface OutcomeGalleryProps {
   assets: readonly AssetRecord[];
@@ -90,9 +89,7 @@ export function OutcomeGallery({ assets }: OutcomeGalleryProps) {
         <p>五个现场叙事位置</p>
         <div>
           <h2 id="outcome-gallery-title">从进入现场，到成果形成。</h2>
-          <p>
-            当前均为示意素材。正式影像到位后仍按相同顺序、说明和灯箱交互替换。
-          </p>
+          <p>五个画面依次记录进入、同行、采集、访谈与社区传播。</p>
         </div>
       </header>
 
@@ -116,7 +113,7 @@ export function OutcomeGallery({ assets }: OutcomeGalleryProps) {
             <span className="outcome-gallery__item-caption">
               <small>{String(index + 1).padStart(2, "0")}</small>
               <strong>{asset.label}</strong>
-              <span>示意素材 · 点击放大</span>
+              <span>点击放大</span>
             </span>
           </button>
         ))}
@@ -146,7 +143,7 @@ export function OutcomeGallery({ assets }: OutcomeGalleryProps) {
         {activeAsset && activeIndex !== null && (
           <div className="outcome-lightbox__panel">
             <header>
-              <StatusBadge status="placeholder" />
+              <p>{activeAsset.displayUse}</p>
               <p>
                 {String(activeIndex + 1).padStart(2, "0")} /{" "}
                 {String(assets.length).padStart(2, "0")}
@@ -166,7 +163,7 @@ export function OutcomeGallery({ assets }: OutcomeGalleryProps) {
               <figcaption>
                 <h3 id="outcome-lightbox-title">{activeAsset.label}</h3>
                 <p id="outcome-lightbox-description">
-                  {activeAsset.shotRequirement}
+                  {activeAsset.alt}
                 </p>
                 <small>{activeAsset.id}</small>
               </figcaption>

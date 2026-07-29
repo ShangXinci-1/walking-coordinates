@@ -1,0 +1,123 @@
+{
+  "version": 1,
+  "sourceKind": "openai-imagegen",
+  "assets": [
+    {
+      "id": "field-01",
+      "label": "现场寻访",
+      "displayUse": "路线主视觉",
+      "width": 800,
+      "height": 600,
+      "file": "/media/field-01.webp",
+      "visibleMark": "AI 生成示意素材"
+    },
+    {
+      "id": "field-02",
+      "label": "深度访谈",
+      "displayUse": "实践行动记录",
+      "width": 800,
+      "height": 600,
+      "file": "/media/field-02.webp",
+      "visibleMark": "AI 生成示意素材"
+    },
+    {
+      "id": "field-03",
+      "label": "社区传播",
+      "displayUse": "实践行动记录",
+      "width": 800,
+      "height": 600,
+      "file": "/media/field-03.webp",
+      "visibleMark": "AI 生成示意素材"
+    },
+    {
+      "id": "field-04",
+      "label": "数字采集",
+      "displayUse": "实践行动记录",
+      "width": 800,
+      "height": 600,
+      "file": "/media/field-04.webp",
+      "visibleMark": "AI 生成示意素材"
+    },
+    {
+      "id": "field-05",
+      "label": "青年同行",
+      "displayUse": "首页首屏",
+      "width": 1536,
+      "height": 864,
+      "file": "/media/field-05.webp",
+      "visibleMark": "AI 生成示意素材"
+    },
+    {
+      "id": "outcome-01",
+      "label": "数字线上展厅",
+      "displayUse": "成果页·数字展厅",
+      "width": 960,
+      "height": 600,
+      "file": "/media/outcome-01.webp",
+      "visibleMark": "AI 生成示意素材"
+    },
+    {
+      "id": "outcome-02",
+      "label": "数字档案",
+      "displayUse": "成果页·数字档案",
+      "width": 960,
+      "height": 600,
+      "file": "/media/outcome-02.webp",
+      "visibleMark": "AI 生成示意素材"
+    },
+    {
+      "id": "outcome-03",
+      "label": "主题微电影",
+      "displayUse": "成果页·影片封面",
+      "width": 960,
+      "height": 540,
+      "file": "/media/outcome-03.webp",
+      "visibleMark": "AI 生成示意素材"
+    },
+    {
+      "id": "outcome-04",
+      "label": "实践调研报告",
+      "displayUse": "成果页·报告预览",
+      "width": 900,
+      "height": 600,
+      "file": "/media/outcome-04.webp",
+      "visibleMark": "AI 生成示意素材"
+    },
+    {
+      "id": "legacy-01",
+      "label": "首屏人物",
+      "displayUse": "传承页·人物原话",
+      "width": 800,
+      "height": 1000,
+      "file": "/media/legacy-01.webp",
+      "visibleMark": "AI 生成示意素材"
+    },
+    {
+      "id": "legacy-02",
+      "label": "社区行动",
+      "displayUse": "传承页·行动结果",
+      "width": 960,
+      "height": 540,
+      "file": "/media/legacy-02.webp",
+      "visibleMark": "AI 生成示意素材"
+    },
+    {
+      "id": "legacy-03",
+      "label": "结果证据",
+      "displayUse": "传承页·影响证据",
+      "width": 900,
+      "height": 600,
+      "file": "/media/legacy-03.webp",
+      "visibleMark": "AI 生成示意素材"
+    },
+    {
+      "id": "legacy-04",
+      "label": "继续行进",
+      "displayUse": "传承页·结尾行动",
+      "width": 960,
+      "height": 540,
+      "file": "/media/legacy-04.webp",
+      "visibleMark": "AI 生成示意素材"
+    }
+  ]
+}

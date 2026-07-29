@@ -105,7 +105,14 @@ test("home page exposes its project evidence and primary route action", async ({
   await expect(page.getByText("14 天", { exact: true })).toBeVisible();
   await expect(page.getByText("3 条", { exact: true })).toBeVisible();
   await expect(page.getByText("13 处", { exact: true })).toBeVisible();
-  await expect(page.getByText("示意素材阶段", { exact: true })).toBeVisible();
+  await expect(page.getByText("当前状态", { exact: true })).toHaveCount(0);
+  await expect(page.getByText("示意素材阶段", { exact: true })).toHaveCount(0);
+  await expect(page.locator(".home-hero__track")).toHaveCount(0);
+  expect(
+    await page.locator(".home-hero").evaluate(
+      (element) => window.getComputedStyle(element).fontFamily,
+    ),
+  ).toContain("STFangsong");
 });
 
 test("430px home page stays within the viewport and separates the hero quote", async ({
@@ -125,8 +132,47 @@ test("430px home page stays within the viewport and separates the hero quote", a
   expect(visualBox).not.toBeNull();
   expect(statementBox).not.toBeNull();
   expect(statementBox!.y).toBeGreaterThanOrEqual(
-    visualBox!.y + visualBox!.height - statementBox!.height - 1,
+    visualBox!.y + visualBox!.height * 0.72,
   );
+  expect(statementBox!.y + statementBox!.height).toBeLessThanOrEqual(
+    visualBox!.y + visualBox!.height,
+  );
+});
+
+test("method steps use non-click hover feedback and respect reduced motion", async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440");
+
+  await page.goto(".");
+  const firstStep = page.locator(".home-method__steps li").first();
+
+  expect(
+    await firstStep.evaluate(
+      (element) => window.getComputedStyle(element, "::before").opacity,
+    ),
+  ).toBe("0");
+  expect(
+    await firstStep.evaluate(
+      (element) => window.getComputedStyle(element).cursor,
+    ),
+  ).not.toBe("pointer");
+
+  await firstStep.hover();
+  await expect
+    .poll(() =>
+      firstStep.evaluate(
+        (element) => window.getComputedStyle(element, "::before").opacity,
+      ),
+    )
+    .toBe("1");
+
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  expect(
+    await firstStep.evaluate(
+      (element) => window.getComputedStyle(element).transitionDuration,
+    ),
+  ).toBe("0s");
 });
 
 test("@visual home page baseline", async ({ page }) => {

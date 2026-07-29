@@ -42,6 +42,8 @@ const practiceSteps = [
   },
 ] as const;
 
+const heroSubtitleBreakIndex = 4;
+
 export default function Home() {
   const { routeCount, siteCount } = getProjectCounts();
   const outcomes = getOrderedOutcomes();
@@ -57,7 +59,11 @@ export default function Home() {
             <p className="home-hero__project">北京科技大学社会实践 · 2026</p>
             <h1 id="home-title">
               <span>{project.title.value}</span>
-              <strong>{project.subtitle.value}</strong>
+              <strong>
+                {project.subtitle.value.slice(0, heroSubtitleBreakIndex)}
+                <br />
+                {project.subtitle.value.slice(heroSubtitleBreakIndex)}
+              </strong>
             </h1>
             <p className="home-hero__lead">
               北京科技大学青年实践团队沿三条路线走进十三处革命史迹，
@@ -66,7 +72,6 @@ export default function Home() {
             <div className="home-hero__actions">
               <a className="home-action home-action--primary" href={withBasePath("/journey")}>
                 从路线开始
-                <span aria-hidden="true">↘</span>
               </a>
               <a className="home-action home-action--quiet" href="#practice-method">
                 查看项目方法
@@ -77,22 +82,11 @@ export default function Home() {
           <div className="home-hero__visual">
             <AssetMedia asset={heroAsset} priority sizes="(min-width: 900px) 58vw, 100vw" />
             <p className="home-hero__statement">
-              <span>以脚步丈量历史</span>
-              <strong>以技术保存记忆</strong>
+              以脚步丈量历史
+              <span aria-hidden="true">·</span>
+              以技术保存记忆
             </p>
           </div>
-
-          <svg
-            className="home-hero__track"
-            viewBox="0 0 1200 180"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-          >
-            <path d="M-30 118 C155 26 260 162 430 94 S728 30 874 104 S1082 164 1240 48" />
-            <circle cx="430" cy="94" r="8" />
-            <circle cx="874" cy="104" r="8" />
-            <circle cx="1110" cy="112" r="8" />
-          </svg>
         </div>
 
         <EvidenceStrip
@@ -102,7 +96,6 @@ export default function Home() {
             { label: "主题路线", value: `${routeCount} 条` },
             { label: "史迹坐标", value: `${siteCount} 处` },
             { label: "记录方式", value: "影像 · 访谈 · 全景 · 资料整理" },
-            { label: "当前状态", value: "示意素材阶段" },
           ]}
         />
       </section>

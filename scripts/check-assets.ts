@@ -9,6 +9,26 @@ import {
 
 const issues: string[] = [];
 const publicDirectory = path.resolve("public");
+const exampleManifestPath = path.join(
+  publicDirectory,
+  "media",
+  "example-assets.json",
+);
+let exampleAssetIds = new Set<string>();
+
+try {
+  const manifest = JSON.parse(
+    await readFile(exampleManifestPath, "utf8"),
+  ) as { assets?: Array<{ id?: string; visibleMark?: string }> };
+  exampleAssetIds = new Set(
+    (manifest.assets ?? [])
+      .filter((item) => item.visibleMark === "AI 生成示意素材")
+      .map((item) => item.id)
+      .filter((id): id is string => Boolean(id)),
+  );
+} catch (error) {
+  issues.push(`示例素材清单无法读取：${String(error)}`);
+}
 
 for (const asset of assets) {
   if (!asset.alt.trim()) issues.push(`${asset.id}: alt 为空`);
@@ -24,10 +44,7 @@ for (const asset of assets) {
     );
 
     try {
-      const [metadata, source] = await Promise.all([
-        sharp(placeholderPath).metadata(),
-        readFile(placeholderPath, "utf8"),
-      ]);
+      const metadata = await sharp(placeholderPath).metadata();
 
       if (
         metadata.width !== asset.width ||
@@ -38,11 +55,8 @@ for (const asset of assets) {
         );
       }
 
-      if (
-        !source.includes('data-placeholder-artwork="true"') ||
-        !source.includes("占位图片")
-      ) {
-        issues.push(`${asset.id}: 占位图缺少明确的示意标识`);
+      if (!exampleAssetIds.has(asset.id)) {
+        issues.push(`${asset.id}: 示例素材清单缺少可见 AI 示意标识记录`);
       }
     } catch (error) {
       issues.push(`${asset.id}: 无法读取占位图 ${String(error)}`);

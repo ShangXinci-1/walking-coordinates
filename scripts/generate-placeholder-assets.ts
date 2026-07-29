@@ -1,4 +1,4 @@
-import { mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { assets } from "../data/assets";
 
@@ -65,6 +65,17 @@ for (const asset of assets) {
 
   const relativePath = asset.placeholderSrc.replace(/^\/+/, "");
   const outputPath = path.resolve("public", relativePath);
+
+  if (path.extname(outputPath).toLowerCase() !== ".svg") {
+    if (!existsSync(outputPath)) {
+      throw new Error(
+        `${asset.id}: 示例素材不存在。请运行 scripts/process-example-assets.ts 生成带标识的图像。`,
+      );
+    }
+    console.log(`Kept generated example asset ${relativePath}`);
+    continue;
+  }
+
   mkdirSync(path.dirname(outputPath), { recursive: true });
   writeFileSync(outputPath, createPlaceholderSvg(asset), "utf8");
   console.log(`Generated ${relativePath}`);

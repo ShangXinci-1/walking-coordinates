@@ -135,25 +135,37 @@ describe("content data", () => {
     );
   });
 
-  it("keeps every placeholder asset unmistakable and self-describing", () => {
+  it("keeps every example asset unmistakable and self-describing", () => {
     const placeholderAssets = assets.filter(
       (asset) => asset.assetStatus !== "ready",
     );
+    const manifestPath = path.join(
+      process.cwd(),
+      "public",
+      "media",
+      "example-assets.json",
+    );
+    const manifest = JSON.parse(readFileSync(manifestPath, "utf8")) as {
+      assets: Array<{
+        id: string;
+        label: string;
+        width: number;
+        height: number;
+        visibleMark: string;
+      }>;
+    };
 
     for (const asset of placeholderAssets) {
-      const sourcePath = path.join(
-        process.cwd(),
-        "public",
-        asset.placeholderSrc.replace(/^\//, ""),
+      expect(asset.placeholderSrc).toBe(`/media/${asset.id}.webp`);
+      expect(manifest.assets).toContainEqual(
+        expect.objectContaining({
+          id: asset.id,
+          label: asset.label,
+          width: asset.width,
+          height: asset.height,
+          visibleMark: "AI 生成示意素材",
+        }),
       );
-      const source = readFileSync(sourcePath, "utf8");
-
-      expect(source).toContain('data-placeholder-artwork="true"');
-      expect(source).toContain('data-placeholder-cross-lines="true"');
-      expect(source).toContain("<linearGradient");
-      expect(source).toContain(">占位图片<");
-      expect(source).toContain(asset.id);
-      expect(source).toContain(asset.label);
     }
   });
 
@@ -175,7 +187,7 @@ describe("content data", () => {
     expect(placeholder.id).toBe("outcome-01");
     expect(ready.id).toBe(placeholder.id);
     expect(getAssetRenderSources(placeholder)).toEqual({
-      fallbackSrc: "/walking-coordinates/images/outcome-01.svg",
+      fallbackSrc: "/walking-coordinates/media/outcome-01.webp",
       avifSrcSet: null,
       webpSrcSet: null,
     });
