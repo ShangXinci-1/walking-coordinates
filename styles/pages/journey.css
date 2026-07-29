@@ -684,39 +684,33 @@
 
   .amap-route-map,
   .amap-route-map__canvas {
-    height: 34rem;
+    height: clamp(24rem, 43.75vw, 36rem);
   }
 }
 
 @media (min-width: 73.75rem) {
   .journey-archive {
-    grid-template-columns:
-      minmax(14rem, 0.72fr)
-      minmax(31rem, 1.55fr)
-      minmax(21rem, 1fr);
+    grid-template-columns: minmax(16rem, 0.7fr) minmax(0, 2.3fr);
     grid-template-areas:
-      "route map dossier"
-      "sites map dossier";
-    align-items: stretch;
-  }
-
-  .route-index {
-    border-right: 0;
+      "route route"
+      "map map"
+      "sites dossier";
+    align-items: start;
   }
 
   .route-index__tabs {
-    display: block;
+    display: flex;
   }
 
   .route-index__tab {
-    width: 100%;
-    min-height: 8rem;
-    border-right: 0;
-    border-bottom: 1px solid rgba(222, 190, 151, 0.18);
+    width: auto;
+    min-height: 7rem;
+    border-right: 1px solid rgba(222, 190, 151, 0.18);
+    border-bottom: 0;
   }
 
   .route-index__tab:last-child {
-    border-bottom: 0;
+    border-right: 0;
   }
 
   .site-list {
@@ -729,11 +723,6 @@
 
   .journey-map-panel {
     border-left: 0;
-  }
-
-  .amap-route-map,
-  .amap-route-map__canvas {
-    height: 52rem;
   }
 }
 

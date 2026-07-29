@@ -4,6 +4,65 @@ test.beforeEach(async ({ page }) => {
   await page.route("https://webapi.amap.com/**", (route) => route.abort());
 });
 
+async function installWheelAwareAMapStub(page: import("@playwright/test").Page) {
+  await page.addInitScript({
+    content: `
+      (() => {
+        class FakeMap {
+          constructor(container, options) {
+            this.container = container;
+            this.handlers = new Map();
+            this.zoom = options.zoom;
+            window.__amapTestState = {
+              initialZoom: options.zoom,
+              zooms: options.zooms,
+              currentZoom: this.zoom,
+            };
+            container.replaceChildren(document.createElement("div"));
+            container.addEventListener("wheel", (event) => {
+              event.preventDefault();
+              this.zoom = Math.min(
+                options.zooms[1],
+                Math.max(
+                  options.zooms[0],
+                  this.zoom + (event.deltaY < 0 ? 1 : -1),
+                ),
+              );
+              window.__amapTestState.currentZoom = this.zoom;
+            }, { passive: false });
+            setTimeout(() => this.handlers.get("complete")?.(), 0);
+          }
+          add() {}
+          destroy() {}
+          getZoom() { return this.zoom; }
+          off(eventName, handler) {
+            if (this.handlers.get(eventName) === handler) {
+              this.handlers.delete(eventName);
+            }
+          }
+          on(eventName, handler) { this.handlers.set(eventName, handler); }
+          setCenter() {}
+          setZoom(zoom) {
+            this.zoom = zoom;
+            window.__amapTestState.currentZoom = zoom;
+          }
+        }
+
+        class FakeOverlay {
+          on() {}
+        }
+
+        window.AMap = {
+          Map: FakeMap,
+          Marker: FakeOverlay,
+          Pixel: class FakePixel {},
+          Polyline: FakeOverlay,
+        };
+      })();
+    `,
+  });
+}
+
 test("route and site selections are restored from shareable query parameters", async ({
   page,
 }) => {
@@ -151,6 +210,55 @@ test("AMap failure leaves a blank map while the archive remains usable", async (
   await expect(
     page.getByRole("heading", { level: 2, name: "宛平城" }),
   ).toBeVisible();
+});
+
+test("desktop map is horizontal and releases downward wheel scrolling at minimum zoom", async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440");
+  await installWheelAwareAMapStub(page);
+  await page.goto("./journey?route=awakening&site=beida-honglou");
+
+  const map = page.getByTestId("amap-route-map");
+  await expect(map).toHaveAttribute("data-map-status", "ready");
+  await expect(map).toHaveAttribute("data-map-min-zoom", "10");
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () =>
+          (
+            window as typeof window & {
+              __amapTestState?: {
+                initialZoom: number;
+                zooms: number[];
+                currentZoom: number;
+              };
+            }
+          ).__amapTestState,
+      ),
+    )
+    .toMatchObject({
+      initialZoom: 10,
+      zooms: [10, 18],
+      currentZoom: 10,
+    });
+
+  const mapBox = await map.boundingBox();
+  expect(mapBox).not.toBeNull();
+  expect(mapBox!.width / mapBox!.height).toBeGreaterThan(1.9);
+
+  await map.scrollIntoViewIfNeeded();
+  const visibleMapBox = await map.boundingBox();
+  expect(visibleMapBox).not.toBeNull();
+  await page.mouse.move(
+    visibleMapBox!.x + visibleMapBox!.width / 2,
+    visibleMapBox!.y + visibleMapBox!.height / 2,
+  );
+  const initialScrollY = await page.evaluate(() => window.scrollY);
+  await page.mouse.wheel(0, 640);
+  await expect
+    .poll(() => page.evaluate(() => window.scrollY))
+    .toBeGreaterThan(initialScrollY);
 });
 
 test("journey page never overflows the configured viewport", async ({ page }) => {

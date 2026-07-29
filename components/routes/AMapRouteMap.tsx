@@ -12,15 +12,11 @@ interface AMapOverlay {
 interface AMapInstance {
   add: (overlays: AMapOverlay | AMapOverlay[]) => void;
   destroy: () => void;
+  getZoom: () => number;
   off: (eventName: string, handler: () => void) => void;
   on: (eventName: string, handler: () => void) => void;
   setCenter: (position: [number, number]) => void;
-  setFitView: (
-    overlays?: AMapOverlay[],
-    immediately?: boolean,
-    avoid?: [number, number, number, number],
-    maxZoom?: number,
-  ) => void;
+  setZoom: (zoom: number) => void;
 }
 
 interface AMapNamespace {
@@ -49,6 +45,8 @@ interface AMapRouteMapProps {
 }
 
 let amapLoader: Promise<AMapNamespace> | null = null;
+const MIN_MAP_ZOOM = 10;
+const MAX_MAP_ZOOM = 18;
 
 function loadAMap(key: string, serviceHost: string) {
   if (window.AMap) return Promise.resolve(window.AMap);
@@ -109,6 +107,7 @@ export function AMapRouteMap({
   activeSiteId,
   onSelectSite,
 }: AMapRouteMapProps) {
+  const mapRootRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const selectSiteRef = useRef(onSelectSite);
   const mapKey = `${activeRouteId}:${activeSiteId}`;
@@ -121,6 +120,7 @@ export function AMapRouteMap({
 
   useEffect(() => {
     const container = containerRef.current;
+    const mapRoot = mapRootRef.current;
     const key = process.env.NEXT_PUBLIC_AMAP_JS_KEY?.trim();
     const serviceHost =
       process.env.NEXT_PUBLIC_AMAP_SERVICE_HOST?.trim() ||
@@ -128,6 +128,7 @@ export function AMapRouteMap({
     let cancelled = false;
     let map: AMapInstance | null = null;
     let completeHandler: (() => void) | null = null;
+    let wheelCaptureHandler: ((event: WheelEvent) => void) | null = null;
     let accessibilityObserver: MutationObserver | null = null;
 
     container?.replaceChildren();
@@ -156,10 +157,25 @@ export function AMapRouteMap({
 
         map = new AMap.Map(container, {
           center: [116.4074, 39.9042],
-          zoom: 10,
+          zoom: MIN_MAP_ZOOM,
+          zooms: [MIN_MAP_ZOOM, MAX_MAP_ZOOM],
           viewMode: "2D",
           mapStyle: "amap://styles/grey",
           features: ["bg", "road", "building", "point"],
+        });
+
+        wheelCaptureHandler = (event) => {
+          if (
+            event.deltaY > 0 &&
+            map &&
+            map.getZoom() <= MIN_MAP_ZOOM
+          ) {
+            event.stopPropagation();
+          }
+        };
+        mapRoot?.addEventListener("wheel", wheelCaptureHandler, {
+          capture: true,
+          passive: true,
         });
 
         completeHandler = () => {
@@ -225,7 +241,6 @@ export function AMapRouteMap({
 
         if (overlays.length > 0) {
           map.add(overlays);
-          map.setFitView(overlays, false, [56, 56, 56, 56], 13);
         }
 
         const activeSite = verifiedSites.find(
@@ -237,6 +252,7 @@ export function AMapRouteMap({
             activeSite.coordinate.lat,
           ]);
         }
+        map.setZoom(MIN_MAP_ZOOM);
       })
       .catch(() => {
         if (cancelled) return;
@@ -248,6 +264,11 @@ export function AMapRouteMap({
     return () => {
       cancelled = true;
       accessibilityObserver?.disconnect();
+      if (mapRoot && wheelCaptureHandler) {
+        mapRoot.removeEventListener("wheel", wheelCaptureHandler, {
+          capture: true,
+        });
+      }
       if (map && completeHandler) map.off("complete", completeHandler);
       map?.destroy();
       container.replaceChildren();
@@ -257,7 +278,9 @@ export function AMapRouteMap({
   return (
     <div
       className="amap-route-map"
+      ref={mapRootRef}
       data-map-status={mapStatus}
+      data-map-min-zoom={MIN_MAP_ZOOM}
       data-testid="amap-route-map"
       role="region"
       aria-label="北京革命史迹在线地图"
