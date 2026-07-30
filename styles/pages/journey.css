@@ -1491,7 +1491,7 @@
   position: absolute;
   inset: 0;
   opacity: 0;
-  transition: opacity 320ms var(--ease-out);
+  transition: opacity 750ms var(--ease-out);
   pointer-events: none;
 }
 
