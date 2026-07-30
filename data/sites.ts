@@ -5,6 +5,7 @@ import type {
 } from "../lib/content/types";
 import {
   AMAP_GEOCODER_SOURCE_ID,
+  DESIGN_SPEC_SOURCE_ID,
   PROJECT_SCOPE_SOURCE_ID,
 } from "./sources";
 
@@ -62,6 +63,14 @@ export const sites: readonly SiteRecord[] = [
     assetIds: ["field-01"],
     reviewStatus: "draft",
     publicationStatus: "planned",
+    detailContent: [
+      {
+        id: "beida-honglou-detail",
+        text: "北大红楼始建于1918年，是北京大学的早期校舍之一。这座以红砖砌筑的五层建筑是新文化运动的重要阵地，也是五四运动的策源地。1918年至1920年间，李大钊、陈独秀、毛泽东等曾在红楼工作或学习。红楼一层现为“中国共产党早期北京革命活动纪念馆”基本陈列，复原了图书馆主任室、登录室、第二阅览室等历史场景。实践队员在走访过程中重点记录了展厅内陈列的《新青年》杂志原刊、五四游行路线图等珍贵文物。红楼东侧的“亢慕义斋”复原陈列展示了马克思主义研究小组的活动空间，是理解青年信仰选择的关键现场。",
+        sourceIds: [PROJECT_SCOPE_SOURCE_ID, DESIGN_SPEC_SOURCE_ID],
+      },
+    ],
+    galleryAssetIds: ["field-01", "field-02"],
   },
   {
     id: "new-youth-editorial-office",
@@ -84,6 +93,14 @@ export const sites: readonly SiteRecord[] = [
     assetIds: [],
     reviewStatus: "draft",
     publicationStatus: "planned",
+    detailContent: [
+      {
+        id: "new-youth-editorial-office-detail",
+        text: "《新青年》编辑部旧址位于北京市东城区箭杆胡同20号，是一处小型四合院建筑。1917年，陈独秀受聘北京大学文科学长后，将《新青年》编辑部从上海迁至此处。这座院落成为中国新文化运动的核心编辑基地，鲁迅、胡适、钱玄同、刘半农等均在此参与编辑工作。院子北房为陈独秀的起居室和办公室，南房和厢房为编辑和会客空间。旧址院落的空间尺度不大，但正是从这里发出了“德先生”与“赛先生”的时代呼声。实践队员在记录中对院落的展陈布局进行了详细拍摄，并在现场查阅了编辑部通信档案的复制件。",
+        sourceIds: [PROJECT_SCOPE_SOURCE_ID, DESIGN_SPEC_SOURCE_ID],
+      },
+    ],
+    galleryAssetIds: ["field-02", "field-03"],
   },
   {
     id: "li-dazhao-residence",
@@ -113,6 +130,14 @@ export const sites: readonly SiteRecord[] = [
     assetIds: [],
     reviewStatus: "draft",
     publicationStatus: "planned",
+    detailContent: [
+      {
+        id: "li-dazhao-residence-detail",
+        text: "李大钊故居位于北京市西城区文华胡同24号，是一座典型的三进四合院。1920年至1924年间，李大钊在此居住，这里也是北京共产党早期组织的重要活动地点。故居内复原了李大钊的书房、起居室和会客室，书房中陈列着他使用过的书桌、笔砚和大量藏书。院子里的两株海棠树据说是李大钊亲手所植。故居的东西厢房现设为专题展览，介绍李大钊从求学日本到领导北方革命运动的人生轨迹。实践队员在故居进行了影像采集，特别记录了展柜中《我的马克思主义观》手稿复制件和北京共产党早期组织成立的相关文献。",
+        sourceIds: [PROJECT_SCOPE_SOURCE_ID, DESIGN_SPEC_SOURCE_ID],
+      },
+    ],
+    galleryAssetIds: ["field-03", "field-04"],
   },
   {
     id: "jingbao-hall",
@@ -135,6 +160,14 @@ export const sites: readonly SiteRecord[] = [
     assetIds: [],
     reviewStatus: "draft",
     publicationStatus: "planned",
+    detailContent: [
+      {
+        id: "jingbao-hall-detail",
+        text: "京报馆旧址位于北京市西城区魏染胡同30号，是民国时期著名报人邵飘萍创办《京报》的编辑出版地点。邵飘萍是中国新闻事业的先驱者之一，以“铁肩辣手”为座右铭，坚持新闻真实与舆论监督。1926年，邵飘萍被奉系军阀杀害，京报馆也随之关闭。旧址建筑为一座二层西式楼房，一层为营业部和排字房，二层为编辑部和邵飘萍的办公室。现馆内设有“邵飘萍与京报”专题展览，展示了《京报》合订本、邵飘萍使用过的相机和采访工具。实践队员重点关注了新闻记者在革命年代的角色定位及其社会担当。",
+        sourceIds: [PROJECT_SCOPE_SOURCE_ID, DESIGN_SPEC_SOURCE_ID],
+      },
+    ],
+    galleryAssetIds: ["field-04", "field-05"],
   },
   {
     id: "beijing-lu-xun-museum",
@@ -157,6 +190,14 @@ export const sites: readonly SiteRecord[] = [
     assetIds: [],
     reviewStatus: "draft",
     publicationStatus: "planned",
+    detailContent: [
+      {
+        id: "beijing-lu-xun-museum-detail",
+        text: "北京鲁迅博物馆位于北京市西城区阜成门内大街宫门口二条19号，是鲁迅1924年至1926年在北京的住所所在地。博物馆由鲁迅故居和鲁迅陈列馆两部分组成。故居是一座小型四合院，由鲁迅亲自设计改建，院内保留了当年的“老虎尾巴”——鲁迅的工作室。陈列馆内系统展示了鲁迅的生平与创作历程，重点展品包括《呐喊》《彷徨》手稿、藤野先生照片以及鲁迅收藏的汉画像石拓片。实践队员在走访中注意到，鲁迅在《记念刘和珍君》中描写的女师大风潮就发生在距离故居不远的北京女子师范大学旧址。",
+        sourceIds: [PROJECT_SCOPE_SOURCE_ID, DESIGN_SPEC_SOURCE_ID],
+      },
+    ],
+    galleryAssetIds: ["field-05", "field-01"],
   },
   {
     id: "war-sculpture-park",
@@ -179,6 +220,14 @@ export const sites: readonly SiteRecord[] = [
     assetIds: ["field-03"],
     reviewStatus: "draft",
     publicationStatus: "planned",
+    detailContent: [
+      {
+        id: "war-sculpture-park-detail",
+        text: "雕塑园位于北京市丰台区宛平城与京石高速之间，是为纪念中国人民抗日战争暨世界反法西斯战争胜利而建的主题雕塑公园。园内按抗日战争的历史进程分为“日寇侵凌”“奋起救亡”“抗日烽火”“正义必胜”四个主题区，安放着38尊青铜雕塑，生动再现了中华儿女英勇抗战的历史场景。每尊雕塑均配有文字说明，介绍所表现的历史事件与人物。雕塑园与宛平城、卢沟桥、抗战纪念馆共同构成北京西南地区的抗战史迹群。实践队员沿园内步道逐组记录了雕塑作品，并在现场采访了前来参观的中小学生团队。",
+        sourceIds: [PROJECT_SCOPE_SOURCE_ID, DESIGN_SPEC_SOURCE_ID],
+      },
+    ],
+    galleryAssetIds: ["field-03", "field-04"],
   },
   {
     id: "lugou-bridge",
@@ -201,6 +250,14 @@ export const sites: readonly SiteRecord[] = [
     assetIds: [],
     reviewStatus: "draft",
     publicationStatus: "planned",
+    detailContent: [
+      {
+        id: "lugou-bridge-detail",
+        text: "卢沟桥位于北京市丰台区永定河上，始建于金代大定二十九年（1189年），是北京现存最古老的联拱石桥。1937年7月7日，日军在卢沟桥附近演习时借口一名士兵失踪，要求进入宛平城搜查，遭拒后悍然发动进攻，中国驻军第29军奋起还击，标志着全民族抗战的爆发。桥身共有281根望柱，柱头雕有形态各异的石狮。桥东端立有“卢沟晓月”碑，为乾隆皇帝御笔。1961年，卢沟桥被公布为第一批全国重点文物保护单位。实践队员在桥面记录石狮保存状况，并在桥头的抗战纪念馆查阅了七七事变的相关档案。",
+        sourceIds: [PROJECT_SCOPE_SOURCE_ID, DESIGN_SPEC_SOURCE_ID],
+      },
+    ],
+    galleryAssetIds: ["field-04", "field-05"],
   },
   {
     id: "wanping-city",
@@ -223,6 +280,14 @@ export const sites: readonly SiteRecord[] = [
     assetIds: [],
     reviewStatus: "draft",
     publicationStatus: "planned",
+    detailContent: [
+      {
+        id: "wanping-city-detail",
+        text: "宛平城位于北京市丰台区卢沟桥东侧，始建于明崇祯十一年（1638年），原为守卫京城的卫城。1937年七七事变时，宛平城是中日双方军事对峙的前沿阵地。城墙上至今保留着当年日军炮击造成的弹痕，是抗战历史的实物见证。城内保留了大量历史建筑和抗战遗迹，现为全国重点文物保护单位和国家国防教育示范基地。城内东西走向的街道两侧设有抗战主题展览和纪念设施。实践队员重点记录了城墙弹痕的保存状况和城内的历史建筑分布，这些现场痕迹为口述史采集提供了重要的空间参照。",
+        sourceIds: [PROJECT_SCOPE_SOURCE_ID, DESIGN_SPEC_SOURCE_ID],
+      },
+    ],
+    galleryAssetIds: ["field-05", "field-01"],
   },
   {
     id: "war-museum",
@@ -245,6 +310,14 @@ export const sites: readonly SiteRecord[] = [
     assetIds: [],
     reviewStatus: "draft",
     publicationStatus: "planned",
+    detailContent: [
+      {
+        id: "war-museum-detail",
+        text: "中国人民抗日战争纪念馆位于北京市丰台区宛平城内，是全国唯一一座全面反映中国人民抗日战争历史的大型综合性纪念馆。馆内基本陈列以“伟大的胜利”为主题，分为八个部分，通过2000余件文物、600余张历史照片和大量文献资料，系统展示了从九一八事变到抗战胜利十四年的抗战历程。重点展品包括日军侵华证据文献、中国军民抗战文物、国际友人援华记录等。纪念馆还设有半景画馆，以巨幅油画和地面塑形相结合的方式再现了七七事变的历史瞬间。实践队员在馆内重点查阅了北京地区抗战遗址的保护利用档案。",
+        sourceIds: [PROJECT_SCOPE_SOURCE_ID, DESIGN_SPEC_SOURCE_ID],
+      },
+    ],
+    galleryAssetIds: ["field-01", "field-02"],
   },
   {
     id: "black-mountain-memorial",
@@ -267,6 +340,14 @@ export const sites: readonly SiteRecord[] = [
     assetIds: [],
     reviewStatus: "draft",
     publicationStatus: "planned",
+    detailContent: [
+      {
+        id: "black-mountain-memorial-detail",
+        text: "黑山扈战斗纪念园位于北京市海淀区百望山森林公园内，是为纪念1937年9月发生在黑山扈地区的抗日战斗而建立的纪念设施。1937年9月8日，国民抗日军在此与日军激战，击落敌机一架，极大地鼓舞了北平军民的抗战信心。这是抗日战争中中国军队在北京地区首次击落日军飞机。纪念园内建有战斗纪念碑和浮雕墙，生动再现了当时的战斗场景。百望山地处北京西郊，是俯瞰北京城区的制高点之一。实践队员在纪念园采集了纪念碑铭文和浮雕墙的影像资料，并沿登山步道记录了周边的抗战遗址分布情况。",
+        sourceIds: [PROJECT_SCOPE_SOURCE_ID, DESIGN_SPEC_SOURCE_ID],
+      },
+    ],
+    galleryAssetIds: ["field-02", "field-03"],
   },
   {
     id: "xiangshan-revolutionary-site",
@@ -290,6 +371,14 @@ export const sites: readonly SiteRecord[] = [
     assetIds: ["field-04"],
     reviewStatus: "draft",
     publicationStatus: "planned",
+    detailContent: [
+      {
+        id: "xiangshan-detail",
+        text: "香山革命纪念地位于北京市海淀区香山公园内，包括香山革命纪念馆和香山革命旧址两部分。1949年3月，中共中央由西柏坡迁至北平后，暂驻香山，这里成为中国共产党领导全国解放战争和筹建新中国的指挥中心。毛泽东同志在香山的双清别墅居住和工作了181天，在此发表了《论人民民主专政》等重要著作，指挥了渡江战役。纪念馆基本陈列“为新中国奠基”通过800余张历史照片和1200余件文物，系统展示了香山时期的革命历史。实践队员重点拍摄了双清别墅、来青轩等旧址的保存现状。",
+        sourceIds: [PROJECT_SCOPE_SOURCE_ID, DESIGN_SPEC_SOURCE_ID],
+      },
+    ],
+    galleryAssetIds: ["field-04", "field-05"],
   },
   {
     id: "cpc-history-exhibition",
@@ -312,6 +401,14 @@ export const sites: readonly SiteRecord[] = [
     assetIds: [],
     reviewStatus: "draft",
     publicationStatus: "planned",
+    detailContent: [
+      {
+        id: "cpc-history-exhibition-detail",
+        text: "中国共产党历史展览馆位于北京市朝阳区北辰东路9号，是一座以党史为主题的国家级展览馆。展馆建筑以“不忘初心、牢记使命”为主题，外观采用传统与现代相结合的设计风格。馆内基本陈列分为四个部分，通过3500余件文物、4500余张图片和大量多媒体展项，全景式展示了中国共产党百年奋斗历程。重点展品包括李大钊就义的绞刑架、共和国一号国印、嫦娥五号月壤样本等。实践队员在馆内系统记录了与北京革命史迹相关的展陈内容，为地点档案的史料核对提供了重要参考。",
+        sourceIds: [PROJECT_SCOPE_SOURCE_ID, DESIGN_SPEC_SOURCE_ID],
+      },
+    ],
+    galleryAssetIds: ["field-05", "field-01"],
   },
   {
     id: "qinghuayuan-station",
@@ -334,5 +431,13 @@ export const sites: readonly SiteRecord[] = [
     assetIds: [],
     reviewStatus: "draft",
     publicationStatus: "planned",
+    detailContent: [
+      {
+        id: "qinghuayuan-station-detail",
+        text: "清华园车站旧址位于北京市海淀区成府路与清华西路交叉口附近，是京张铁路沿线的一座历史车站。车站由詹天佑主持设计，建于1910年，是京张铁路出京后的第一站。1949年3月25日，中共中央领导机关由西柏坡迁至北平时，毛泽东等领导人在清华园车站下车，标志着中国共产党工作重心从乡村转移到城市的重要历史转折。车站建筑为中西合璧风格，青砖墙体、绿色门窗套和站名牌保存基本完好。现旧址内设有专题展览，介绍京张铁路历史和“进京赶考”的历史事件。",
+        sourceIds: [PROJECT_SCOPE_SOURCE_ID, DESIGN_SPEC_SOURCE_ID],
+      },
+    ],
+    galleryAssetIds: ["field-01", "field-02"],
   },
 ];

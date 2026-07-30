@@ -5,7 +5,6 @@ import { routes } from "../../data/routes";
 import {
   getAssetById,
   getSitesForRoute,
-  getSourcesForSite,
 } from "../../lib/content/selectors";
 import {
   createJourneySearch,
@@ -14,6 +13,7 @@ import {
 import type { RouteRecord, SiteRecord } from "../../lib/content/types";
 import { AMapRouteMap } from "./AMapRouteMap";
 import { RouteIndex } from "./RouteIndex";
+import { SiteDetailOverlay } from "./SiteDetailOverlay";
 import { SiteDossier } from "./SiteDossier";
 import { SiteList } from "./SiteList";
 
@@ -50,14 +50,9 @@ export function JourneyExplorer() {
   const asset = selection.site.assetIds[0]
     ? (getAssetById(selection.site.assetIds[0]) ?? null)
     : null;
-  const [copyResult, setCopyResult] = useState<{
-    siteId: string;
-    state: "copied" | "failed";
-  } | null>(null);
-  const copyState =
-    copyResult?.siteId === selection.site.id ? copyResult.state : "idle";
   const [mapOpen, setMapOpen] = useState(false);
   const [mapMounted, setMapMounted] = useState(false);
+  const [overlaySiteId, setOverlaySiteId] = useState<string | null>(null);
   const [announcement, setAnnouncement] = useState("");
   const pendingMobileDossierFocus = useRef<string | null>(null);
 
@@ -138,18 +133,6 @@ export function JourneyExplorer() {
     }
   }
 
-  async function copyCurrentLink() {
-    const url = new URL(window.location.href);
-    url.search = selection.canonicalSearch;
-
-    try {
-      await navigator.clipboard.writeText(url.toString());
-      setCopyResult({ siteId: selection.site.id, state: "copied" });
-    } catch {
-      setCopyResult({ siteId: selection.site.id, state: "failed" });
-    }
-  }
-
   function toggleMap() {
     setMapOpen((open) => {
       const nextOpen = !open;
@@ -212,12 +195,9 @@ export function JourneyExplorer() {
           route={selection.route}
           site={selection.site}
           asset={asset}
-          sources={getSourcesForSite(selection.site)}
           previousSite={previousSite}
           nextSite={nextSite}
-          copyState={copyState}
-          onSelectSite={selectSite}
-          onCopyLink={copyCurrentLink}
+          onImageClick={() => setOverlaySiteId(selection.site.id)}
         />
         <section className="journey-map-panel" aria-labelledby="map-panel-title">
           <header className="journey-map-panel__header">
@@ -302,6 +282,13 @@ export function JourneyExplorer() {
       <p className="sr-only" aria-live="polite">
         {announcement}
       </p>
+
+      {overlaySiteId && (
+        <SiteDetailOverlay
+          site={selection.site}
+          onClose={() => setOverlaySiteId(null)}
+        />
+      )}
     </>
   );
 }

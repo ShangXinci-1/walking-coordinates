@@ -87,6 +87,10 @@ export interface SiteRecord {
   historySummary: SourcedContentBlock[];
   practiceSummary: SourcedContentBlock[];
   assetIds: string[];
+  /** Detailed narrative content shown in the site detail overlay */
+  detailContent: SourcedContentBlock[];
+  /** Asset IDs for the image carousel in the detail overlay */
+  galleryAssetIds: string[];
   reviewStatus: ReviewStatus;
   publicationStatus: PublicationStatus;
 }

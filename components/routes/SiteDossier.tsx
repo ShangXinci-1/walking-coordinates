@@ -1,21 +1,13 @@
 import { AssetMedia, EvidenceStrip, StatusBadge } from "..";
-import type {
-  AssetRecord,
-  RouteRecord,
-  SiteRecord,
-  SourceRecord,
-} from "../../lib/content/types";
+import type { AssetRecord, RouteRecord, SiteRecord } from "../../lib/content/types";
 
 interface SiteDossierProps {
   route: RouteRecord;
   site: SiteRecord;
   asset: AssetRecord | null;
-  sources: readonly SourceRecord[];
   previousSite: SiteRecord | null;
   nextSite: SiteRecord | null;
-  copyState: "idle" | "copied" | "failed";
-  onSelectSite: (site: SiteRecord) => void;
-  onCopyLink: () => void;
+  onImageClick: () => void;
 }
 
 const targetLabels = {
@@ -37,37 +29,13 @@ function getCoordinateLabel(site: SiteRecord) {
   return "待人工核验";
 }
 
-function ArchiveSection({
-  title,
-  blocks,
-  emptyText,
-}: {
-  title: string;
-  blocks: SiteRecord["historySummary"];
-  emptyText: string;
-}) {
-  return (
-    <section className="dossier-section">
-      <h3>{title}</h3>
-      {blocks.length > 0 ? (
-        blocks.map((block) => <p key={block.id}>{block.text}</p>)
-      ) : (
-        <p className="dossier-section__empty">{emptyText}</p>
-      )}
-    </section>
-  );
-}
-
 export function SiteDossier({
   route,
   site,
   asset,
-  sources,
   previousSite,
   nextSite,
-  copyState,
-  onSelectSite,
-  onCopyLink,
+  onImageClick,
 }: SiteDossierProps) {
   const archiveId = `WC-${route.code}-${String(site.order).padStart(2, "0")}`;
 
@@ -117,91 +85,31 @@ export function SiteDossier({
         </div>
       </dl>
 
-      {asset ? (
-        <div className="site-dossier__media">
-          <AssetMedia asset={asset} sizes="(min-width: 1180px) 28vw, 100vw" />
-        </div>
-      ) : (
-        <div className="site-dossier__media-empty">
-          <span>素材记录</span>
-          <strong>当前地点尚无素材条目</strong>
-          <small>正式图片到位后在此保留来源、授权与用途信息。</small>
-        </div>
-      )}
-
-      <ArchiveSection
-        title="历史摘要"
-        blocks={site.historySummary}
-        emptyText="历史摘要待来源核验后整理。"
-      />
-      <ArchiveSection
-        title="实践记录"
-        blocks={site.practiceSummary}
-        emptyText="团队实践记录待现场材料归档后补录。"
-      />
-
-      <section className="dossier-section dossier-sources">
-        <h3>资料来源</h3>
-        <ol>
-          {sources.map((source) => (
-            <li key={source.id}>
-              {source.url ? (
-                <a href={source.url} target="_blank" rel="noreferrer">
-                  <strong>{source.title}</strong>
-                  <span>
-                    {source.publisher} · {source.level} 级来源
-                  </span>
-                </a>
-              ) : (
-                <div>
-                  <strong>{source.title}</strong>
-                  <span>
-                    {source.publisher} · {source.level} 级来源
-                  </span>
-                </div>
-              )}
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      <div className="site-dossier__share">
-        <button type="button" onClick={onCopyLink}>
-          {copyState === "copied"
-            ? "链接已复制"
-            : copyState === "failed"
-              ? "重新复制链接"
-              : "复制当前档案链接"}
-        </button>
-        <span className="sr-only" aria-live="polite">
-          {copyState === "copied"
-            ? `${site.name.value}档案链接已复制`
-            : copyState === "failed"
-              ? "链接复制失败，请重试"
-              : ""}
+      {/* ── clickable image ── */}
+      <button
+        type="button"
+        className="site-dossier__media-trigger"
+        aria-label={`打开${site.name.value}详细介绍`}
+        onClick={onImageClick}
+      >
+        {asset ? (
+          <div className="site-dossier__media">
+            <AssetMedia
+              asset={asset}
+              sizes="(min-width: 1180px) 28vw, 100vw"
+            />
+          </div>
+        ) : (
+          <div className="site-dossier__media-empty">
+            <span>素材记录</span>
+            <strong>当前地点尚无素材条目</strong>
+            <small>正式图片到位后在此保留来源、授权与用途信息。</small>
+          </div>
+        )}
+        <span className="site-dossier__media-hint" aria-hidden="true">
+          查看详细介绍 →
         </span>
-      </div>
-
-      <nav className="site-dossier__pager" aria-label="相邻地点">
-        <button
-          type="button"
-          disabled={!previousSite}
-          onClick={() => previousSite && onSelectSite(previousSite)}
-        >
-          <span aria-hidden="true">←</span>
-          <small>上一地点</small>
-          <strong>{previousSite?.name.value ?? "已到起点"}</strong>
-        </button>
-        <button
-          type="button"
-          disabled={!nextSite}
-          onClick={() => nextSite && onSelectSite(nextSite)}
-        >
-          <small>下一地点</small>
-          <strong>{nextSite?.name.value ?? "已到终点"}</strong>
-          <span aria-hidden="true">→</span>
-        </button>
-      </nav>
+      </button>
     </article>
   );
 }
