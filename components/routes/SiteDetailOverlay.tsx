@@ -134,10 +134,12 @@ export function SiteDetailOverlay({ site, onClose }: SiteDetailOverlayProps) {
           >
             <div className="site-overlay__carousel-stage">
               {currentAsset ? (
-                <ResponsiveMedia
-                  asset={currentAsset}
-                  sizes="(min-width: 900px) 54vw, 96vw"
-                />
+                <div className="site-overlay__carousel-image" key={imageIndex}>
+                  <ResponsiveMedia
+                    asset={currentAsset}
+                    sizes="(min-width: 900px) 54vw, 96vw"
+                  />
+                </div>
               ) : (
                 <div className="site-overlay__carousel-empty">
                   <span>暂无可展示的影像素材</span>
