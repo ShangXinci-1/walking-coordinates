@@ -1476,12 +1476,29 @@
 .site-overlay__carousel-stage {
   aspect-ratio: 16 / 10;
   overflow: hidden;
+  position: relative;
 }
 
-.site-overlay__carousel-image {
+/* ── crossfade track ── */
+
+.site-overlay__carousel-track {
+  position: relative;
   width: 100%;
   height: 100%;
-  animation: carousel-image-in 280ms var(--ease-out) both;
+}
+
+.site-overlay__carousel-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 320ms var(--ease-out);
+  pointer-events: none;
+}
+
+.site-overlay__carousel-slide[data-active="true"] {
+  position: relative;
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .site-overlay__carousel-stage .responsive-picture,
@@ -1647,16 +1664,6 @@
   }
 }
 
-@keyframes carousel-image-in {
-  from {
-    opacity: 0;
-    transform: scale(1.03);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
 
 @media (max-width: 47.99rem) {
   .site-overlay-backdrop {
@@ -1686,8 +1693,8 @@
     animation: none;
   }
 
-  .site-overlay__carousel-image {
-    animation: none;
+    .site-overlay__carousel-slide {
+    transition: none;
   }
 
   .site-overlay__carousel-btn,

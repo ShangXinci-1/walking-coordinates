@@ -46,7 +46,7 @@ export function SiteDetailOverlay({ site, onClose }: SiteDetailOverlayProps) {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const galleryAssets = site.galleryAssetIds
     .map((id) => getAssetById(id))
-    .filter(Boolean);
+    .filter((a): a is NonNullable<typeof a> => !!a);
   const currentAsset = galleryAssets[imageIndex] ?? null;
   const hasMultipleImages = galleryAssets.length > 1;
 
@@ -133,13 +133,26 @@ export function SiteDetailOverlay({ site, onClose }: SiteDetailOverlayProps) {
             aria-label="地点影像集"
           >
             <div className="site-overlay__carousel-stage">
-              {currentAsset ? (
-                <div className="site-overlay__carousel-image" key={imageIndex}>
-                  <ResponsiveMedia
-                    asset={currentAsset}
-                    sizes="(min-width: 900px) 54vw, 96vw"
-                  />
+              {hasMultipleImages ? (
+                <div className="site-overlay__carousel-track">
+                  {galleryAssets.map((asset, i) => (
+                    <div
+                      key={i}
+                      className="site-overlay__carousel-slide"
+                      data-active={i === imageIndex}
+                    >
+                      <ResponsiveMedia
+                        asset={asset}
+                        sizes="(min-width: 900px) 54vw, 96vw"
+                      />
+                    </div>
+                  ))}
                 </div>
+              ) : currentAsset ? (
+                <ResponsiveMedia
+                  asset={currentAsset}
+                  sizes="(min-width: 900px) 54vw, 96vw"
+                />
               ) : (
                 <div className="site-overlay__carousel-empty">
                   <span>暂无可展示的影像素材</span>
