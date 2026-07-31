@@ -582,12 +582,12 @@
 
 @media (max-width: 700px) {
   .outcomes-hero__copy {
-    padding: 48px var(--gutter);
+    padding: 36px var(--gutter);
   }
 
   .outcomes-hero h1 {
-    font-size: clamp(2.3rem, 10.5vw, 3.4rem);
-    line-height: 1.05;
+    font-size: clamp(1.9rem, 8.5vw, 2.8rem);
+    line-height: 1.06;
   }
 
   .outcomes-hero__lead {

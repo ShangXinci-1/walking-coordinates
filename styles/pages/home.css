@@ -832,13 +832,13 @@
 
   .home-method,
   .home-outcomes {
-    padding-block: clamp(56px, 13vw, 72px);
+    padding-block: clamp(44px, 10vw, 60px);
   }
 
   .home-method__intro h2,
   .home-section-heading h2,
   .home-closing h2 {
-    font-size: clamp(1.9rem, 9vw, 2.6rem);
+    font-size: clamp(1.65rem, 7.8vw, 2.3rem);
   }
 
   .home-method__steps {
