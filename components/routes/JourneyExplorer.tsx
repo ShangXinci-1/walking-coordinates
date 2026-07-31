@@ -50,6 +50,9 @@ export function JourneyExplorer() {
   const asset = selection.site.assetIds[0]
     ? (getAssetById(selection.site.assetIds[0]) ?? null)
     : null;
+  const galleryAssets = selection.site.galleryAssetIds
+    .map((id) => getAssetById(id))
+    .filter((a): a is NonNullable<typeof a> => !!a);
   const [mapOpen, setMapOpen] = useState(false);
   const [mapMounted, setMapMounted] = useState(false);
   const [overlaySiteId, setOverlaySiteId] = useState<string | null>(null);
@@ -195,6 +198,7 @@ export function JourneyExplorer() {
           route={selection.route}
           site={selection.site}
           asset={asset}
+          galleryAssets={galleryAssets}
           previousSite={previousSite}
           nextSite={nextSite}
           onImageClick={() => setOverlaySiteId(selection.site.id)}

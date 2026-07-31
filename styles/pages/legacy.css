@@ -330,22 +330,32 @@
 
 @media (max-width: 700px) {
   .legacy-hero__copy {
-    padding: 64px var(--gutter);
+    padding: 48px var(--gutter);
   }
 
   .legacy-hero h1 {
-    font-size: clamp(2.9rem, 13vw, 4.2rem);
+    font-size: clamp(2.3rem, 10.5vw, 3.4rem);
+    line-height: 1.05;
+  }
+
+  .legacy-hero__lead {
+    font-size: 0.9375rem;
+    line-height: 1.7;
   }
 
   .legacy-section-heading {
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 16px;
+  }
+
+  .legacy-section-heading h2 {
+    font-size: clamp(1.85rem, 8.5vw, 2.5rem);
   }
 
   .legacy-impact__feature li,
   .legacy-timeline__body li {
-    grid-template-columns: 36px minmax(0, 1fr);
-    padding: 28px 0;
+    grid-template-columns: 32px minmax(0, 1fr);
+    padding: 22px 0;
   }
 
   .legacy-impact__feature li .status-badge,
@@ -354,6 +364,6 @@
   }
 
   .legacy-closing__copy {
-    padding: 64px var(--gutter);
+    padding: 48px var(--gutter);
   }
 }

@@ -177,13 +177,6 @@
   font-weight: 900;
 }
 
-.outcome-record__header p {
-  margin: 0;
-  color: var(--muted-light);
-  font-size: 0.75rem;
-  font-weight: 750;
-}
-
 .outcome-record__header h3 {
   margin: 8px 0 0;
   font-size: clamp(1.9rem, 3.1vw, 3.35rem);
@@ -191,6 +184,7 @@
 }
 
 .outcome-record__media {
+  position: relative;
   min-width: 0;
   min-height: 500px;
   background: var(--ink);
@@ -224,49 +218,19 @@
   line-height: 1.55;
 }
 
-.outcome-record__body dl {
-  margin: 34px 0 0;
-  display: grid;
-  gap: 0;
+.outcome-record__intro {
+  margin: 24px 0 0;
+  padding-top: 20px;
   border-top: 1px solid var(--line-dark);
-}
-
-.outcome-record__body dl div {
-  padding: 14px 0;
   display: grid;
-  grid-template-columns: 120px minmax(0, 1fr);
-  gap: 20px;
-  border-bottom: 1px solid var(--line-dark);
+  gap: 14px;
 }
 
-.outcome-record__body dt {
-  color: var(--muted-light);
-  font-size: 0.75rem;
-  font-weight: 750;
-}
-
-.outcome-record__body dd {
+.outcome-record__intro p {
   margin: 0;
-  font-size: 0.88rem;
-  font-weight: 750;
-}
-
-.outcome-record__gate {
-  margin-top: 34px;
-  padding-top: 22px;
-  border-top: 2px solid var(--red);
-}
-
-.outcome-record__gate strong {
-  color: var(--red-bright-accessible);
-  font-size: 0.8rem;
-}
-
-.outcome-record__gate p {
-  margin: 10px 0 0;
   color: var(--muted-light);
-  font-size: 0.88rem;
-  line-height: 1.7;
+  font-size: 0.95rem;
+  line-height: 1.85;
 }
 
 .outcome-record__access {
@@ -279,6 +243,92 @@
   color: var(--red);
   font-weight: 850;
 }
+
+.outcome-record__access[data-kind="exhibition"] {
+  appearance: none;
+  padding: 0 2px;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: color 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
+}
+
+.outcome-record__access[data-kind="exhibition"]:hover {
+  color: var(--red-bright-accessible);
+  border-color: var(--red-bright-accessible);
+}
+
+.outcome-record__access[data-kind="exhibition"]:focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 3px;
+}
+/* ── 图片底部居中 VR 入口按钮 ── */
+.outcome-record__vr {
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  z-index: 3;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 20px;
+  border: 1px solid oklch(1 0 0 / 0.25);
+  border-radius: 999px;
+  background: oklch(0.08 0 0 / 0.78);
+  color: var(--paper-pure);
+  text-decoration: none;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 16px oklch(0 0 0 / 0.35);
+  transition: background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), transform 0.15s var(--ease-out);
+}
+
+.outcome-record__vr:hover {
+  background: oklch(0.15 0 0 / 0.9);
+  border-color: var(--amber);
+}
+
+.outcome-record__vr:active {
+  transform: translateX(-50%) scale(0.97);
+}
+
+.outcome-record__vr:focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 3px;
+}
+
+.outcome-record__vr-icon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--red-bright);
+  color: var(--paper-pure);
+  font-size: 14px;
+}
+
+.outcome-record__vr small {
+  display: block;
+  color: var(--amber);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.outcome-record__vr strong {
+  display: block;
+  margin-top: 2px;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.outcome-record__vr > span:last-child {
+  color: var(--amber);
+  font-size: 16px;
+}
+
 
 .outcome-gallery {
   padding: var(--section-space) var(--gutter);
@@ -532,11 +582,17 @@
 
 @media (max-width: 700px) {
   .outcomes-hero__copy {
-    padding: 64px var(--gutter);
+    padding: 48px var(--gutter);
   }
 
   .outcomes-hero h1 {
-    font-size: clamp(2.9rem, 13vw, 4.2rem);
+    font-size: clamp(2.3rem, 10.5vw, 3.4rem);
+    line-height: 1.05;
+  }
+
+  .outcomes-hero__lead {
+    font-size: 0.9375rem;
+    line-height: 1.7;
   }
 
   .outcomes-hero__summary {
@@ -554,12 +610,17 @@
   .outcome-ledger__heading,
   .outcome-gallery__heading {
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 16px;
+  }
+
+  .outcome-ledger__heading h2,
+  .outcome-gallery__heading h2 {
+    font-size: clamp(1.85rem, 8.5vw, 2.5rem);
   }
 
   .outcome-record__header {
-    grid-template-columns: 42px minmax(0, 1fr);
-    gap: 14px;
+    grid-template-columns: 38px minmax(0, 1fr);
+    gap: 12px;
   }
 
   .outcome-record__header .status-badge {
@@ -567,11 +628,11 @@
   }
 
   .outcome-record__body {
-    padding: 44px 0 58px;
+    padding: 32px 0 42px;
   }
 
   .outcome-record__body dl div {
-    grid-template-columns: 104px minmax(0, 1fr);
+    grid-template-columns: 96px minmax(0, 1fr);
   }
 
   .outcome-gallery__grid {
@@ -625,12 +686,439 @@
   }
 
   .outcomes-closing {
-    min-height: 560px;
+    min-height: 440px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .outcome-gallery__item img {
     transition: none;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   线上展厅浏览器（VR 分支选择）
+   ═══════════════════════════════════════════ */
+
+.exhibition-browser {
+  position: fixed;
+  z-index: 80;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: oklch(0.08 0.01 24 / 0.97);
+  color: var(--paper-pure);
+  backdrop-filter: blur(6px);
+  animation: exhibition-in 0.32s var(--ease-out) both;
+}
+
+@keyframes exhibition-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.exhibition-browser__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding: clamp(20px, 3vw, 36px) clamp(20px, 4vw, 56px);
+  border-bottom: 1px solid oklch(1 0 0 / 0.12);
+}
+
+.exhibition-browser__eyebrow {
+  display: inline-block;
+  margin-bottom: 8px;
+  color: var(--amber);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.exhibition-browser__header h2 {
+  margin: 0;
+  font-size: clamp(22px, 3vw, 36px);
+  letter-spacing: -0.02em;
+}
+
+.exhibition-browser__header p {
+  margin: 8px 0 0;
+  color: oklch(1 0 0 / 0.6);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.exhibition-browser__close {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 10px 18px;
+  border: 1px solid oklch(1 0 0 / 0.25);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--paper-pure);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  transition: background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
+}
+
+.exhibition-browser__close:hover {
+  background: oklch(1 0 0 / 0.1);
+  border-color: var(--amber);
+}
+
+.exhibition-browser__close:focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 3px;
+}
+
+/* ── 布局：左 VR 场景 + 右地点分支 ── */
+.exhibition-browser__layout {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(320px, 0.9fr);
+  gap: 0;
+}
+
+.exhibition-browser__stage {
+  position: relative;
+  min-height: 0;
+  background: #000;
+}
+
+.exhibition-browser__cover {
+  width: 100%;
+  height: 100%;
+  min-height: 480px;
+  object-fit: cover;
+  display: block;
+  animation: exhibition-cover-in 0.5s var(--ease-out) both;
+}
+
+@keyframes exhibition-cover-in {
+  from {
+    opacity: 0.55;
+    transform: scale(1.03);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.exhibition-browser__stage-info {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 18px;
+  background: linear-gradient(transparent, oklch(0.05 0 0 / 0.85));
+  pointer-events: none;
+}
+
+.exhibition-browser__enter {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: var(--target-size);
+  padding: 0 26px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--red-bright);
+  color: var(--paper-pure);
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 18px oklch(0 0 0 / 0.4);
+  pointer-events: auto;
+  transition: background-color 0.2s var(--ease-out), transform 0.15s var(--ease-out);
+}
+
+.exhibition-browser__enter:hover:not(:disabled) {
+  background: var(--red);
+}
+
+.exhibition-browser__enter:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.exhibition-browser__enter:focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 3px;
+}
+
+.exhibition-browser__enter:disabled {
+  background: oklch(1 0 0 / 0.12);
+  color: oklch(1 0 0 / 0.5);
+  cursor: not-allowed;
+}
+
+.exhibition-browser__empty {
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background:
+    radial-gradient(ellipse at 50% 40%, oklch(0.25 0.06 24 / 0.6), transparent 65%),
+    #0b0c0c;
+}
+
+.exhibition-browser__empty span {
+  color: var(--amber);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.exhibition-browser__empty strong {
+  font-size: 24px;
+}
+
+.exhibition-browser__empty small {
+  color: oklch(1 0 0 / 0.5);
+}
+
+.exhibition-browser__stage-label {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: oklch(0.08 0.01 24 / 0.85);
+  backdrop-filter: blur(4px);
+  font-size: 13px;
+}
+
+.exhibition-browser__stage-label span {
+  color: var(--amber);
+  font-weight: 800;
+}
+
+.exhibition-browser__stage-label strong {
+  font-weight: 800;
+}
+
+/* ── 地点分支列表 ── */
+.exhibition-browser__sites {
+  min-height: 0;
+  overflow-y: auto;
+  padding: clamp(20px, 2.5vw, 32px);
+  border-left: 1px solid oklch(1 0 0 / 0.1);
+}
+
+.exhibition-browser__sites-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 0 0 20px;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.exhibition-browser__sites-title small {
+  color: oklch(1 0 0 / 0.45);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.exhibition-browser__group {
+  margin-bottom: 22px;
+}
+
+.exhibition-browser__group h3 {
+  margin: 0 0 8px;
+  color: var(--amber);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.exhibition-browser__group ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.exhibition-browser__site {
+  appearance: none;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: oklch(1 0 0 / 0.78);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
+}
+
+.exhibition-browser__site:hover {
+  background: oklch(1 0 0 / 0.06);
+}
+
+.exhibition-browser__site:focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 2px;
+}
+
+.exhibition-browser__site[data-active="true"] {
+  background: var(--red);
+  border-color: var(--red);
+  color: var(--paper-pure);
+}
+
+.exhibition-browser__site[data-available="false"] {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.exhibition-browser__site-no {
+  color: var(--amber);
+  font-size: 12px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.exhibition-browser__site-name {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.exhibition-browser__site-status {
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: oklch(1 0 0 / 0.08);
+  color: oklch(1 0 0 / 0.55);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.exhibition-browser__site[data-active="true"] .exhibition-browser__site-status {
+  background: oklch(1 0 0 / 0.18);
+  color: oklch(1 0 0 / 0.9);
+}
+
+/* ── 底部操作条 ── */
+.exhibition-browser__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 14px clamp(20px, 4vw, 56px);
+  border-top: 1px solid oklch(1 0 0 / 0.12);
+  font-size: 13px;
+}
+
+.exhibition-browser__footer > span {
+  color: oklch(1 0 0 / 0.55);
+}
+
+.exhibition-browser__external {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  border: 0;
+  border-bottom: 1px solid var(--amber);
+  background: transparent;
+  color: var(--amber);
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.exhibition-browser__external:hover:not(:disabled) {
+  color: var(--paper-pure);
+  border-color: var(--paper-pure);
+}
+
+.exhibition-browser__external:focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 3px;
+}
+
+.exhibition-browser__external:disabled {
+  color: oklch(1 0 0 / 0.3);
+  border-color: oklch(1 0 0 / 0.3);
+  cursor: not-allowed;
+}
+
+/* ── 响应式 ── */
+@media (max-width: 980px) {
+  .exhibition-browser__layout {
+    grid-template-columns: 1fr;
+    overflow-y: auto;
+  }
+
+  .exhibition-browser__stage {
+    min-height: 420px;
+  }
+
+  .exhibition-browser__cover,
+  .exhibition-browser__empty {
+    min-height: 420px;
+  }
+
+  .exhibition-browser__sites {
+    border-left: 0;
+    border-top: 1px solid oklch(1 0 0 / 0.1);
+  }
+
+  .exhibition-browser__group ol {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px;
+  }
+}
+
+@media (max-width: 560px) {
+  .exhibition-browser__header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .exhibition-browser__close {
+    align-self: flex-end;
+  }
+
+  .exhibition-browser__group ol {
+    grid-template-columns: 1fr;
+  }
+
+  .exhibition-browser__footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .exhibition-browser {
+    animation: none;
   }
 }

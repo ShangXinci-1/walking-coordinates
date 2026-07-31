@@ -106,15 +106,16 @@ export default function Home() {
           <div>
             <h2 id="method-title">从现场出发，让材料经过核验后再被看见。</h2>
             <p>
-              每一步都有明确动作与对应证据。尚未完成的内容保持筹备状态，
-              不用推断或生成内容填补空白。
+              从寻访、采集、解码到传播，每一步都有清晰的动作与产出。
+              团队以影像、访谈、全景和笔记保存现场，
+              让历史在数字空间继续发生。
             </p>
           </div>
         </header>
 
         <ol className="home-method__steps">
           {practiceSteps.map((step, index) => (
-            <li key={step.id}>
+            <li key={step.id} data-step={String(index + 1).padStart(2, "0")}>
               <span className="home-method__number">
                 {String(index + 1).padStart(2, "0")}
               </span>
@@ -185,7 +186,7 @@ export default function Home() {
 
       <section className="home-outcomes" aria-labelledby="outcomes-title">
         <header className="home-section-heading">
-          <p>成果是否可访问，由真实交付状态决定</p>
+          <p>从现场采集到数字呈现，成果正在逐步成形</p>
           <h2 id="outcomes-title">四项成果，公开状态清楚可见</h2>
           <a href={withBasePath("/outcomes")}>查看成果状态 →</a>
         </header>

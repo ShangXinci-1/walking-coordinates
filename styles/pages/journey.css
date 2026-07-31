@@ -448,6 +448,53 @@
   line-height: 1.55;
 }
 
+/* ── dossier carousel controls ── */
+
+.site-dossier__media-wrapper {
+  position: relative;
+}
+
+.site-dossier__carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.site-dossier__carousel-btn {
+  appearance: none;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid rgba(222, 190, 151, 0.3);
+  border-radius: 50%;
+  background: rgba(17, 18, 18, 0.85);
+  color: #f2eee8;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 180ms var(--ease-out), border-color 180ms var(--ease-out);
+}
+
+.site-dossier__carousel-btn:hover {
+  background: rgba(215, 168, 95, 0.2);
+  border-color: #d7a85f;
+}
+
+.site-dossier__carousel-btn:focus-visible {
+  outline: 2px solid #d7a85f;
+  outline-offset: 2px;
+}
+
+.site-dossier__carousel-counter {
+  font-size: 0.8rem;
+  color: rgba(242, 238, 232, 0.6);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}
+
 .dossier-section {
   padding: 1.5rem 0;
   border-bottom: 1px solid rgba(222, 190, 151, 0.16);
@@ -1257,7 +1304,9 @@
 @media (max-width: 47.99rem) {
   .journey-intro {
     grid-template-columns: 1fr;
-    padding-top: 3rem;
+    padding-top: 2.25rem;
+    padding-bottom: 2rem;
+    gap: 1.25rem;
   }
 
   .journey-intro__index {
@@ -1265,11 +1314,17 @@
   }
 
   .journey-intro h1 {
-    font-size: clamp(2.35rem, 12vw, 3.7rem);
+    font-size: clamp(2rem, 10.5vw, 3.2rem);
+    line-height: 1.05;
+  }
+
+  .journey-intro__lead {
+    font-size: 0.9375rem;
+    line-height: 1.7;
   }
 
   .journey-intro__summary {
-    margin-top: 0.5rem;
+    margin-top: 0.25rem;
   }
 
   .journey-archive {
@@ -1284,12 +1339,60 @@
     border-left: 0;
   }
 
+  .route-index__tabs {
+    gap: 0.5rem;
+    padding: 0.75rem var(--gutter);
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .route-index__tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .route-index__tab {
+    gap: 0.75rem;
+    padding: 0.75rem;
+    scroll-snap-align: start;
+    border-radius: 0.625rem;
+  }
+
+  .route-index__visual {
+    width: 4.5rem;
+    min-height: 3.4rem;
+  }
+
+  .site-dossier__carousel-controls {
+    gap: 0.75rem;
+    margin-top: 0.625rem;
+  }
+
+  .site-dossier__carousel-btn {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-color: rgba(215, 168, 95, 0.4);
+    background: rgba(17, 18, 18, 0.9);
+    font-size: 1.25rem;
+  }
+
+  .site-dossier__carousel-counter {
+    font-size: 0.875rem;
+    padding: 0.25rem 0.875rem;
+    border: 1px solid rgba(215, 168, 95, 0.3);
+    border-radius: 999px;
+    color: #d7a85f;
+  }
+
   .site-dossier {
     scroll-margin-top: calc(var(--header-height) + 0.75rem);
+    padding: 1.5rem var(--gutter) 1.75rem;
   }
 
   .site-dossier__header {
     flex-direction: column;
+    gap: 0.5rem;
   }
 
   .site-dossier .evidence-strip {
@@ -1305,6 +1408,10 @@
     border-top: 1px solid rgba(222, 190, 151, 0.17);
   }
 
+  .site-dossier__facts {
+    gap: 0.25rem 1rem;
+  }
+
   .site-dossier__pager {
     grid-template-columns: 1fr;
   }
@@ -1314,9 +1421,22 @@
     border-left: 0;
   }
 
+  .journey-map-panel__header {
+    padding: 1.25rem var(--gutter);
+  }
+
+  .journey-map-panel__toggle {
+    margin-inline: var(--gutter);
+  }
+
   .journey-map-panel__footer {
     align-items: flex-start;
     flex-direction: column;
+    padding-inline: var(--gutter);
+  }
+
+  .journey-sequence {
+    padding: 1.5rem var(--gutter);
   }
 
   .journey-page > footer {

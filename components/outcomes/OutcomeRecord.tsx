@@ -3,21 +3,21 @@ import { getRequiredAssetById } from "../../lib/content/selectors";
 import { AssetMedia } from "../AssetMedia";
 import { StatusBadge } from "../StatusBadge";
 
-const completionLabels = {
-  planned: "尚未交付",
-  "in-progress": "制作中",
-  complete: "已完成",
-} as const;
-
 interface OutcomeRecordProps {
   outcome: OutcomeRecord;
+  onOpenExhibition?: () => void;
+  vrUrl?: string | null;
 }
 
-export function OutcomeRecordView({ outcome }: OutcomeRecordProps) {
+export function OutcomeRecordView({
+  outcome,
+  onOpenExhibition,
+  vrUrl,
+}: OutcomeRecordProps) {
   const asset = outcome.assetId
     ? getRequiredAssetById(outcome.assetId)
     : null;
-  const isComplete = outcome.completionStatus === "complete";
+  const isExhibition = outcome.id === "digital-exhibition";
 
   return (
     <article
@@ -28,7 +28,6 @@ export function OutcomeRecordView({ outcome }: OutcomeRecordProps) {
       <header className="outcome-record__header">
         <span>{String(outcome.order).padStart(2, "0")}</span>
         <div>
-          <p>{completionLabels[outcome.completionStatus]}</p>
           <h3>{outcome.title.value}</h3>
         </div>
         <StatusBadge status={outcome.publicationStatus} />
@@ -40,6 +39,24 @@ export function OutcomeRecordView({ outcome }: OutcomeRecordProps) {
             asset={asset}
             sizes="(min-width: 980px) 48vw, 100vw"
           />
+          {/* VR 入口：浮在图片右下角 */}
+          {vrUrl && (
+            <a
+              className="outcome-record__vr"
+              href={vrUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span className="outcome-record__vr-icon" aria-hidden="true">
+                ◉
+              </span>
+              <span>
+                <small>VR 全景</small>
+                <strong>进入现场</strong>
+              </span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          )}
         </div>
       )}
 
@@ -47,41 +64,22 @@ export function OutcomeRecordView({ outcome }: OutcomeRecordProps) {
         <p className="outcome-record__description">
           {outcome.description[0].text}
         </p>
-        <dl>
-          <div>
-            <dt>成果负责人</dt>
-            <dd>
-              {outcome.ownerRole === "outcome-owner"
-                ? "项目成果负责人（待确认）"
-                : outcome.ownerRole}
-            </dd>
-          </div>
-          <div>
-            <dt>最近更新</dt>
-            <dd>
-              <time dateTime={outcome.updatedAt}>{outcome.updatedAt}</time>
-            </dd>
-          </div>
-          <div>
-            <dt>公开状态</dt>
-            <dd>{outcome.publicationStatus === "ready" ? "可访问" : "不可访问"}</dd>
-          </div>
-        </dl>
+        <div className="outcome-record__intro">
+          {outcome.description.slice(1).map((block) => (
+            <p key={block.id}>{block.text}</p>
+          ))}
+        </div>
 
-        {isComplete ? (
-          <a
+        {isExhibition && onOpenExhibition && (
+          <button
+            type="button"
             className="outcome-record__access"
-            href={outcome.access.href}
-            data-kind={outcome.access.kind}
+            data-kind="exhibition"
+            onClick={onOpenExhibition}
           >
-            {outcome.access.label}
-            <span aria-hidden="true">↗</span>
-          </a>
-        ) : (
-          <div className="outcome-record__gate">
-            <strong>达到以下条件后开放</strong>
-            <p>{outcome.deliveryCondition}</p>
-          </div>
+            进入展厅浏览
+            <span aria-hidden="true">→</span>
+          </button>
         )}
       </div>
     </article>

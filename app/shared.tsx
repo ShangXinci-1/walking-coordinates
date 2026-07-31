@@ -52,7 +52,13 @@ export function SiteHeader() {
           href={withBasePath("/")}
         >
           <span className="global-header__mark" aria-hidden="true">
-            北科
+            <img
+              className="global-header__badge"
+              src={withBasePath("/images/team-badge.png")}
+              alt=""
+              width={38}
+              height={38}
+            />
           </span>
           <span className="global-header__wordmark">
             <strong>{project.title.value}</strong>

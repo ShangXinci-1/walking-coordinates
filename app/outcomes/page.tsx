@@ -1,7 +1,11 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState } from "react";
 import { AssetMedia, StatusBadge } from "../../components";
+import { ExhibitionBrowser } from "../../components/outcomes/ExhibitionBrowser";
 import { OutcomeGallery } from "../../components/outcomes/OutcomeGallery";
 import { OutcomeRecordView } from "../../components/outcomes/OutcomeRecord";
+import { exhibitionSites } from "../../data/exhibition";
 import {
   getGalleryAssets,
   getOrderedOutcomes,
@@ -9,12 +13,6 @@ import {
 } from "../../lib/content/selectors";
 import { withBasePath } from "../../lib/site";
 import { SiteFooter, SiteHeader } from "../shared";
-
-export const metadata: Metadata = {
-  title: "数字成果",
-  description:
-    "查看数字线上展厅、数字档案、主题微电影和实践调研报告的真实完成与公开状态。",
-};
 
 export default function OutcomesPage() {
   const outcomes = getOrderedOutcomes();
@@ -28,6 +26,10 @@ export default function OutcomesPage() {
   const inProgressCount = outcomes.filter(
     (outcome) => outcome.completionStatus === "in-progress",
   ).length;
+  const [exhibitionOpen, setExhibitionOpen] = useState(false);
+  const exhibitionVrUrl =
+    exhibitionSites.find((site) => site.id === "beida-honglou")?.vrUrl ??
+    null;
 
   return (
     <main className="outcomes-page">
@@ -92,7 +94,14 @@ export default function OutcomesPage() {
 
         <div className="outcome-ledger__records">
           {outcomes.map((outcome) => (
-            <OutcomeRecordView outcome={outcome} key={outcome.id} />
+            <OutcomeRecordView
+              outcome={outcome}
+              key={outcome.id}
+              onOpenExhibition={() => setExhibitionOpen(true)}
+              vrUrl={
+                outcome.id === "digital-exhibition" ? exhibitionVrUrl : null
+              }
+            />
           ))}
         </div>
       </section>
@@ -115,6 +124,10 @@ export default function OutcomesPage() {
       </section>
 
       <SiteFooter />
+
+      {exhibitionOpen && (
+        <ExhibitionBrowser onClose={() => setExhibitionOpen(false)} />
+      )}
     </main>
   );
 }

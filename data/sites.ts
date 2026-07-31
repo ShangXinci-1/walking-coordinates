@@ -66,11 +66,13 @@ export const sites: readonly SiteRecord[] = [
     detailContent: [
       {
         id: "beida-honglou-detail",
-        text: "北大红楼始建于1918年，是北京大学的早期校舍之一。这座以红砖砌筑的五层建筑是新文化运动的重要阵地，也是五四运动的策源地。1918年至1920年间，李大钊、陈独秀、毛泽东等曾在红楼工作或学习。红楼一层现为“中国共产党早期北京革命活动纪念馆”基本陈列，复原了图书馆主任室、登录室、第二阅览室等历史场景。实践队员在走访过程中重点记录了展厅内陈列的《新青年》杂志原刊、五四游行路线图等珍贵文物。红楼东侧的“亢慕义斋”复原陈列展示了马克思主义研究小组的活动空间，是理解青年信仰选择的关键现场。",
+        text: "【建馆背景】北大红楼始建于1916年9月，发起者是时任校长胡仁源和预科学长徐崇钦。当时预科学生宿舍严重不足，学生多侨居在外漫无约束，校方遂向比利时仪品公司借款22万大洋，计划建造一栋学生宿舍楼。1916年12月，蔡元培被任命为北大校长。随着他大刀阔斧的改革和学校规模扩大，全校学生增至2000余人，校舍更为紧张。1918年3月，学校决定将这座在建大楼改为教学办公用房，作为文科教室、研究所、图书馆及校部机关所在地，称为“北大第一院”。1918年8月，大楼正式竣工。建筑通体红砖砌筑、红瓦铺顶，平面呈工字形，地上四层、半地下一层。因全楼红砖红瓦，故俗称“红楼”。大楼建筑面积约1万平方米，融合西洋古典风格与中国传统元素，是当年北京城最具现代气息的建筑之一。\n\n【新文化运动的大本营】蔡元培提出“思想自由，兼容并包”的办学方针，陈独秀、李大钊、鲁迅、胡适等新文化运动主将汇聚于此。1918年12月，陈独秀与李大钊在红楼创办《每周评论》。红楼地下室印刷厂印制了《新青年》《新潮》等进步刊物，民主与科学的旗帜在这里高高飘扬。\n\n【五四运动的策源地】1919年5月3日，巴黎和会中国外交失败的消息传来，北大学生在红楼连夜起草《北京全体学界通告》，赶制旗帜标语。5月4日下午，北大学生从红楼北面操场集合出发，与北京十余所学校三千余人齐集天安门前游行示威，“外争主权、内除国贼”的口号响彻云霄。\n\n【马克思主义传播的中心】李大钊任北大图书馆主任期间，将红楼一层图书馆办成传播马克思主义的阵地。1920年3月，他指导邓中夏、高君宇等成立马克思学说研究会。毛泽东1918年10月至1919年3月在红楼二层第二阅览室任助理员，在此接受马克思主义。\n\n【中国共产党的重要发祥地】1920年10月，北京共产党早期组织“共产党小组”在红楼图书馆主任室成立，李大钊任书记。中共一大召开时全国50多名党员中，大部分曾在北大红楼工作或学习过。\n\n1961年，北大红楼被列为全国重点文物保护单位。如今，这座百年红楼作为中国共产党早期北京革命活动纪念馆，静静伫立在五四大街，无声诉说着那段波澜壮阔的历史。",
         sourceIds: [PROJECT_SCOPE_SOURCE_ID, DESIGN_SPEC_SOURCE_ID],
       },
     ],
-    galleryAssetIds: ["field-01", "field-02"],
+    galleryAssetIds: [
+      "beida-honglou-01", "beida-honglou-02", "beida-honglou-03", "beida-honglou-04", "beida-honglou-05", "beida-honglou-06", "beida-honglou-07", "beida-honglou-08", "beida-honglou-09", "beida-honglou-10", "beida-honglou-11",
+    ],
   },
   {
     id: "new-youth-editorial-office",
@@ -81,7 +83,10 @@ export const sites: readonly SiteRecord[] = [
       value: "《新青年》编辑部旧址",
       sourceIds: [PROJECT_SCOPE_SOURCE_ID],
     },
-    officialAddress: null,
+    officialAddress: {
+      value: "北京市东城区北池子大街箭杆胡同20号",
+      sourceIds: ["source-beijing-red-tourism-directory"],
+    },
     coordinateTarget: "main-entrance",
     coordinate: verifiedCoordinate(
       116.404106,
@@ -96,11 +101,13 @@ export const sites: readonly SiteRecord[] = [
     detailContent: [
       {
         id: "new-youth-editorial-office-detail",
-        text: "《新青年》编辑部旧址位于北京市东城区箭杆胡同20号，是一处小型四合院建筑。1917年，陈独秀受聘北京大学文科学长后，将《新青年》编辑部从上海迁至此处。这座院落成为中国新文化运动的核心编辑基地，鲁迅、胡适、钱玄同、刘半农等均在此参与编辑工作。院子北房为陈独秀的起居室和办公室，南房和厢房为编辑和会客空间。旧址院落的空间尺度不大，但正是从这里发出了“德先生”与“赛先生”的时代呼声。实践队员在记录中对院落的展陈布局进行了详细拍摄，并在现场查阅了编辑部通信档案的复制件。",
+        text: "《新青年》编辑部旧址相关资料\n一、基础信息\n全称：《新青年》编辑部旧址（陈独秀旧居）\n地址：北京市东城区北池子大街箭杆胡同20号（旧门牌为箭杆胡同9号）\n旧址性质：陈独秀1917年至1920年在北京的居所，也是《新青年》编辑部在北京时期的重要办公、议事地点。\n保护利用：2001年公布为北京市文物保护单位；2021年作为“北大红楼与中国共产党早期北京革命活动旧址”组成部分对外开放。\n建筑概况\n旧址原为一座清代四合院私宅，建筑面积约189平方米。院内现存北房三间、南房三间以及靠街门的一间倒座小房，空间并不宽阔。北房在当年主要承担编辑部功能，南房为陈独秀及家人居住之处。今天北房设置“历史上的《新青年》”专题展，南房设置“陈独秀在北京”专题展。居住空间与编辑空间同处一院，是理解这处旧址的第一把钥匙：当时许多影响全国的思想活动，最初就是在普通住宅、学校办公室与小型印刷传播网络中展开的。\n二、历史背景\n1. 从上海创刊到迁入北京\n1915年9月15日，陈独秀在上海创办《青年杂志》，并在创刊号发表《敬告青年》。1916年9月出版第二卷第一号时，刊物改名为《新青年》。1917年1月，陈独秀受蔡元培聘请出任北京大学文科学长，北上后租住箭杆胡同院落，《新青年》编辑部也随之由上海迁到北京。刊物与北京大学新派学人由此形成密切联系，“一刊一校”相互激荡，箭杆胡同小院逐渐成为新文化运动的重要思想节点。\n2. 从个人主编到同人刊物\n从1918年1月出版的第四卷第一号起，《新青年》由陈独秀个人主编改为同人刊物。李大钊、胡适、钱玄同、刘半农、高一涵、沈尹默、鲁迅等先后参与编辑或撰稿。编辑部同人在此讨论选题、组织稿件，围绕伦理、文学、教育、妇女、科学与社会改造展开争论。1918年5月，鲁迅的《狂人日记》刊于第四卷第五号；同年，李大钊陆续发表介绍俄国十月革命及其世界意义的文章。杂志不再只是一本刊物，而成为连接作者、读者、学校、社团和社会运动的公共平台。\n三、思想转向与历史进程\n1. 新文化运动的“编辑中枢”\n《新青年》早期最鲜明的任务，是反思辛亥革命以后社会变革未能深入的原因，并把目光转向人的思想、伦理与知识结构。它倡导民主与科学，推动白话文和文学革命，批判封建礼教及盲从、守旧的社会心理。许多后来被视为现代中国思想史标志的文章，并非孤立出现，而是在杂志持续组稿、互相回应和公开论争中形成。箭杆胡同旧址所见证的，正是“编辑”如何成为一种组织思想和塑造公共议题的实践。\n2. 马克思主义早期传播的重要平台\n俄国十月革命后，李大钊在《新青年》发表《法俄革命之比较观》《庶民的胜利》《Bolshevism的胜利》等文章。1919年，第六卷第五、六号刊载《我的马克思主义观》，较为系统地介绍马克思主义学说。杂志的思想重心由文化启蒙逐渐扩展到社会革命、劳工问题与马克思主义研究，一批被新文化运动唤醒的青年也开始寻求更具组织性和实践性的救国道路。\n3. 北京阶段的结束与刊物后续\n1920年2月，陈独秀为躲避北洋军阀政府迫害离开北京赴上海，《新青年》编辑部随之迁回上海。同年9月以后，《新青年》成为上海共产党早期组织的机关刊物；1923年又成为中共中央机关理论刊物，直至1926年停刊。因此，箭杆胡同旧址对应的是《新青年》的北京编辑时期及其新文化运动、五四运动和马克思主义早期传播阶段；刊物后来作为党组织刊物的发展，则发生在编辑部迁沪之后。两段历史彼此连续，但不应在空间上混为一处。\n四、历史意义\n（一）思想史意义\n这里见证了现代中国一批知识分子对“人如何获得独立人格、国家如何走向新生、社会如何实现根本改造”的集中追问。民主、科学、白话文学、妇女解放、劳工与社会主义等议题在同一刊物中交汇，反映出近代思想从文化启蒙走向社会革命的复杂过程。\n（二）传播史意义\n《新青年》把分散的作者、读者与社团组织成跨地域的思想网络。狭小院落与全国影响之间的强烈反差说明，现代公共舆论的力量不取决于场所是否宏大，而取决于编辑、印刷、发行、阅读和讨论能否形成连续链条。\n（三）革命史意义\n《新青年》推动马克思主义在中国的早期传播，并对五四时期青年产生广泛影响。许多受到刊物启发的青年后来转向马克思主义和有组织的革命实践。旧址因而成为理解新文化运动、五四运动与中国共产党创建之间思想联系的重要地点。",
         sourceIds: [PROJECT_SCOPE_SOURCE_ID, DESIGN_SPEC_SOURCE_ID],
       },
     ],
-    galleryAssetIds: ["field-02", "field-03"],
+    galleryAssetIds: [
+      "new-youth-editorial-01", "new-youth-editorial-02", "new-youth-editorial-03", "new-youth-editorial-04", "new-youth-editorial-05", "new-youth-editorial-06", "new-youth-editorial-07", "new-youth-editorial-08", "new-youth-editorial-09", "new-youth-editorial-10",
+    ],
   },
   {
     id: "li-dazhao-residence",
@@ -133,11 +140,13 @@ export const sites: readonly SiteRecord[] = [
     detailContent: [
       {
         id: "li-dazhao-residence-detail",
-        text: "李大钊故居位于北京市西城区文华胡同24号，是一座典型的三进四合院。1920年至1924年间，李大钊在此居住，这里也是北京共产党早期组织的重要活动地点。故居内复原了李大钊的书房、起居室和会客室，书房中陈列着他使用过的书桌、笔砚和大量藏书。院子里的两株海棠树据说是李大钊亲手所植。故居的东西厢房现设为专题展览，介绍李大钊从求学日本到领导北方革命运动的人生轨迹。实践队员在故居进行了影像采集，特别记录了展柜中《我的马克思主义观》手稿复制件和北京共产党早期组织成立的相关文献。",
+        text: "一、基础信息\n全称：北京李大钊故居\n地址：北京市西城区文华胡同24号（旧址为石驸马大街后宅35号北院）\n居住时间：1920年春至1924年1月，是李大钊在故乡河北乐亭之外与家人共同生活时间最长的一处住所。\n保护利用：1979年公布为北京市文物保护单位；2007年正式对社会开放。\n建筑概况\n故居是一座占地约550平方米的小三合院，院门开在北墙。有北房三间，东、西耳房各两间，东、西厢房各三间。北房东屋为李大钊与夫人赵纫兰的卧室，东耳房为长女李星华的卧室，东厢房有长子李葆华的卧室和客房，西厢房则是李大钊的书房。院落规模普通，陈设简朴，却同时承担家庭生活、读书写作、接待青年和革命联络等多重功能。\n二、历史背景\n1. 从新文化运动先驱到马克思主义传播者\n李大钊1916年回国后在北京工作，投身新文化运动。1918年任北京大学图书馆主任后，他利用报刊、讲演、课程和图书馆资源介绍俄国十月革命与马克思主义，并与陈独秀等共同推动《新青年》《每周评论》等刊物。1920年春入住此处时，他已成为中国传播马克思主义最有影响力的先驱之一。此后的四年，也是他的理论研究、建党活动和北方革命工作迅速展开的时期。\n2. 建党活动与北方革命工作的展开\n1920年，李大钊发起成立北京共产党早期组织，积极推动马克思学说研究和工人运动。中国共产党成立后，他代表中共中央指导北方地区工作。中共北方党组织的一些重要会议曾在故居西厢房书房召开，许多青年学生、进步人士和革命者也来此商谈、求教或暂住。这个家庭院落由此成为学校与社会、理论与组织之间的一个联结点。\n3. 统一战线与更广阔的政治实践\n在此居住期间，李大钊还参与推动建立国民革命统一战线，促成第一次国共合作，并持续领导北方工人、学生和民众运动。他的工作已不限于著书立说，而是把马克思主义研究转化为政党建设、群众组织和现实政治行动。1924年1月前后，他离开文华胡同寓所，随后赴广州参加中国国民党第一次全国代表大会。故居所对应的，正是他由思想传播者进一步成为职业革命组织者的重要阶段。\n三、家庭空间中的革命生活\n李大钊身为北京大学教授和图书馆主任，却长期租住在普通院落中，生活俭朴。故居既保留了夫妇卧室、子女房间和日常生活陈设，也保存了书房、会客和会议空间的历史记忆。许多青年在这里得到帮助和教诲，家庭成员也在长期耳濡目染中走上革命道路。与大型会议会址相比，这处小院更能说明早期革命并非只发生在公开集会和宏大场面中，也存在于写作、阅读、接待、照料、掩护与日常关系之中。\n四、历史意义\n（一）马克思主义中国化早期探索的见证\n李大钊并非停留在译介概念，而是努力把马克思主义同中国的社会现实、劳工问题和革命任务联系起来。故居时期的研究、讲演与组织实践，体现了先进理论由文本进入现实的过程。\n（二）中国共产党创建与北方党组织活动的见证\n1920—1924年间，李大钊参与创建中国共产党并领导北方革命工作。书房中的会谈和会议，使一处普通住宅成为早期党组织网络中的重要节点。这里的价值不只在于“名人曾居住”，更在于它承载了组织关系的形成和延续。\n（三）革命者人格与家国关系的见证\n故居把李大钊作为思想家、革命家、教师、丈夫与父亲的多重身份放在同一空间中。它提醒参观者：历史人物并非抽象符号，宏大理想要通过具体生活承担代价，也要依靠家庭、友人和青年群体的支持。\n五、两处旧址如何合读\n《新青年》编辑部旧址更侧重展示思想怎样经由编辑、刊物和公开论争形成社会影响；李大钊故居则更侧重展示思想怎样进入研究、建党、组织和群众工作。前者可概括为“文字成为公共力量”，后者可概括为“理论转化为组织行动”。两处旧址共同说明，中国共产党创建并非突然发生，而是在新文化运动、五四运动、马克思主义传播、青年觉醒和早期组织实践的连续演变中逐步形成。",
         sourceIds: [PROJECT_SCOPE_SOURCE_ID, DESIGN_SPEC_SOURCE_ID],
       },
     ],
-    galleryAssetIds: ["field-03", "field-04"],
+    galleryAssetIds: [
+      "li-dazhao-01", "li-dazhao-02", "li-dazhao-03", "li-dazhao-04", "li-dazhao-05", "li-dazhao-06", "li-dazhao-07", "li-dazhao-08", "li-dazhao-09", "li-dazhao-10", "li-dazhao-11", "li-dazhao-12",
+    ],
   },
   {
     id: "jingbao-hall",
@@ -148,7 +157,10 @@ export const sites: readonly SiteRecord[] = [
       value: "京报馆旧址",
       sourceIds: [PROJECT_SCOPE_SOURCE_ID, directorySource],
     },
-    officialAddress: null,
+    officialAddress: {
+      value: "北京市西城区椿树街道魏染胡同30号、32号",
+      sourceIds: ["source-beijing-red-tourism-directory"],
+    },
     coordinateTarget: "main-entrance",
     coordinate: verifiedCoordinate(
       116.380723,
@@ -163,11 +175,13 @@ export const sites: readonly SiteRecord[] = [
     detailContent: [
       {
         id: "jingbao-hall-detail",
-        text: "京报馆旧址位于北京市西城区魏染胡同30号，是民国时期著名报人邵飘萍创办《京报》的编辑出版地点。邵飘萍是中国新闻事业的先驱者之一，以“铁肩辣手”为座右铭，坚持新闻真实与舆论监督。1926年，邵飘萍被奉系军阀杀害，京报馆也随之关闭。旧址建筑为一座二层西式楼房，一层为营业部和排字房，二层为编辑部和邵飘萍的办公室。现馆内设有“邵飘萍与京报”专题展览，展示了《京报》合订本、邵飘萍使用过的相机和采访工具。实践队员重点关注了新闻记者在革命年代的角色定位及其社会担当。",
+        text: "京报馆相关资料\n一、基础信息\n全称：京报馆旧址（邵飘萍故居）\n地址：北京市西城区椿树街道魏染胡同30号、32号\n建筑概况\n占地面积1120㎡，建筑面积约820㎡，1925年10月落成。由邵飘萍挚友吴定九设计，中西合璧二层临街小楼+两座四合院。30号为报馆办公地，门楣“京报馆”三字为邵飘萍亲笔题写；32号是邵飘萍一家居所。\n二、历史背景\n1. 《京报》诞生与迁徙\n1918年10月5日，邵飘萍创办进步报纸《京报》，发刊词立下宗旨：必使政府听命于正当民意之前。 于1925年迁入魏染胡同现址，是民国时期中国北方唯一拥有自建馆舍的报社。邵飘萍目睹民生困苦、强权当道，立志新闻救国，创办独立民间报纸《京报》，希望依靠舆论监督政府、唤醒民众。《京报》坚持独立办报，不依附军阀、不受外国资本操控。积极声援五四运动，持续抨击北洋反动势力，介绍十月革命，传播马克思主义。鲁迅曾在《京报》创办《莽原》周刊，大量杂文在此刊发。\n2. “铁肩辣手”——邵飘萍的一生\n邵飘萍（1886—1926），近代杰出报人、中国共产党早期秘密党员、中国新闻教育先驱。影壁上铁肩辣手四字，化用明代杨继盛名句“铁肩担道义，辣手著文章”，是邵飘萍毕生信条。“铁肩”代表担当道义；“辣手”代表不畏强权、秉笔直书。20世纪20年代北洋军阀统治时期，政局动荡，各路军阀割据混战，舆论受到严厉管控。当时大量报刊依附军阀、外国势力，缺少独立发声的进步媒体。他创办北京新闻编译社，打破外国通讯社垄断国内新闻市场；他曾任北大新闻学研究会讲师，毛泽东曾在此聆听他讲授新闻学；1925年，邵飘萍经李大钊、罗章龙介绍秘密加入中国共产党；1926年4月24日邵飘萍遭军阀张作霖诱捕，4月26日英勇就义，年仅40岁；同日《京报》被查封。民间评价：飘萍一支笔，抵过十万军。邵飘萍牺牲后，夫人汤修慧接续重振《京报》，报纸几经停刊、复刊，最终落幕。\n三、历史意义\n（一）新闻史意义\n《京报》是近代北京极具代表性的独立民间进步报刊，拒绝军阀收买，践行独立办报理想；\n邵飘萍奠定中国早期新闻学理论，是中国新闻教育先驱；“铁肩辣手”成为后世新闻工作者的精神标杆；\n京报馆是北京唯一保存至今的自建民国报社原址，实物见证中国近代报业发展史。\n（二）革命史、红色传播意义\n京报馆是北方早期传播马克思主义重要阵地，大量进步文章在此刊发，宣传革命思想；积极声援五四运动、三一八爱国运动，以报刊为阵地动员民众，推动国民革命；作为中共早期秘密党员的活动地点，京报馆是北京重要红色革命旧址。\n（三）精神价值意义\n“铁肩担道义，辣手著文章”在这里落地实践。邵飘萍以笔为刃、不畏强权、为真理献身，体现近代知识分子救国图强的家国情怀；如今京报馆作为爱国主义教育基地、马克思主义新闻观教育基地，持续传承红色新闻精神。",
         sourceIds: [PROJECT_SCOPE_SOURCE_ID, DESIGN_SPEC_SOURCE_ID],
       },
     ],
-    galleryAssetIds: ["field-04", "field-05"],
+    galleryAssetIds: [
+      "jingbao-hall-01", "jingbao-hall-02", "jingbao-hall-03", "jingbao-hall-04", "jingbao-hall-05", "jingbao-hall-06", "jingbao-hall-07", "jingbao-hall-08", "jingbao-hall-09", "jingbao-hall-10", "jingbao-hall-11", "jingbao-hall-12", "jingbao-hall-13", "jingbao-hall-14", "jingbao-hall-15",
+    ],
   },
   {
     id: "beijing-lu-xun-museum",
@@ -178,7 +192,10 @@ export const sites: readonly SiteRecord[] = [
       value: "北京鲁迅博物馆",
       sourceIds: [PROJECT_SCOPE_SOURCE_ID, directorySource],
     },
-    officialAddress: null,
+    officialAddress: {
+      value: "北京市西城区阜成门内大街宫门口二条19号",
+      sourceIds: ["source-beijing-red-tourism-directory"],
+    },
     coordinateTarget: "main-entrance",
     coordinate: verifiedCoordinate(
       116.358707,
@@ -193,11 +210,13 @@ export const sites: readonly SiteRecord[] = [
     detailContent: [
       {
         id: "beijing-lu-xun-museum-detail",
-        text: "北京鲁迅博物馆位于北京市西城区阜成门内大街宫门口二条19号，是鲁迅1924年至1926年在北京的住所所在地。博物馆由鲁迅故居和鲁迅陈列馆两部分组成。故居是一座小型四合院，由鲁迅亲自设计改建，院内保留了当年的“老虎尾巴”——鲁迅的工作室。陈列馆内系统展示了鲁迅的生平与创作历程，重点展品包括《呐喊》《彷徨》手稿、藤野先生照片以及鲁迅收藏的汉画像石拓片。实践队员在走访中注意到，鲁迅在《记念刘和珍君》中描写的女师大风潮就发生在距离故居不远的北京女子师范大学旧址。",
+        text: "北京鲁迅博物馆（北京新文化运动纪念馆）坐落于西城区阜成门内大街宫门口二条19号，是首批国家一级博物馆、全国爱国主义教育基地，也是鲁迅在北京四处居所里保存最为完整的一处旧址。场馆由鲁迅故居四合院与鲁迅生平陈列展厅两大区域组成。\n\n鲁迅故居是一座朴素雅致的老北京小型四合院，1924年鲁迅出资购置，并亲自绘制图纸改造。1924年5月至1926年8月，鲁迅在此居住两年多。院内两棵白丁香为鲁迅亲手栽种。院落北侧一间向外延伸的小屋，被鲁迅戏称为“老虎尾巴”，也就是他的书房兼卧室，又称“绿林书屋”。就在这间不足八平米的小屋中，鲁迅写下《野草》《华盖集》《华盖集续编》，以及《彷徨》《朝花夕拾》中的大量经典篇章。在此期间，他扶持青年文学社团、主编《语丝》《莽原》刊物，持续以文字针砭时弊，投身新文化运动与进步思想传播。\n\n东侧的鲁迅生平陈列展厅，系统完整梳理鲁迅先生一生求索道路。馆内珍藏七万余件文物，包含鲁迅手稿、原版书刊、书信、照片、生前生活用品等珍贵史料。展览沿着时间线，讲述他远赴东瀛学医、幻灯片事件后毅然弃医从文，以笔墨唤醒国民灵魂的人生抉择，展现他作为文学家、思想先驱，追寻真理、为民发声的一生。\n\n作为新文化运动重要的历史见证地，这里不仅留存着珍贵文学记忆，更承载着近代中国思想启蒙的红色脉络。百年间，鲁迅先生“横眉冷对千夫指，俯首甘为孺子牛”的精神跨越时代，持续激励当代青年思索使命、勇担责任。如今这里也是红色研学、社会实践的重要地点，无数青年走进院落与展厅，在文物与文字之间读懂觉醒年代的理想与坚守。",
         sourceIds: [PROJECT_SCOPE_SOURCE_ID, DESIGN_SPEC_SOURCE_ID],
       },
     ],
-    galleryAssetIds: ["field-05", "field-01"],
+    galleryAssetIds: [
+      "lu-xun-museum-01", "lu-xun-museum-02", "lu-xun-museum-03", "lu-xun-museum-04", "lu-xun-museum-05", "lu-xun-museum-06", "lu-xun-museum-07", "lu-xun-museum-08", "lu-xun-museum-09", "lu-xun-museum-10", "lu-xun-museum-11", "lu-xun-museum-12", "lu-xun-museum-13", "lu-xun-museum-14", "lu-xun-museum-15", "lu-xun-museum-16", "lu-xun-museum-17", "lu-xun-museum-18", "lu-xun-museum-19", "lu-xun-museum-20", "lu-xun-museum-21", "lu-xun-museum-22", "lu-xun-museum-23", "lu-xun-museum-24",
+    ],
   },
   {
     id: "war-sculpture-park",
@@ -208,7 +227,10 @@ export const sites: readonly SiteRecord[] = [
       value: "中国人民抗日战争纪念雕塑园",
       sourceIds: [PROJECT_SCOPE_SOURCE_ID],
     },
-    officialAddress: null,
+    officialAddress: {
+      value: "北京市丰台区卢沟桥南里10号",
+      sourceIds: ["source-beijing-red-tourism-directory"],
+    },
     coordinateTarget: "site-center",
     coordinate: verifiedCoordinate(
       116.22681,
@@ -238,7 +260,10 @@ export const sites: readonly SiteRecord[] = [
       value: "卢沟桥",
       sourceIds: [PROJECT_SCOPE_SOURCE_ID, directorySource],
     },
-    officialAddress: null,
+    officialAddress: {
+      value: "北京市丰台区卢沟桥城北街",
+      sourceIds: ["source-beijing-red-tourism-directory"],
+    },
     coordinateTarget: "site-center",
     coordinate: verifiedCoordinate(
       116.218791,
@@ -268,7 +293,10 @@ export const sites: readonly SiteRecord[] = [
       value: "宛平城",
       sourceIds: [PROJECT_SCOPE_SOURCE_ID, directorySource],
     },
-    officialAddress: null,
+    officialAddress: {
+      value: "北京市丰台区卢沟桥东侧宛平城内街",
+      sourceIds: ["source-beijing-red-tourism-directory"],
+    },
     coordinateTarget: "site-center",
     coordinate: verifiedCoordinate(
       116.226098,
@@ -298,7 +326,10 @@ export const sites: readonly SiteRecord[] = [
       value: "中国人民抗日战争纪念馆",
       sourceIds: [PROJECT_SCOPE_SOURCE_ID, directorySource],
     },
-    officialAddress: null,
+    officialAddress: {
+      value: "北京市丰台区宛平城内街101号",
+      sourceIds: ["source-beijing-red-tourism-directory"],
+    },
     coordinateTarget: "main-entrance",
     coordinate: verifiedCoordinate(
       116.226007,
@@ -328,7 +359,10 @@ export const sites: readonly SiteRecord[] = [
       value: "百望山黑山扈战斗纪念园",
       sourceIds: [PROJECT_SCOPE_SOURCE_ID, directorySource],
     },
-    officialAddress: null,
+    officialAddress: {
+      value: "北京市海淀区黑山扈路17号",
+      sourceIds: ["source-beijing-red-tourism-directory"],
+    },
     coordinateTarget: "site-center",
     coordinate: verifiedCoordinate(
       116.256684,
@@ -358,7 +392,10 @@ export const sites: readonly SiteRecord[] = [
       value: "香山革命纪念地",
       sourceIds: [PROJECT_SCOPE_SOURCE_ID, directorySource],
     },
-    officialAddress: null,
+    officialAddress: {
+      value: "北京市海淀区买卖街40号",
+      sourceIds: ["source-beijing-red-tourism-directory"],
+    },
     coordinateTarget: "site-center",
     coordinate: verifiedCoordinate(
       116.194052,
@@ -389,7 +426,10 @@ export const sites: readonly SiteRecord[] = [
       value: "中国共产党历史展览馆",
       sourceIds: [PROJECT_SCOPE_SOURCE_ID],
     },
-    officialAddress: null,
+    officialAddress: {
+      value: "北京市朝阳区北辰东路9号",
+      sourceIds: ["source-beijing-red-tourism-directory"],
+    },
     coordinateTarget: "main-entrance",
     coordinate: verifiedCoordinate(
       116.398266,
@@ -419,7 +459,10 @@ export const sites: readonly SiteRecord[] = [
       value: "清华园车站旧址",
       sourceIds: [PROJECT_SCOPE_SOURCE_ID, directorySource],
     },
-    officialAddress: null,
+    officialAddress: {
+      value: "北京市海淀区清华西路",
+      sourceIds: ["source-beijing-red-tourism-directory"],
+    },
     coordinateTarget: "main-entrance",
     coordinate: verifiedCoordinate(
       116.33176,
