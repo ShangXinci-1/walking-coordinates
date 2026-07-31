@@ -6,18 +6,21 @@ import { StatusBadge } from "../StatusBadge";
 interface OutcomeRecordProps {
   outcome: OutcomeRecord;
   onOpenExhibition?: () => void;
+  onOpenNewsArchive?: () => void;
   vrUrl?: string | null;
 }
 
 export function OutcomeRecordView({
   outcome,
   onOpenExhibition,
+  onOpenNewsArchive,
   vrUrl,
 }: OutcomeRecordProps) {
   const asset = outcome.assetId
     ? getRequiredAssetById(outcome.assetId)
     : null;
   const isExhibition = outcome.id === "digital-exhibition";
+  const isNewsArchive = outcome.id === "digital-archive";
 
   return (
     <article
@@ -78,6 +81,18 @@ export function OutcomeRecordView({
             onClick={onOpenExhibition}
           >
             进入展厅浏览
+            <span aria-hidden="true">→</span>
+          </button>
+        )}
+
+        {isNewsArchive && onOpenNewsArchive && (
+          <button
+            type="button"
+            className="outcome-record__access"
+            data-kind="exhibition"
+            onClick={onOpenNewsArchive}
+          >
+            打开新闻稿档案袋
             <span aria-hidden="true">→</span>
           </button>
         )}

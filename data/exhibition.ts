@@ -7,7 +7,7 @@ export interface ExhibitionSite {
   name: string;
   /** 720yun VR 全景链接；暂无时为空字符串 */
   vrUrl: string | null;
-  /** VR 实景封面图（使用实地拍摄照片）；暂无时为空字符串 */
+  /** VR 实景封面图（使用实地拍摄照片或 VR 截图）；暂无时为空字符串 */
   coverSrc: string;
   /** 封面图替代文本 */
   coverAlt: string;
@@ -20,7 +20,7 @@ export const exhibitionSites: readonly ExhibitionSite[] = [
     routeId: "awakening",
     order: 1,
     name: "北大红楼",
-    vrUrl: "https://www.720yun.com/vr/73722as6jnn",
+    vrUrl: "https://www.720yun.com/t/e8vkzhdlzd9?scene_id=84963561",
     coverSrc:
       "/media/beida-honglou/微信图片_20260728152513_564_1683.jpg",
     coverAlt: "北大红楼建筑外观实景",
@@ -30,35 +30,34 @@ export const exhibitionSites: readonly ExhibitionSite[] = [
     routeId: "awakening",
     order: 2,
     name: "《新青年》编辑部旧址",
-    vrUrl: null,
-    coverSrc:
-      "/media/new-youth-editorial/微信图片_20260730142543_651_1683.jpg",
-    coverAlt: "《新青年》编辑部旧址实景",
+    vrUrl: "https://www.720yun.com/t/88vktwieOiq?scene_id=73987683",
+    coverSrc: "/media/vr-covers/chen-duxiu.jpg",
+    coverAlt: "陈独秀故居（《新青年》编辑部旧址）VR 场景",
   },
   {
     id: "li-dazhao-residence",
     routeId: "awakening",
     order: 3,
     name: "李大钊故居",
-    vrUrl: null,
-    coverSrc: "/media/li-dazhao/微信图片_20260730144655_703_1683.jpg",
-    coverAlt: "李大钊故居实景",
+    vrUrl: "https://www.720yun.com/t/2fdjvdhvuf0?scene_id=18522489",
+    coverSrc: "/media/vr-covers/li-dazhao.jpg",
+    coverAlt: "李大钊故居 VR 场景",
   },
   {
     id: "jingbao-hall",
     routeId: "awakening",
     order: 4,
     name: "京报馆旧址",
-    vrUrl: null,
-    coverSrc: "/media/jingbao-hall/微信图片_20260729114541_441_1683.jpg",
-    coverAlt: "京报馆旧址实景",
+    vrUrl: "https://www.720yun.com/vr/73722as6jnn",
+    coverSrc: "/media/vr-covers/jingbao-hall.jpg",
+    coverAlt: "京报馆旧址 VR 场景",
   },
   {
     id: "beijing-lu-xun-museum",
     routeId: "awakening",
     order: 5,
     name: "北京鲁迅博物馆",
-    vrUrl: null,
+    vrUrl: "https://www.720yun.com/t/1dvkOypbgre?scene_id=53383817",
     coverSrc: "/media/lu-xun-museum/微信图片_20260731130210_853_1683.jpg",
     coverAlt: "北京鲁迅博物馆实景",
   },

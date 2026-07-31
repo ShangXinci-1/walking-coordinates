@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { AssetMedia, StatusBadge } from "../../components";
 import { ExhibitionBrowser } from "../../components/outcomes/ExhibitionBrowser";
+import { NewsArchive } from "../../components/outcomes/NewsArchive";
 import { OutcomeGallery } from "../../components/outcomes/OutcomeGallery";
 import { OutcomeRecordView } from "../../components/outcomes/OutcomeRecord";
 import { exhibitionSites } from "../../data/exhibition";
@@ -27,6 +28,7 @@ export default function OutcomesPage() {
     (outcome) => outcome.completionStatus === "in-progress",
   ).length;
   const [exhibitionOpen, setExhibitionOpen] = useState(false);
+  const [newsOpen, setNewsOpen] = useState(false);
   const exhibitionVrUrl =
     exhibitionSites.find((site) => site.id === "beida-honglou")?.vrUrl ??
     null;
@@ -98,6 +100,7 @@ export default function OutcomesPage() {
               outcome={outcome}
               key={outcome.id}
               onOpenExhibition={() => setExhibitionOpen(true)}
+              onOpenNewsArchive={() => setNewsOpen(true)}
               vrUrl={
                 outcome.id === "digital-exhibition" ? exhibitionVrUrl : null
               }
@@ -128,6 +131,8 @@ export default function OutcomesPage() {
       {exhibitionOpen && (
         <ExhibitionBrowser onClose={() => setExhibitionOpen(false)} />
       )}
+
+      {newsOpen && <NewsArchive onClose={() => setNewsOpen(false)} />}
     </main>
   );
 }

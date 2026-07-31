@@ -40,23 +40,23 @@ export const outcomes: readonly OutcomeRecord[] = [
     id: "digital-archive",
     order: 2,
     title: {
-      value: "数字档案",
+      value: "寻访新闻稿档案",
       sourceIds: [DESIGN_SPEC_SOURCE_ID],
     },
     description: [
       {
         id: "digital-archive-description",
-        text: "核心史迹影像、环境记录与口述材料的结构化归档。",
+        text: "按寻访地点归档的团队新闻稿，记录每次现场实践的所见所感。",
         sourceIds: [DESIGN_SPEC_SOURCE_ID],
       },
       {
         id: "digital-archive-intro",
-        text: "档案为十三处地点分别建立字段级记录：正式名称、地址、坐标、历史摘要、实践记录与资料来源逐项入库，每条信息都可追溯到现场记录表或公开文献。",
+        text: "每次寻访结束后，团队都会以新闻稿形式记录当天的行程、现场见闻与实践感悟。稿件按地点独立归档，涵盖北大红楼、京报馆、陈独秀旧居与李大钊故居等站点，形成可追溯的实践记录。",
         sourceIds: [DESIGN_SPEC_SOURCE_ID],
       },
       {
         id: "digital-archive-build",
-        text: "团队在寻访过程中同步填写现场记录表，记录拍摄日期、设备、画面人物与行为。返回后按统一清单整理影像与文字，再经人工复核后写入档案，避免内容与来源脱节。",
+        text: "新闻稿由参与当次寻访的队员共同撰写，经团队审核后归档，与地点档案、影像素材相互印证，让每次实践都有文字记录可查。",
         sourceIds: [DESIGN_SPEC_SOURCE_ID],
       },
     ],
