@@ -198,9 +198,27 @@ export default function Home() {
       <section className="home-routes" aria-labelledby="routes-title">
         <RevealOnScroll parallax={40}>
           <header className="home-section-heading home-section-heading--dark">
-            <p>三条路线构成实践的叙事骨架</p>
-            <h2 id="routes-title" data-wipe>沿坐标进入北京革命史迹现场</h2>
-            <a href={withBasePath("/journey")}>浏览完整路线 →</a>
+            <p className="home-section-heading__kicker">三条路线构成实践的叙事骨架</p>
+            <div className="home-section-heading__title">
+              <StrokeText
+                text="沿坐标进入 北京革命史迹现场"
+                strokeColor="#D4AF37"
+                fillColor="#F8FAFC"
+                strokeWidth={1.2}
+                drawDuration={1.4}
+                fillDelay={0.25}
+                stagger={0.05}
+                ease="power2.out"
+                trigger="scroll"
+                fillMode="wipe"
+                fontSize={150}
+                fontWeight={900}
+                letterSpacing={-3}
+              />
+            </div>
+            <a className="home-section-heading__link" href={withBasePath("/journey")}>
+              浏览完整路线 <span aria-hidden="true">→</span>
+            </a>
           </header>
         </RevealOnScroll>
 
