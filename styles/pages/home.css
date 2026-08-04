@@ -1010,13 +1010,6 @@
     object-position: 58% center;
   }
 
-  .home-hero__statement {
-    top: auto;
-    right: var(--gutter);
-    bottom: 84px;
-    max-width: calc(100% - var(--gutter) * 2);
-  }
-
   .home-hero > .evidence-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1116,46 +1109,6 @@
   .home-action--quiet,
   .home-action--quiet-light {
     width: fit-content;
-  }
-
-  /* 首屏滚动提示 */
-  .home-hero__stage::after {
-    content: "";
-    position: absolute;
-    z-index: 3;
-    left: 50%;
-    bottom: 118px;
-    width: 1px;
-    height: 34px;
-    background: linear-gradient(transparent, var(--amber) 60%, transparent);
-    transform: translateX(-50%);
-    animation: hero-scroll-hint 2.2s var(--ease-out) infinite;
-  }
-
-  @keyframes hero-scroll-hint {
-    0% {
-      opacity: 0;
-      transform: translateX(-50%) translateY(-8px);
-    }
-    35% {
-      opacity: 0.9;
-    }
-    100% {
-      opacity: 0;
-      transform: translateX(-50%) translateY(10px);
-    }
-  }
-
-  .home-hero__statement {
-    bottom: 88px;
-  }
-
-  .home-hero__visual {
-    min-height: 100%;
-  }
-
-  .home-hero__visual .asset-media {
-    min-height: 100%;
   }
 
   .home-method,
@@ -1294,19 +1247,18 @@
     transition: none;
   }
 
-  .home-hero__stage::after {
-    animation: none;
-    opacity: 0;
-  }
+
 }
 
 /* ═══════════════════════════════════════════
    滚动叙事动画（SiteMotion）
    ═══════════════════════════════════════════ */
 
-/* clip-path 标题揭示（路线区原创时刻） */
+/* clip-path 标题揭示（路线区原创时刻）
+   注意：默认保持可见，GSAP 动画会先设置隐藏再揭示，
+   避免 JS 未运行时标题不可见 */
 [data-wipe] {
-  clip-path: inset(0% 100% 0% 0%);
+  clip-path: none;
 }
 
 /* 视差图层默认状态 */
