@@ -75,6 +75,37 @@
   justify-content: center;
 }
 
+/* Hero 顶部坐标装饰行 */
+.home-hero__topline {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 18px;
+  opacity: 0;
+  animation: hero-fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+}
+
+.home-hero__topline-coord {
+  color: var(--amber);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  font-variant-numeric: tabular-nums;
+}
+
+.home-hero__topline-rule {
+  flex: 0 1 64px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--amber), transparent);
+}
+
+.home-hero__topline-label {
+  color: oklch(1 0 0 / 0.4);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+}
+
 .home-hero__project {
   width: fit-content;
   margin: 0 0 24px;

@@ -13,6 +13,7 @@ import {
 } from "../lib/content/selectors";
 import { withBasePath } from "../lib/site";
 import { project } from "../data/project";
+import ParticleText from "../components/ParticleText";
 import StrokeText from "../components/StrokeText";
 import { RevealOnScroll } from "../components/RevealOnScroll";
 import HomeMotion from "../components/HomeMotion";
@@ -96,6 +97,11 @@ export default function Home() {
           </div>
 
           <div className="home-hero__content">
+            <div className="home-hero__topline" aria-hidden="true">
+              <span className="home-hero__topline-coord">39°54′N · 116°23′E</span>
+              <span className="home-hero__topline-rule" />
+              <span className="home-hero__topline-label">BEIJING · 2026</span>
+            </div>
             <p className="home-hero__project">北京科技大学社会实践 · 2026</p>
             <div className="home-hero__stroke">
               <StrokeText
@@ -200,20 +206,23 @@ export default function Home() {
           <header className="home-section-heading home-section-heading--dark">
             <p className="home-section-heading__kicker">三条路线构成实践的叙事骨架</p>
             <div className="home-section-heading__title">
-              <StrokeText
+              <ParticleText
                 text="沿坐标进入 北京革命史迹现场"
-                strokeColor="#D4AF37"
-                fillColor="#F8FAFC"
-                strokeWidth={1.2}
-                drawDuration={1.4}
-                fillDelay={0.25}
-                stagger={0.05}
-                ease="power2.out"
-                trigger="scroll"
-                fillMode="wipe"
-                fontSize={150}
+                particleSize={2.2}
+                density={3.5}
+                color="#D4AF37"
+                highlightColor="#C62828"
+                scatter={160}
+                gatherDuration={1800}
+                stagger={300}
+                pointerRepel={35}
+                repelRadius={110}
+                idleDrift={0.6}
+                trigger="hover"
+                fontSize="clamp(2.2rem, 6.5vw, 5.5rem)"
                 fontWeight={900}
-                letterSpacing={-3}
+                fontFamily="inherit"
+                glow
               />
             </div>
             <a className="home-section-heading__link" href={withBasePath("/journey")}>
