@@ -187,10 +187,7 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-              <small className="home-method__evidence">
-                <span aria-hidden="true">◆</span>
-                {step.evidence}
-              </small>
+
             </li>
           ))}
         </ol>

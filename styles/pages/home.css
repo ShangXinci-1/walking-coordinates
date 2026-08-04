@@ -456,35 +456,6 @@
   box-shadow: 0 0 8px oklch(0.72 0.12 70 / 0.6);
 }
 
-/* ── 底部证据标签 ── */
-.home-method__evidence {
-  position: absolute;
-  right: clamp(22px, 2.2vw, 34px);
-  bottom: 20px;
-  left: clamp(22px, 2.2vw, 34px);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: oklch(1 0 0 / 0.45);
-  font-size: 0.72rem;
-  font-weight: 750;
-  letter-spacing: 0.04em;
-  transition: color 700ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.home-method__evidence span {
-  color: var(--amber);
-  font-size: 0.55rem;
-}
-
-.home-method__steps li:hover .home-method__evidence {
-  color: oklch(1 0 0 / 0.75);
-}
-
-.home-method__steps li:hover .home-method__evidence span {
-  color: var(--amber);
-}
-
 .home-routes {
   min-height: 100svh;
   background: var(--ink);
