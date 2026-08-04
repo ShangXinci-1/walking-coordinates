@@ -630,7 +630,8 @@
    页面切换动画（View Transitions + 进入动画）
    ═══════════════════════════════════════════ */
 
-/* 各页面主容器进入动画 */
+/* 各页面主容器进入动画
+   注意：只用 opacity，避免 transform 使 fixed 弹窗的包含块变成页面容器 */
 .journey-page,
 .outcomes-page,
 .legacy-page,
@@ -641,11 +642,9 @@
 @keyframes page-enter {
   from {
     opacity: 0;
-    transform: translateY(14px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
