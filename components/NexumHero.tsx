@@ -1,8 +1,9 @@
 // NexumHero：全屏视频英雄区（nexum 风格中文版）
-// 动态照片层（Ken Burns）打底，视频加载成功后淡入覆盖；叠加坐标、三路线等站点元素。
+// 开场时间线：照片淡入 → 坐标扫描线 → 推近 → 呼吸循环；
+// 视频就绪后与照片层交叉溶解（1.8s），前 3.4s 节奏完全本地可控。
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { AssetRecord } from "../lib/content/types";
 import { withBasePath } from "../lib/site";
 import { exhibitionSites } from "../data/exhibition";
@@ -16,6 +17,17 @@ const VIDEO_URL =
 
 const ROUTE_NAMES = ["觉醒之路", "烽火之路", "进京之路"];
 
+/**
+ * 照片层阶段（开场时间线，本地编排，每次刷新节奏一致）：
+ * enter   —— 0–1.0s 淡入，从微推近回稳
+ * moving  —— 1.0–3.4s 缓慢推近
+ * breathe —— 3.4s 起 9s 呼吸循环，直到视频就绪被溶解覆盖
+ */
+type HeroPhase = "enter" | "moving" | "breathe";
+
+const ENTER_MS = 1000;
+const BREATHE_MS = 3400;
+
 function assetSrc(asset: AssetRecord): string {
   return asset.assetStatus === "ready"
     ? (asset as { finalSrc: string }).finalSrc
@@ -27,16 +39,36 @@ export default function NexumHero() {
   const vrCount = exhibitionSites.filter((site) => site.vrUrl).length;
   const avatarSrc = assetSrc(getRequiredAssetById("community-01"));
   const [videoReady, setVideoReady] = useState(false);
+  const [phase, setPhase] = useState<HeroPhase>("enter");
   const stillSrc = withBasePath("/media/xiangshan/背影3.0.jpg");
 
+  /* ── 开场时间线：照片推近 → 呼吸循环（纯本地，与视频加载无关） ── */
+  useEffect(() => {
+    const t1 = setTimeout(() => setPhase("moving"), ENTER_MS);
+    const t2 = setTimeout(() => setPhase("breathe"), BREATHE_MS);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, []);
+
   return (
-    <section className="nexum-hero" aria-labelledby="nexum-title">
-      {/* ── 动态照片层：视频未就绪时的动画底（缓慢缩放，不静止） ── */}
-      <div className="nexum-hero__still" aria-hidden="true">
+    <section
+      className="nexum-hero"
+      data-phase={phase}
+      aria-labelledby="nexum-title"
+    >
+      {/* ── 照片层：开场主角。视频就绪后 1.8s 交叉溶解淡出 ── */}
+      <div
+        className={`nexum-hero__still${videoReady ? " is-fading" : ""}`}
+        aria-hidden="true"
+      >
         <img src={stillSrc} alt="" />
+        {/* 金色坐标扫描线：开场从顶到底扫过 */}
+        <i className="nexum-hero__scan" />
       </div>
 
-      {/* ── 视频层：就绪后淡入覆盖照片层 ── */}
+      {/* ── 视频层：就绪后 1.8s 淡入，与照片层同步交叉溶解 ── */}
       <video
         className={`nexum-hero__video${videoReady ? " is-ready" : ""}`}
         autoPlay
