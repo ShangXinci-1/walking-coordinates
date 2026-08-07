@@ -1,24 +1,19 @@
 import { routes } from "../data/routes";
 import "../styles/pages/home.css";
-import {
-  AssetMedia,
-  EvidenceStrip,
-  StatusBadge,
-} from "../components";
+import { AssetMedia, StatusBadge } from "../components";
 import {
   getOrderedOutcomes,
-  getProjectCounts,
   getRequiredAssetById,
   getSitesForRoute,
 } from "../lib/content/selectors";
 import { withBasePath } from "../lib/site";
-import { project } from "../data/project";
-import ParticleText from "../components/ParticleText";
-import StrokeText from "../components/StrokeText";
+import GradientText from "../components/GradientText";
+import NexumHero from "../components/NexumHero";
 import { RevealOnScroll } from "../components/RevealOnScroll";
-import HomeMotion from "../components/HomeMotion";
+import { StaggerContainer } from "../components/StaggerContainer";
 import TiltCards from "../components/TiltCards";
 import { SiteFooter, SiteHeader } from "./shared";
+import "../styles/components/hero-nexum.css";
 
 const practiceSteps = [
   {
@@ -78,75 +73,14 @@ const practiceSteps = [
 const heroSubtitleBreakIndex = 4;
 
 export default function Home() {
-  const { routeCount, siteCount } = getProjectCounts();
   const outcomes = getOrderedOutcomes();
-  const heroAsset = getRequiredAssetById("field-05");
-  const heroSrc =
-    heroAsset.assetStatus === "ready"
-      ? (heroAsset as { finalSrc: string }).finalSrc
-      : (heroAsset as { placeholderSrc: string }).placeholderSrc;
 
   return (
     <main className="home-page">
       <SiteHeader />
 
-      <section className="home-hero" aria-labelledby="home-title">
-        <div className="home-hero__stage">
-          <div className="home-hero__visual" data-parallax="10">
-            <AssetMedia asset={heroAsset} priority sizes="100vw" />
-          </div>
-
-          <div className="home-hero__content">
-            <div className="home-hero__topline" aria-hidden="true">
-              <span className="home-hero__topline-coord">39°54′N · 116°23′E</span>
-              <span className="home-hero__topline-rule" />
-              <span className="home-hero__topline-label">BEIJING · 2026</span>
-            </div>
-            <p className="home-hero__project">北京科技大学社会实践 · 2026</p>
-            <div className="home-hero__stroke">
-              <StrokeText
-                text="革命史迹 数字化寻访"
-                strokeColor="#D4AF37"
-                fillColor="#F8FAFC"
-                strokeWidth={1.3}
-                drawDuration={1.8}
-                fillDelay={0.3}
-                stagger={0.06}
-                ease="power2.out"
-                trigger="mount"
-                fillMode="wipe"
-                fontSize={150}
-                fontWeight={900}
-                letterSpacing={-2}
-              />
-            </div>
-            <p className="home-hero__lead">
-              北京科技大学青年实践团队沿三条路线走进十三处革命史迹，
-              以影像、访谈、全景与资料整理建立可追溯的数字记录。
-            </p>
-            <div className="home-hero__actions">
-              <a className="home-action home-action--primary" href={withBasePath("/journey")}>
-                从路线开始
-              </a>
-              <a className="home-action home-action--quiet" href="#practice-method">
-                查看项目方法
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <HomeMotion>
-          <EvidenceStrip
-            label="项目证据概览"
-            fields={[
-              { label: "实践周期", value: `${project.durationDays.value} 天` },
-              { label: "主题路线", value: `${routeCount} 条` },
-              { label: "史迹坐标", value: `${siteCount} 处` },
-              { label: "记录方式", value: "影像 · 访谈 · 全景 · 资料整理" },
-            ]}
-          />
-        </HomeMotion>
-      </section>
+      {/* ── 首屏：全屏视频英雄区（nexum 风格实验版） ── */}
+      <NexumHero />
 
       <section className="home-method" id="practice-method" aria-labelledby="method-title">
         <RevealOnScroll blur>
@@ -206,24 +140,14 @@ export default function Home() {
           <header className="home-section-heading home-section-heading--dark">
             <p className="home-section-heading__kicker">三条路线构成实践的叙事骨架</p>
             <div className="home-section-heading__title">
-              <ParticleText
-                text="沿坐标进入 北京革命史迹现场"
-                particleSize={2.2}
-                density={3.5}
-                color="#D4AF37"
-                highlightColor="#C62828"
-                scatter={160}
-                gatherDuration={1800}
-                stagger={300}
-                pointerRepel={35}
-                repelRadius={110}
-                idleDrift={0.6}
-                trigger="hover"
-                fontSize="clamp(2.2rem, 6.5vw, 5.5rem)"
-                fontWeight={900}
-                fontFamily="inherit"
-                glow
-              />
+              <GradientText
+                colors={["#E3A94C", "#D93E2D", "#F2E8D5", "#E3A94C"]}
+                animationSpeed={5}
+                showBorder={false}
+                className="home-heading-gradient"
+              >
+                沿坐标进入 北京革命史迹现场
+              </GradientText>
             </div>
             <a className="home-section-heading__link" href={withBasePath("/journey")}>
               浏览完整路线 <span aria-hidden="true">→</span>
@@ -231,14 +155,19 @@ export default function Home() {
           </header>
         </RevealOnScroll>
 
-        <div className="home-route-list">
+        <StaggerContainer className="home-route-list">
           {routes.map((route, index) => {
             const routeSites = getSitesForRoute(route.id);
             const routeAsset = getRequiredAssetById(route.heroAssetId);
             const representativeSites = routeSites.slice(0, 3);
 
             return (
-              <article className="home-route" key={route.id} data-code={route.code}>
+              <article
+                className="home-route"
+                key={route.id}
+                data-code={route.code}
+                style={{ "--i": index } as React.CSSProperties}
+              >
                 <div className="home-route__visual">
                   <AssetMedia
                     asset={routeAsset}
@@ -278,7 +207,7 @@ export default function Home() {
               </article>
             );
           })}
-        </div>
+        </StaggerContainer>
       </section>
 
       <section className="home-outcomes" aria-labelledby="outcomes-title">
@@ -290,12 +219,13 @@ export default function Home() {
           </header>
         </RevealOnScroll>
 
-        <div className="home-outcomes__showcase">
+        <StaggerContainer className="home-outcomes__showcase">
           {outcomes.map((outcome, index) => (
             <a
               className="home-outcomes__card"
               href={withBasePath("/outcomes")}
               key={outcome.id}
+              style={{ "--i": index } as React.CSSProperties}
             >
               <span className="home-outcomes__card-no">
                 {String(outcome.order).padStart(2, "0")}
@@ -314,21 +244,26 @@ export default function Home() {
               />
             </a>
           ))}
-        </div>
+        </StaggerContainer>
       </section>
 
       <section className="home-closing" aria-labelledby="closing-title">
-        <p>下一站，由路线与证据共同指向。</p>
-        <h2 id="closing-title">从一个坐标开始，读懂一段仍在被传承的历史。</h2>
-        <div>
-          <a className="home-action home-action--light" href={withBasePath("/journey")}>
-            浏览完整路线
-            <span aria-hidden="true">→</span>
-          </a>
-          <a className="home-action home-action--quiet-light" href={withBasePath("/outcomes")}>
-            查看成果状态
-          </a>
-        </div>
+        <RevealOnScroll blur>
+          <p>下一站，由路线与证据共同指向。</p>
+          <h2 id="closing-title">
+            <span className="home-closing__h1-line">从一个坐标开始，</span>
+            <span className="home-closing__h1-line">读懂一段仍在被传承的历史。</span>
+          </h2>
+          <div>
+            <a className="home-action home-action--light" href={withBasePath("/journey")}>
+              浏览完整路线
+              <span aria-hidden="true">→</span>
+            </a>
+            <a className="home-action home-action--quiet-light" href={withBasePath("/outcomes")}>
+              查看成果状态
+            </a>
+          </div>
+        </RevealOnScroll>
       </section>
 
       <SiteFooter />

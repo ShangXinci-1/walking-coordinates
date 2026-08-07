@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import type { KeyboardEvent } from "react";
+import type { CSSProperties, KeyboardEvent } from "react";
 import { ResponsiveMedia } from "../ResponsiveMedia";
+import { useStaggerReveal } from "../useStaggerReveal";
 import { getAssetById } from "../../lib/content/selectors";
 import type { RouteId, RouteRecord } from "../../lib/content/types";
+import "../../styles/components/stagger-reveal.css";
 
 interface RouteIndexProps {
   routes: readonly RouteRecord[];
@@ -18,6 +20,7 @@ export function RouteIndex({
   onSelect,
 }: RouteIndexProps) {
   const pendingFocusRoute = useRef<RouteId | null>(null);
+  const tabsRef = useStaggerReveal<HTMLDivElement>();
 
   useEffect(() => {
     if (pendingFocusRoute.current !== activeRouteId) return;
@@ -59,7 +62,12 @@ export function RouteIndex({
           <small>北京地区 · 三条主题路线</small>
         </div>
       </div>
-      <div className="route-index__tabs" role="tablist" aria-label="选择路线">
+      <div
+        className="route-index__tabs"
+        role="tablist"
+        aria-label="选择路线"
+        ref={tabsRef}
+      >
         {routes.map((route, index) => {
           const selected = route.id === activeRouteId;
           const asset = getAssetById(route.heroAssetId);
@@ -72,6 +80,7 @@ export function RouteIndex({
               data-route-index={index}
               data-route-id={route.id}
               className="route-index__tab"
+              style={{ "--i": index } as CSSProperties}
               onClick={() => onSelect(route)}
               onKeyDown={(event) => moveFocus(event, index)}
               key={route.id}

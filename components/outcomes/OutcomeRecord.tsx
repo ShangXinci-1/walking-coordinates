@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { OutcomeRecord } from "../../lib/content/types";
 import { getRequiredAssetById } from "../../lib/content/selectors";
 import { AssetMedia } from "../AssetMedia";
@@ -8,6 +9,8 @@ interface OutcomeRecordProps {
   onOpenExhibition?: () => void;
   onOpenNewsArchive?: () => void;
   vrUrl?: string | null;
+  /** stagger 入场的 --i 延迟变量等内联样式 */
+  style?: CSSProperties;
 }
 
 export function OutcomeRecordView({
@@ -15,6 +18,7 @@ export function OutcomeRecordView({
   onOpenExhibition,
   onOpenNewsArchive,
   vrUrl,
+  style,
 }: OutcomeRecordProps) {
   const asset = outcome.assetId
     ? getRequiredAssetById(outcome.assetId)
@@ -25,6 +29,7 @@ export function OutcomeRecordView({
   return (
     <article
       className="outcome-record"
+      style={style}
       data-completion={outcome.completionStatus}
       data-publication={outcome.publicationStatus}
     >

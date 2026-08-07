@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "../styles/components/foundation.css";
+import "../styles/components/cursor-coordinates.css";
+import CursorCoordinates from "../components/CursorCoordinates";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://shangxinci-1.github.io/walking-coordinates/"),
@@ -20,7 +22,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="zh-CN">
-      <body>{children}</body>
+      <body>
+        {children}
+        {/* 全站光标坐标准星 + 柔光跟随 */}
+        <CursorCoordinates />
+      </body>
     </html>
   );
 }

@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import type { KeyboardEvent } from "react";
+import type { CSSProperties, KeyboardEvent } from "react";
+import { useStaggerReveal } from "../useStaggerReveal";
 import type { SiteRecord } from "../../lib/content/types";
+import "../../styles/components/stagger-reveal.css";
 
 interface SiteListProps {
   sites: readonly SiteRecord[];
@@ -16,6 +18,7 @@ export function SiteList({
   onSelect,
 }: SiteListProps) {
   const pendingFocusSite = useRef<string | null>(null);
+  const listRef = useStaggerReveal<HTMLOListElement>();
 
   useEffect(() => {
     if (pendingFocusSite.current !== activeSiteId) return;
@@ -54,11 +57,11 @@ export function SiteList({
         <span>地点目录</span>
         <small>{sites.length} 条记录</small>
       </div>
-      <ol>
+      <ol ref={listRef}>
         {sites.map((site, index) => {
           const selected = site.id === activeSiteId;
           return (
-            <li key={site.id}>
+            <li key={site.id} style={{ "--i": index } as CSSProperties}>
               <button
                 type="button"
                 aria-current={selected ? "location" : undefined}

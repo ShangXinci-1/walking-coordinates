@@ -1,0 +1,91 @@
+/* ═══════════════════════════════════════════
+   照片漫游（PhotoWalk）：3D 球面照片浏览
+   ═══════════════════════════════════════════ */
+
+.photo-walk {
+  position: fixed;
+  z-index: 90;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: oklch(0.05 0.01 24 / 0.99);
+  color: var(--paper-pure);
+  animation: exhibition-in 0.32s var(--ease-out) both;
+  user-select: none;
+}
+
+.photo-walk__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding: clamp(18px, 2.6vw, 30px) clamp(20px, 4vw, 56px);
+  border-bottom: 1px solid oklch(1 0 0 / 0.12);
+}
+
+.photo-walk__eyebrow {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 6px;
+}
+
+.photo-walk__header h3 {
+  font-size: clamp(1.15rem, 2.4vw, 1.6rem);
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.photo-walk__header p {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: oklch(0.8 0.02 24 / 0.85);
+}
+
+.photo-walk__close {
+  flex-shrink: 0;
+  min-height: var(--target-size);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 18px;
+  border: 1px solid oklch(1 0 0 / 0.2);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--paper-pure);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.photo-walk__close:hover {
+  border-color: var(--amber);
+  background: oklch(0.72 0.12 70 / 0.12);
+}
+
+/* ── 球体舞台 ── */
+.photo-walk__dome {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+
+.photo-walk__dome .sphere-root {
+  width: 100%;
+  height: 100%;
+}
+
+.photo-walk__hint {
+  flex-shrink: 0;
+  text-align: center;
+  padding: 10px 16px 14px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: oklch(0.85 0.02 24 / 0.75);
+}

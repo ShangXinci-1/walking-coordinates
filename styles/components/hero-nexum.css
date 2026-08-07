@@ -1,0 +1,721 @@
+/* ═══════════════════════════════════════════
+   NexumHero：全屏视频英雄区（nexum 风格中文版）
+   视频背景 + 玻璃拟态卡片 + 底部锚定内容
+   ═══════════════════════════════════════════ */
+
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Silkscreen:wght@400;700&display=swap");
+
+.nexum-hero {
+  --nexum-ink: #010101;
+  --nexum-text-strong: #010101;
+  --nexum-text-body: rgba(1, 1, 1, 0.7);
+  --nexum-text-faint: rgba(1, 1, 1, 0.6);
+
+  position: relative;
+  height: calc(100svh - var(--header-height));
+  min-height: 560px;
+  overflow: hidden;
+  font-family: "Geist", -apple-system, BlinkMacSystemFont, "PingFang SC",
+    "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: #0b0b0d;
+}
+
+/* ═══ 蒙太奇开场（纯本地编排，与视频加载无关，每次刷新一致） ═══
+   四图循环 16s：每 4s 交叉溶解切换 + 大幅推近（1.06→1.28，方向交替）
+   0.0s   照片从纯黑淡入（第一张），上一张淡出
+   0.35s  金色坐标扫描线自上而下扫过
+   0.9s   坐标 topline 淡入 + 金色线生长
+   1.4s   三路线装饰淡入
+   1.6s   底部内容淡入（标题逐行揭示）
+   任意时刻 视频就绪 → 1.8s 交叉溶解（蒙太奇淡出 + 视频淡入） */
+
+/* ── 蒙太奇层：开场主角 ── */
+.nexum-hero__still {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #0b0b0d;
+  /* 从纯黑淡入（backwards 填充：结束后交给级联，让 is-fading 过渡生效） */
+  animation: nexum-still-in 0.9s ease-out backwards;
+  /* 视频就绪：1.8s 淡出后隐藏（visibility 延迟，停止背景动画开销） */
+  transition: opacity 1.8s ease, visibility 0s 1.8s;
+}
+
+.nexum-hero__still.is-fading {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* ── 蒙太奇照片层：四张同周期动画，负延迟错开相位（16s/4s） ──
+   opacity 相位：0-5% 淡入（0.8s）→ 75% 停留 → 80% 淡出（0.8s）
+   zoom：全程 1.06→1.28 推近，每张方向不同（--dx/--dy） */
+.nexum-hero__slide {
+  --slide-delay: 0s;
+  --dx: -2%;
+  --dy: -1%;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  animation:
+    nexum-slide-opacity 16s linear infinite,
+    nexum-slide-zoom 16s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  animation-delay: var(--slide-delay), var(--slide-delay);
+}
+
+.nexum-hero__slide:nth-child(1) {
+  --slide-delay: 0s;
+  --dx: -2%;
+  --dy: -1%;
+}
+
+.nexum-hero__slide:nth-child(2) {
+  --slide-delay: -4s;
+  --dx: 2%;
+  --dy: -1.2%;
+}
+
+.nexum-hero__slide:nth-child(3) {
+  --slide-delay: -8s;
+  --dx: 0.5%;
+  --dy: 1.5%;
+}
+
+.nexum-hero__slide:nth-child(4) {
+  --slide-delay: -12s;
+  --dx: -1.5%;
+  --dy: 0.5%;
+}
+
+.nexum-hero__slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  will-change: transform;
+}
+
+@keyframes nexum-slide-opacity {
+  0% {
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes nexum-slide-zoom {
+  from {
+    transform: scale(1.06) translate3d(var(--dx, 0), var(--dy, 0), 0);
+  }
+  to {
+    transform: scale(1.28) translate3d(
+        calc(var(--dx, 0) * 2),
+        calc(var(--dy, 0) * 2),
+        0
+      );
+  }
+}
+
+/* ── 地点标签：右上角，随照片同相位淡入淡出 ── */
+.nexum-hero__site-label {
+  position: absolute;
+  top: clamp(18px, 3vh, 30px);
+  right: clamp(20px, 4vw, 48px);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: clamp(10px, 1.2vw, 12px);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: #d4af37;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+  white-space: nowrap;
+  opacity: 0;
+  animation: nexum-label 16s linear infinite;
+  animation-delay: var(--slide-delay);
+}
+
+.nexum-hero__site-label::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.9));
+}
+
+@keyframes nexum-label {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  3% {
+    opacity: 0;
+  }
+  7% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  72% {
+    opacity: 1;
+  }
+  76% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ── 漂移坐标网格：整屏常驻动感，呼应「坐标」主题 ── */
+.nexum-hero__grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(212, 175, 55, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 175, 55, 0.15) 1px, transparent 1px);
+  background-size: 56px 56px;
+  /* 径向渐隐边缘，让网格融进画面 */
+  mask-image: radial-gradient(
+    ellipse at 50% 55%,
+    rgba(0, 0, 0, 0.95) 30%,
+    rgba(0, 0, 0, 0.45) 65%,
+    transparent 92%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse at 50% 55%,
+    rgba(0, 0, 0, 0.95) 30%,
+    rgba(0, 0, 0, 0.45) 65%,
+    transparent 92%
+  );
+  animation:
+    nexum-grid-in 1.2s ease-out backwards,
+    nexum-grid-drift 28s linear 0.6s infinite;
+}
+
+/* 中央准星：菱形标记缓慢脉动 */
+.nexum-hero__grid::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(212, 175, 55, 0.42);
+  transform: translate(-50%, -50%) rotate(45deg);
+  animation: nexum-reticle 5s ease-in-out infinite;
+}
+
+@keyframes nexum-grid-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes nexum-grid-drift {
+  from {
+    background-position: 0 0, 0 0;
+  }
+  to {
+    background-position: 56px 56px, 56px 56px;
+  }
+}
+
+@keyframes nexum-reticle {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: translate(-50%, -50%) rotate(45deg) scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: translate(-50%, -50%) rotate(45deg) scale(1.12);
+  }
+}
+
+/* ── 金色坐标扫描线：开场自上而下扫过一次 ── */
+.nexum-hero__scan {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.nexum-hero__scan::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(212, 175, 55, 0.72) 30%,
+    rgba(212, 175, 55, 0.72) 70%,
+    transparent
+  );
+  box-shadow: 0 0 18px rgba(212, 175, 55, 0.5);
+  animation: nexum-scan 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
+}
+
+@keyframes nexum-scan {
+  from {
+    top: -4%;
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  to {
+    top: 104%;
+    opacity: 0;
+  }
+}
+
+@keyframes nexum-still-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ── 视频层：就绪后 1.8s 淡入，与照片层淡出同步（交叉溶解） ── */
+.nexum-hero__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.8s ease;
+}
+
+.nexum-hero__video.is-ready {
+  opacity: 1;
+}
+
+/* ── 柔和遮罩：顶部轻微压暗 + 底部压暗，保证文字可读 ── */
+.nexum-hero__shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(5, 3, 2, 0.32) 0%,
+    rgba(5, 3, 2, 0.08) 32%,
+    rgba(5, 3, 2, 0.06) 52%,
+    rgba(5, 3, 2, 0.55) 100%
+  );
+}
+
+/* ── 坐标 topline：左上角 ── */
+.nexum-hero__topline {
+  position: absolute;
+  top: clamp(18px, 3vh, 30px);
+  left: clamp(20px, 4vw, 48px);
+  z-index: 12;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: #d4af37;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+  /* 0.9s：淡入 */
+  animation: nexum-still-in 0.8s ease 0.9s backwards;
+}
+
+.nexum-hero__topline i {
+  width: 56px;
+  height: 1px;
+  background: linear-gradient(90deg, #d4af37, transparent);
+  /* 0.9s：金色线从左向右生长 */
+  transform-origin: left center;
+  animation: nexum-line-grow 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.9s backwards;
+}
+
+@keyframes nexum-line-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ── 三路线坐标装饰：左侧中部 ── */
+.nexum-hero__routes {
+  position: absolute;
+  top: 50%;
+  left: clamp(20px, 4vw, 48px);
+  z-index: 12;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding-left: 14px;
+  border-left: 1px solid rgba(212, 175, 55, 0.35);
+  /* 1.4s：淡入上移（keyframes 保留 -50% 垂直居中） */
+  animation: nexum-rise-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) 1.4s backwards;
+}
+
+@keyframes nexum-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-50% + 14px));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+}
+
+.nexum-hero__route {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  opacity: 0.75;
+  transition: opacity 0.25s;
+}
+
+.nexum-hero__route:hover {
+  opacity: 1;
+}
+
+.nexum-hero__route-no {
+  font-family: "Silkscreen", cursive;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: #d4af37;
+}
+
+.nexum-hero__route-name {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.82);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+}
+
+.nexum-hero__content {
+  position: relative;
+  z-index: 10;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  justify-content: flex-end;
+  padding: 20px 20px 32px;
+  /* 1.6s：底部内容淡入（标题由逐行揭示带动感） */
+  animation: nexum-still-in 0.9s ease 1.6s backwards;
+}
+
+/* ── 标题逐行揭示 ── */
+.nexum-hero__h1-line {
+  display: block;
+  overflow: hidden;
+}
+
+.nexum-hero__h1-line > span {
+  display: block;
+  transform: translateY(115%);
+  animation: nexum-line-reveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) 1.5s forwards;
+}
+
+.nexum-hero__h1-line:nth-child(2) > span {
+  animation-delay: 1.7s;
+}
+
+@keyframes nexum-line-reveal {
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* ── 左侧：项目声明 + 行动入口 ── */
+.nexum-hero__left {
+  max-width: 36rem;
+}
+
+.nexum-hero__kicker {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: #d4af37;
+}
+
+.nexum-hero__left h1 {
+  margin: 0;
+  font-size: 1.875rem;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--nexum-text-strong);
+}
+
+.nexum-hero__lead {
+  margin: 14px 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: var(--nexum-text-body);
+}
+
+.nexum-hero__cta {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.nexum-hero__cta-btn,
+.nexum-hero__cta-quiet {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  padding: 12px 24px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: inherit;
+  text-decoration: none;
+  transition: opacity 0.2s, background-color 0.2s;
+}
+
+.nexum-hero__cta-btn {
+  color: #ffffff;
+  background: linear-gradient(to bottom, #2b2b2b, #101010);
+}
+
+.nexum-hero__cta-btn:hover {
+  opacity: 0.9;
+}
+
+.nexum-hero__cta-quiet {
+  color: var(--nexum-text-strong);
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+.nexum-hero__cta-quiet:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+/* ── 右侧：玻璃卡片 ── */
+.nexum-hero__cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.nexum-hero__card {
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  padding: 20px 24px;
+}
+
+.nexum-hero__stat-row {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.nexum-hero__stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nexum-hero__stat {
+  font-family: "Silkscreen", cursive;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  font-size: 1.875rem;
+  line-height: 1;
+  color: var(--nexum-text-strong);
+}
+
+.nexum-hero__stat-label {
+  font-size: 12px;
+  color: var(--nexum-text-body);
+  white-space: nowrap;
+}
+
+.nexum-hero__card--stats > p {
+  margin: 14px 0 0;
+  font-size: 0.875rem;
+  line-height: 1.625;
+  color: var(--nexum-text-body);
+}
+
+.nexum-hero__quote-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.nexum-hero__quote-badge {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  background: #b3261e;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.nexum-hero__quote-brand {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--nexum-text-strong);
+}
+
+.nexum-hero__quote-text {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: var(--nexum-text-body);
+}
+
+.nexum-hero__quote-foot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.nexum-hero__quote-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  object-fit: cover;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.nexum-hero__quote-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.nexum-hero__quote-meta strong {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--nexum-text-strong);
+}
+
+.nexum-hero__quote-meta span {
+  font-size: 0.75rem;
+  color: var(--nexum-text-faint);
+}
+
+/* ── 响应式：sm / lg ── */
+@media (max-width: 900px) {
+  .nexum-hero__routes {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* 蒙太奇静止：只显示第一张照片 */
+  .nexum-hero__slide {
+    opacity: 0;
+    animation: none;
+  }
+
+  .nexum-hero__slide:first-child {
+    opacity: 1;
+  }
+
+  .nexum-hero__slide:first-child img {
+    transform: none;
+  }
+
+  .nexum-hero__grid,
+  .nexum-hero__scan::before,
+  .nexum-hero__topline,
+  .nexum-hero__topline i,
+  .nexum-hero__routes,
+  .nexum-hero__content {
+    animation: none;
+  }
+
+  .nexum-hero__h1-line > span {
+    animation: none;
+    transform: none;
+  }
+}
+@media (min-width: 640px) {
+  .nexum-hero__content {
+    padding: 32px;
+    gap: 32px;
+  }
+
+  .nexum-hero__left h1 {
+    font-size: 2.5rem;
+  }
+
+  .nexum-hero__cta {
+    flex-direction: row;
+    align-items: center;
+    margin-top: 28px;
+  }
+
+  .nexum-hero__cards {
+    flex-direction: row;
+  }
+
+  .nexum-hero__card {
+    width: 300px;
+  }
+
+  .nexum-hero__stat {
+    font-size: 2.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .nexum-hero {
+    --nexum-text-strong: #ffffff;
+    --nexum-text-body: rgba(255, 255, 255, 0.78);
+    --nexum-text-faint: rgba(255, 255, 255, 0.6);
+  }
+
+  .nexum-hero__content {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 48px;
+    gap: 40px;
+  }
+
+  .nexum-hero__left h1 {
+    font-size: 3.5rem;
+  }
+
+  .nexum-hero__cards {
+    gap: 20px;
+  }
+}

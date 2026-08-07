@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { AssetMedia } from "../../components";
-import DomeGallery from "../../components/DomeGallery";
+import AccordionGallery from "../../components/AccordionGallery";
+import { ComicFilm } from "../../components/ComicFilm";
+import { InterviewPointList } from "../../components/InterviewPointList";
+import ShinyText from "../../components/ShinyText";
+import { RevealOnScroll } from "../../components/RevealOnScroll";
 import { getRequiredAssetById } from "../../lib/content/selectors";
 import { withBasePath } from "../../lib/site";
 import { SiteFooter, SiteHeader } from "../shared";
@@ -23,6 +27,22 @@ const domeImages = communityAssets.map((assetId) => {
       : (asset as { placeholderSrc: string }).placeholderSrc;
   return { src, alt: "社区宣讲现场" };
 });
+
+const comicFrames = [
+  "微信图片_2026-08-08_012438_853.jpg",
+  "微信图片_2026-08-08_012445_917.jpg",
+  "微信图片_2026-08-08_012448_567.jpg",
+  "微信图片_2026-08-08_012451_514.jpg",
+  "微信图片_2026-08-08_012454_353.jpg",
+  "微信图片_2026-08-08_012456_719.jpg",
+  "微信图片_2026-08-08_012459_180.jpg",
+  "微信图片_2026-08-08_012501_483.jpg",
+  "微信图片_2026-08-08_012505_788.jpg",
+  "微信图片_2026-08-08_012514_016.jpg",
+].map((file) => ({
+  src: `/media/comic-group/${file}`,
+  alt: "AI 漫画化的团队合影定格",
+}));
 
 const interviewPoints = [
   {
@@ -57,11 +77,12 @@ export default function LegacyPage() {
           <div className="legacy-hero__badge">社区宣讲 · 2026-08-04</div>
         </div>
         <div className="legacy-hero__copy">
-          <p>寻访之后，故事走进社区</p>
+          <p>
+            <ShinyText text="寻访之后，故事走进社区" />
+          </p>
           <h1 id="legacy-title">
-            让红色记忆
-            <br />
-            走进社区生活
+            <span className="legacy-hero__h1-line">让红色记忆</span>
+            <span className="legacy-hero__h1-line">走进社区生活</span>
           </h1>
           <p className="legacy-hero__lead">
             实践团队走进社区，把寻访途中采集的影像与故事带到居民身边。
@@ -72,8 +93,11 @@ export default function LegacyPage() {
 
       {/* ── 宣讲现场：照片墙 ── */}
       <section className="legacy-community" aria-labelledby="community-title">
+        <RevealOnScroll blur>
         <header className="legacy-section-heading">
-          <p>宣讲现场</p>
+          <p>
+            <ShinyText text="宣讲现场" />
+          </p>
           <div>
             <h2 id="community-title">镜头里的社区传播时刻</h2>
             <p>
@@ -82,28 +106,78 @@ export default function LegacyPage() {
             </p>
           </div>
         </header>
+        </RevealOnScroll>
 
+        <RevealOnScroll blur>
         <div className="legacy-community__dome">
-          <DomeGallery
-            images={domeImages}
-            fit={0.42}
-            minRadius={340}
-            padFactor={0.28}
-            overlayBlurColor="#120f17"
-            segments={14}
-            openedImageWidth="min(56vw, 320px)"
-            openedImageHeight="min(56vw, 320px)"
-            imageBorderRadius="14px"
-            openedImageBorderRadius="18px"
+          <AccordionGallery
+            items={domeImages.map((img, i) => ({
+              image: withBasePath(img.src),
+              label: `现场 ${String(i + 1).padStart(2, "0")}`,
+              alt: img.alt,
+            }))}
+            defaultIndex={2}
+            expandRatio={0.5}
+            trigger="hover"
+            height={440}
+            radius={14}
             grayscale={false}
+            accentColor="#D4AF37"
+            overlayColor="#120f17"
+            textColor="#F8FAFC"
           />
         </div>
+        </RevealOnScroll>
+      </section>
+
+      {/* ── AI 漫画合影：胶片长廊 ── */}
+      <section className="legacy-comic" aria-labelledby="comic-title">
+        <RevealOnScroll blur>
+          <header className="legacy-section-heading legacy-section-heading--light">
+            <p>
+              <ShinyText text="AI 漫画合影" />
+            </p>
+            <div>
+              <h2 id="comic-title">镜头之外的另一种定格</h2>
+              <p>
+                寻访间隙，我们把现场照片交给 AI 重绘成漫画。
+                一格一格同框，像一卷即兴放映的胶片——历史现场，
+                遇见了属于青年的想象力。左右滑动，一格一格看。
+              </p>
+            </div>
+          </header>
+        </RevealOnScroll>
+
+        <ComicFilm
+          frames={comicFrames.map((frame) => ({
+            ...frame,
+            src: withBasePath(frame.src),
+          }))}
+        />
+
+        <RevealOnScroll blur>
+          <div className="legacy-comic__ticker" aria-hidden="true">
+            <div className="legacy-comic__ticker-track">
+              <span>咔嚓 ×10 · AI 漫画合影</span>
+              <span>从寻访现场到社区宣讲</span>
+              <span>历史坐标 · 青春同框</span>
+              <span>2026 盛夏 · 行走的坐标</span>
+              <span>咔嚓 ×10 · AI 漫画合影</span>
+              <span>从寻访现场到社区宣讲</span>
+              <span>历史坐标 · 青春同框</span>
+              <span>2026 盛夏 · 行走的坐标</span>
+            </div>
+          </div>
+        </RevealOnScroll>
       </section>
 
       {/* ── 访谈观点 ── */}
       <section className="legacy-voice" aria-labelledby="voice-title">
+        <RevealOnScroll blur>
         <header className="legacy-section-heading legacy-section-heading--light">
-          <p>调研访谈</p>
+          <p>
+            <ShinyText text="调研访谈" />
+          </p>
           <div>
             <h2 id="voice-title">关于红色文化数字化传播，我们听到了什么</h2>
             <p>
@@ -111,40 +185,31 @@ export default function LegacyPage() {
             </p>
           </div>
         </header>
+        </RevealOnScroll>
 
-        <div className="legacy-voice__list">
-          {interviewPoints.map((point, index) => (
-            <article className="legacy-voice__item" key={point.title}>
-              <span className="legacy-voice__number">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <div>
-                <h3>{point.title}</h3>
-                <p>{point.text}</p>
-              </div>
-            </article>
-          ))}
-        </div>
+        <InterviewPointList points={interviewPoints} />
       </section>
 
       {/* ── 结尾行动 ── */}
       <section className="legacy-closing" aria-labelledby="legacy-closing-title">
-        <div className="legacy-closing__copy">
-          <p>传播没有终点</p>
-          <h2 id="legacy-closing-title">
-            从寻访到宣讲，
-            <br />
-            红色基因在一次次抵达中延续。
-          </h2>
-          <div>
-            <a href={withBasePath("/journey")}>
-              浏览完整路线 <span aria-hidden="true">→</span>
-            </a>
-            <a href={withBasePath("/outcomes")}>
-              查看成果状态 <span aria-hidden="true">→</span>
-            </a>
+        <RevealOnScroll blur>
+          <div className="legacy-closing__copy">
+            <p>传播没有终点</p>
+            <h2 id="legacy-closing-title">
+              从寻访到宣讲，
+              <br />
+              红色基因在一次次抵达中延续。
+            </h2>
+            <div>
+              <a href={withBasePath("/journey")}>
+                浏览完整路线 <span aria-hidden="true">→</span>
+              </a>
+              <a href={withBasePath("/outcomes")}>
+                查看成果状态 <span aria-hidden="true">→</span>
+              </a>
+            </div>
           </div>
-        </div>
+        </RevealOnScroll>
       </section>
 
       <SiteFooter />

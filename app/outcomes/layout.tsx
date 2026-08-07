@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "../../styles/pages/outcomes.css";
+import "../../styles/components/photo-walk.css";
 
 export const metadata: Metadata = {
   title: "实践成果",
