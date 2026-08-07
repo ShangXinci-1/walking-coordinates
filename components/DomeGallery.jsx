@@ -651,6 +651,8 @@ export default function DomeGallery({
                   <img
                     src={it.src ? withBasePath(it.src) : ""}
                     draggable={false}
+                    loading="lazy"
+                    decoding="async"
                     alt={it.alt}
                   />
                 </div>
