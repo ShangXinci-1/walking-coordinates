@@ -1,0 +1,262 @@
+/* ═══════════════════════════════════════════
+   NexumHero：全屏视频英雄区（nexum 风格实验版）
+   视频背景 + 玻璃拟态卡片 + 底部锚定内容
+   ═══════════════════════════════════════════ */
+
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Silkscreen:wght@400;700&display=swap");
+
+.nexum-hero {
+  --nexum-ink: #010101;
+  --nexum-text-strong: #010101;
+  --nexum-text-body: rgba(1, 1, 1, 0.7);
+  --nexum-text-faint: rgba(1, 1, 1, 0.6);
+
+  position: relative;
+  height: calc(100svh - var(--header-height));
+  min-height: 560px;
+  overflow: hidden;
+  font-family: "Geist", -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: #0b0b0d;
+}
+
+.nexum-hero__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.nexum-hero__content {
+  position: relative;
+  z-index: 10;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  justify-content: flex-end;
+  padding: 20px 20px 32px;
+}
+
+/* ── 左侧：主标题 + CTA ── */
+.nexum-hero__left {
+  max-width: 36rem;
+}
+
+.nexum-hero__left h1 {
+  margin: 0;
+  font-size: 1.875rem;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--nexum-text-strong);
+}
+
+.nexum-hero__cta {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nexum-hero__cta input {
+  outline: none;
+  border: none;
+  border-radius: 999px;
+  background: #ffffff;
+  padding: 12px 20px;
+  font-size: 0.875rem;
+  font-family: inherit;
+  color: #111111;
+}
+
+.nexum-hero__cta input::placeholder {
+  color: #9ca3af;
+}
+
+.nexum-hero__cta-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 12px 24px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: inherit;
+  color: #ffffff;
+  background: linear-gradient(to bottom, #2b2b2b, #101010);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.nexum-hero__cta-btn:hover {
+  opacity: 0.9;
+}
+
+/* ── 右侧：玻璃卡片 ── */
+.nexum-hero__cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.nexum-hero__card {
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  padding: 20px 24px;
+}
+
+.nexum-hero__card--stats {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.nexum-hero__stat {
+  font-family: "Silkscreen", cursive;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  font-size: 1.875rem;
+  color: var(--nexum-text-strong);
+}
+
+.nexum-hero__card--stats p {
+  margin: 12px 0 0;
+  font-size: 0.875rem;
+  line-height: 1.625;
+  color: var(--nexum-text-body);
+}
+
+.nexum-hero__quote-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.nexum-hero__quote-badge {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  background: #000000;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.nexum-hero__quote-brand {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--nexum-text-strong);
+}
+
+.nexum-hero__quote-text {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.625;
+  color: var(--nexum-text-body);
+}
+
+.nexum-hero__quote-foot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.nexum-hero__quote-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  object-fit: cover;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.nexum-hero__quote-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.nexum-hero__quote-meta strong {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--nexum-text-strong);
+}
+
+.nexum-hero__quote-meta span {
+  font-size: 0.75rem;
+  color: var(--nexum-text-faint);
+}
+
+/* ── 响应式：sm / lg ── */
+@media (min-width: 640px) {
+  .nexum-hero__content {
+    padding: 32px;
+    gap: 32px;
+  }
+
+  .nexum-hero__left h1 {
+    font-size: 2.25rem;
+  }
+
+  .nexum-hero__cta {
+    flex-direction: row;
+    align-items: center;
+    border-radius: 999px;
+    background: #ffffff;
+    padding: 6px;
+    width: fit-content;
+    margin-top: 32px;
+  }
+
+  .nexum-hero__cta input {
+    width: 256px;
+    border-radius: 0;
+    background: transparent;
+    padding: 8px 16px;
+  }
+
+  .nexum-hero__cta-btn {
+    padding: 10px 24px;
+  }
+
+  .nexum-hero__cards {
+    flex-direction: row;
+  }
+
+  .nexum-hero__card {
+    width: 256px;
+  }
+
+  .nexum-hero__stat {
+    font-size: 2.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .nexum-hero {
+    --nexum-text-strong: #ffffff;
+    --nexum-text-body: rgba(255, 255, 255, 0.7);
+    --nexum-text-faint: rgba(255, 255, 255, 0.6);
+  }
+
+  .nexum-hero__content {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 48px;
+    gap: 40px;
+  }
+
+  .nexum-hero__left h1 {
+    font-size: 3.5rem;
+  }
+
+  .nexum-hero__cards {
+    gap: 20px;
+  }
+}

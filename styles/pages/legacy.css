@@ -140,6 +140,14 @@
   height: 100%;
 }
 
+/* 手风琴画廊：在暗色容器内水平垂直居中 */
+.legacy-community__dome .accordion-gallery {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: min(100%, calc(100% - 24px));
+}
+
 /* 移动端：球形画廊更低更紧凑 */
 @media (max-width: 700px) {
   .legacy-community__dome {

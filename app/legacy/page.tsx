@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { AssetMedia } from "../../components";
-import DomeGallery from "../../components/DomeGallery";
+import AccordionGallery from "../../components/AccordionGallery";
 import { getRequiredAssetById } from "../../lib/content/selectors";
 import { withBasePath } from "../../lib/site";
 import { SiteFooter, SiteHeader } from "../shared";
@@ -84,18 +84,21 @@ export default function LegacyPage() {
         </header>
 
         <div className="legacy-community__dome">
-          <DomeGallery
-            images={domeImages}
-            fit={0.42}
-            minRadius={340}
-            padFactor={0.28}
-            overlayBlurColor="#120f17"
-            segments={14}
-            openedImageWidth="min(56vw, 320px)"
-            openedImageHeight="min(56vw, 320px)"
-            imageBorderRadius="14px"
-            openedImageBorderRadius="18px"
+          <AccordionGallery
+            items={domeImages.map((img, i) => ({
+              image: withBasePath(img.src),
+              label: `现场 ${String(i + 1).padStart(2, "0")}`,
+              alt: img.alt,
+            }))}
+            defaultIndex={2}
+            expandRatio={0.5}
+            trigger="hover"
+            height={440}
+            radius={14}
             grayscale={false}
+            accentColor="#D4AF37"
+            overlayColor="#120f17"
+            textColor="#F8FAFC"
           />
         </div>
       </section>
