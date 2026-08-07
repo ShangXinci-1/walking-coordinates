@@ -5,8 +5,11 @@ import {
   exhibitionSites,
   routeLabels,
 } from "../../data/exhibition";
+import { sites } from "../../data/sites";
+import { getRequiredAssetById } from "../../lib/content/selectors";
 import { withBasePath } from "../../lib/site";
 import type { RouteId } from "../../lib/content/types";
+import { PhotoWalk, type PhotoWalkImage } from "./PhotoWalk";
 
 interface ExhibitionBrowserProps {
   onClose: () => void;
@@ -14,15 +17,34 @@ interface ExhibitionBrowserProps {
 
 const routeOrder: RouteId[] = ["awakening", "war", "capital"];
 
+/** 该地点的实地照片列表（来自地点档案图库） */
+function sitePhotos(siteId: string): PhotoWalkImage[] {
+  const site = sites.find((s) => s.id === siteId);
+  if (!site) return [];
+  return site.galleryAssetIds.map((assetId) => {
+    const asset = getRequiredAssetById(assetId);
+    const src =
+      asset.assetStatus === "ready"
+        ? (asset as { finalSrc: string }).finalSrc
+        : (asset as { placeholderSrc: string }).placeholderSrc;
+    return { src, alt: asset.alt };
+  });
+}
+
 export function ExhibitionBrowser({ onClose }: ExhibitionBrowserProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const [activeSiteId, setActiveSiteId] = useState<string>(
     exhibitionSites[0].id,
   );
+  const [walkSite, setWalkSite] = useState<{
+    name: string;
+    images: PhotoWalkImage[];
+  } | null>(null);
   const activeSite =
     exhibitionSites.find((site) => site.id === activeSiteId) ??
     exhibitionSites[0];
   const availableSites = exhibitionSites.filter((site) => site.vrUrl);
+  const activePhotos = sitePhotos(activeSite.id);
 
   /* ── keyboard: Esc 关闭 ── */
   useEffect(() => {
@@ -88,7 +110,7 @@ export function ExhibitionBrowser({ onClose }: ExhibitionBrowserProps) {
       </header>
 
       <div className="exhibition-browser__layout">
-        {/* ── 主视觉：VR 实景封面 ── */}
+        {/* ── 主视觉：VR 实景封面 / 照片漫游 ── */}
         <section className="exhibition-browser__stage" aria-label="展厅主视觉">
           {activeSite.coverSrc ? (
             <img
@@ -96,6 +118,13 @@ export function ExhibitionBrowser({ onClose }: ExhibitionBrowserProps) {
               className="exhibition-browser__cover"
               src={withBasePath(activeSite.coverSrc)}
               alt={activeSite.coverAlt}
+            />
+          ) : activePhotos.length > 0 ? (
+            <img
+              key={activeSite.id}
+              className="exhibition-browser__cover"
+              src={withBasePath(activePhotos[0].src)}
+              alt={activePhotos[0].alt}
             />
           ) : (
             <div className="exhibition-browser__empty">
@@ -110,21 +139,31 @@ export function ExhibitionBrowser({ onClose }: ExhibitionBrowserProps) {
               <span>{routeLabels[activeSite.routeId]}</span>
               <strong>{activeSite.name}</strong>
             </div>
-            <button
-              type="button"
-              className="exhibition-browser__enter"
-              disabled={!activeSite.vrUrl}
-              onClick={enterVr}
-            >
-              {activeSite.vrUrl ? (
-                <>
-                  进入 VR 全景现场
-                  <span aria-hidden="true">↗</span>
-                </>
-              ) : (
-                "VR 制作中"
-              )}
-            </button>
+            {activeSite.vrUrl ? (
+              <button
+                type="button"
+                className="exhibition-browser__enter"
+                onClick={enterVr}
+              >
+                进入 VR 全景现场
+                <span aria-hidden="true">↗</span>
+              </button>
+            ) : activePhotos.length > 0 ? (
+              <button
+                type="button"
+                className="exhibition-browser__enter"
+                onClick={() =>
+                  setWalkSite({ name: activeSite.name, images: activePhotos })
+                }
+              >
+                照片漫游（{activePhotos.length} 张）
+                <span aria-hidden="true">→</span>
+              </button>
+            ) : (
+              <button type="button" className="exhibition-browser__enter" disabled>
+                VR 制作中
+              </button>
+            )}
           </div>
         </section>
 
@@ -141,6 +180,12 @@ export function ExhibitionBrowser({ onClose }: ExhibitionBrowserProps) {
                 {group.sites.map((site) => {
                   const active = site.id === activeSiteId;
                   const available = Boolean(site.vrUrl);
+                  const hasPhotos = sitePhotos(site.id).length > 0;
+                  const status = available
+                    ? "VR 已开放"
+                    : hasPhotos
+                      ? "照片漫游"
+                      : "制作中";
                   return (
                     <li key={site.id}>
                       <button
@@ -148,6 +193,7 @@ export function ExhibitionBrowser({ onClose }: ExhibitionBrowserProps) {
                         className="exhibition-browser__site"
                         data-active={active}
                         data-available={available}
+                        data-walk={!available && hasPhotos}
                         onClick={() => setActiveSiteId(site.id)}
                         aria-current={active ? "true" : undefined}
                       >
@@ -158,7 +204,7 @@ export function ExhibitionBrowser({ onClose }: ExhibitionBrowserProps) {
                           {site.name}
                         </span>
                         <span className="exhibition-browser__site-status">
-                          {available ? "VR 已开放" : "制作中"}
+                          {status}
                         </span>
                       </button>
                     </li>
@@ -172,8 +218,8 @@ export function ExhibitionBrowser({ onClose }: ExhibitionBrowserProps) {
 
       <footer className="exhibition-browser__footer">
         <span>
-          当前开放 {availableSites.length} / {exhibitionSites.length} 处 VR
-          场景
+          VR 全景 {availableSites.length} 处 · 照片漫游{" "}
+          {exhibitionSites.length - availableSites.length} 处
         </span>
         <button
           type="button"
@@ -184,6 +230,14 @@ export function ExhibitionBrowser({ onClose }: ExhibitionBrowserProps) {
           在 720 云中打开当前场景 <span aria-hidden="true">↗</span>
         </button>
       </footer>
+
+      {walkSite && (
+        <PhotoWalk
+          siteName={walkSite.name}
+          images={walkSite.images}
+          onClose={() => setWalkSite(null)}
+        />
+      )}
     </div>
   );
 }

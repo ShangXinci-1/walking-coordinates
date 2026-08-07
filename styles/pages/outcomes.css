@@ -1003,6 +1003,17 @@
   cursor: not-allowed;
 }
 
+/* 照片漫游地点：可点击，但视觉弱于 VR 已开放 */
+.exhibition-browser__site[data-walk="true"] {
+  opacity: 0.85;
+  cursor: pointer;
+}
+
+.exhibition-browser__site[data-walk="true"] .exhibition-browser__site-status {
+  background: oklch(0.72 0.12 70 / 0.16);
+  color: var(--amber);
+}
+
 .exhibition-browser__site-no {
   color: var(--amber);
   font-size: 12px;
