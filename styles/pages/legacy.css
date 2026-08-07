@@ -520,3 +520,177 @@
     animation: none;
   }
 }
+
+/* ═══ AI 漫画合影：胶片长廊 ═══ */
+.legacy-comic {
+  position: relative;
+  padding: var(--section-space) var(--gutter);
+  background:
+    radial-gradient(ellipse at 50% -10%, oklch(0.42 0.13 60 / 0.2), transparent 55%),
+    radial-gradient(ellipse at 10% 70%, oklch(0.5 0.14 30 / 0.14), transparent 48%),
+    oklch(0.155 0.02 24);
+  color: var(--paper-pure);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* 全出血横向胶片条：负边距抵消 section 内边距，首尾卡片与版心对齐 */
+.legacy-comic__film {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 28px;
+  margin-inline: calc(var(--gutter) * -1);
+  padding: 56px var(--gutter) 40px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  touch-action: pan-x;
+  /* 左右渐隐：滚动到边缘时卡片柔和淡出，暗示「画框外还有一格」 */
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    oklch(0 0 0 / 1) var(--gutter),
+    oklch(0 0 0 / 1) calc(100% - var(--gutter)),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    black var(--gutter),
+    black calc(100% - var(--gutter)),
+    transparent 100%
+  );
+}
+
+.legacy-comic__film::-webkit-scrollbar {
+  display: none;
+}
+
+/* 拍立得卡片：白边 + 交错倾角（stagger 入场时保留倾角） */
+.legacy-comic__film.stagger-reveal > .legacy-comic__shot {
+  --tilt: -2deg;
+  opacity: 0;
+  transform: translateY(20px) rotate(var(--tilt));
+}
+
+.legacy-comic__shot {
+  flex: 0 0 clamp(240px, 30vw, 300px);
+  margin: 0;
+  padding: 14px 14px 0;
+  border-radius: 10px;
+  background: #fdfaf3;
+  box-shadow: 0 18px 40px oklch(0 0 0 / 0.45);
+  transform: rotate(var(--tilt, -2deg));
+  scroll-snap-align: center;
+}
+
+.legacy-comic__shot:nth-child(2n) {
+  --tilt: 2.4deg;
+}
+
+.legacy-comic__shot:nth-child(3n) {
+  --tilt: -1.4deg;
+}
+
+.legacy-comic__shot:nth-child(5n) {
+  --tilt: 1.2deg;
+}
+
+.legacy-comic__film.stagger-reveal.is-visible > .legacy-comic__shot {
+  opacity: 1;
+  transform: rotate(var(--tilt));
+  transition-delay: 0ms;
+}
+
+.legacy-comic__shot img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.legacy-comic__shot figcaption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 4px 16px;
+  color: oklch(0.3 0.03 60);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.legacy-comic__shot-no {
+  color: var(--red-bright-accessible);
+  font-family: var(--font-mono, ui-monospace, "SF Mono", Consolas, monospace);
+  font-weight: 900;
+  letter-spacing: 0.1em;
+}
+
+/* hover：摆正 + 放大 + 金色描边（悬停期间取消 stagger 延迟，回弹不卡顿） */
+.legacy-comic__film.stagger-reveal .legacy-comic__shot:hover {
+  transform: rotate(0deg) scale(1.05);
+  box-shadow:
+    0 26px 60px oklch(0 0 0 / 0.55),
+    0 0 0 1px oklch(0.72 0.12 70 / 0.4);
+  transition:
+    transform 450ms var(--ease-out),
+    box-shadow 450ms var(--ease-out),
+    opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1;
+}
+
+/* 底部滚动条幅：内容复制两份，-50% 平移实现无缝循环 */
+.legacy-comic__ticker {
+  position: relative;
+  z-index: 1;
+  margin-top: clamp(36px, 5vw, 64px);
+  margin-inline: calc(var(--gutter) * -1);
+  overflow: hidden;
+  border-block: 1px solid oklch(0.72 0.12 70 / 0.25);
+  background: oklch(0 0 0 / 0.28);
+}
+
+.legacy-comic__ticker-track {
+  display: flex;
+  width: max-content;
+  animation: legacy-comic-ticker 36s linear infinite;
+  will-change: transform;
+}
+
+.legacy-comic__ticker-track span {
+  padding: 15px 30px;
+  color: var(--amber);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.26em;
+  white-space: nowrap;
+}
+
+.legacy-comic__ticker-track span::after {
+  margin-left: 60px;
+  color: oklch(0.72 0.12 70 / 0.45);
+  content: "✦";
+  font-size: 0.7rem;
+}
+
+@keyframes legacy-comic-ticker {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .legacy-comic__ticker-track {
+    animation: none;
+  }
+
+  .legacy-comic__shot,
+  .legacy-comic__film.stagger-reveal.is-visible > .legacy-comic__shot,
+  .legacy-comic__film.stagger-reveal .legacy-comic__shot:hover {
+    transform: none;
+  }
+}

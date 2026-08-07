@@ -250,7 +250,10 @@ export default function Home() {
       <section className="home-closing" aria-labelledby="closing-title">
         <RevealOnScroll blur>
           <p>下一站，由路线与证据共同指向。</p>
-          <h2 id="closing-title">从一个坐标开始，读懂一段仍在被传承的历史。</h2>
+          <h2 id="closing-title">
+            <span className="home-closing__h1-line">从一个坐标开始，</span>
+            <span className="home-closing__h1-line">读懂一段仍在被传承的历史。</span>
+          </h2>
           <div>
             <a className="home-action home-action--light" href={withBasePath("/journey")}>
               浏览完整路线

@@ -60,7 +60,7 @@ export const sites: readonly SiteRecord[] = [
     ),
     historySummary: [],
     practiceSummary: [],
-    assetIds: ["field-01"],
+    assetIds: ["beida-honglou-01"],
     reviewStatus: "draft",
     publicationStatus: "planned",
     detailContent: [
@@ -95,7 +95,7 @@ export const sites: readonly SiteRecord[] = [
     ),
     historySummary: [],
     practiceSummary: [],
-    assetIds: [],
+    assetIds: ["new-youth-editorial-01"],
     reviewStatus: "draft",
     publicationStatus: "planned",
     detailContent: [
@@ -134,7 +134,7 @@ export const sites: readonly SiteRecord[] = [
     ),
     historySummary: [],
     practiceSummary: [],
-    assetIds: [],
+    assetIds: ["li-dazhao-01"],
     reviewStatus: "draft",
     publicationStatus: "planned",
     detailContent: [
@@ -169,7 +169,7 @@ export const sites: readonly SiteRecord[] = [
     ),
     historySummary: [],
     practiceSummary: [],
-    assetIds: [],
+    assetIds: ["jingbao-hall-01"],
     reviewStatus: "draft",
     publicationStatus: "planned",
     detailContent: [
@@ -204,7 +204,7 @@ export const sites: readonly SiteRecord[] = [
     ),
     historySummary: [],
     practiceSummary: [],
-    assetIds: [],
+    assetIds: ["lu-xun-museum-01"],
     reviewStatus: "draft",
     publicationStatus: "planned",
     detailContent: [
@@ -239,7 +239,7 @@ export const sites: readonly SiteRecord[] = [
     ),
     historySummary: [],
     practiceSummary: [],
-    assetIds: ["field-03"],
+    assetIds: ["war-sculpture-park-01"],
     reviewStatus: "draft",
     publicationStatus: "planned",
     detailContent: [
@@ -274,7 +274,7 @@ export const sites: readonly SiteRecord[] = [
     ),
     historySummary: [],
     practiceSummary: [],
-    assetIds: [],
+    assetIds: ["lugou-bridge-01"],
     reviewStatus: "draft",
     publicationStatus: "planned",
     detailContent: [
@@ -309,7 +309,7 @@ export const sites: readonly SiteRecord[] = [
     ),
     historySummary: [],
     practiceSummary: [],
-    assetIds: [],
+    assetIds: ["wanping-city-01"],
     reviewStatus: "draft",
     publicationStatus: "planned",
     detailContent: [
@@ -344,7 +344,7 @@ export const sites: readonly SiteRecord[] = [
     ),
     historySummary: [],
     practiceSummary: [],
-    assetIds: [],
+    assetIds: ["war-museum-01"],
     reviewStatus: "draft",
     publicationStatus: "planned",
     detailContent: [

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { AssetMedia } from "../../components";
 import AccordionGallery from "../../components/AccordionGallery";
+import { ComicFilm } from "../../components/ComicFilm";
 import { InterviewPointList } from "../../components/InterviewPointList";
 import ShinyText from "../../components/ShinyText";
 import { RevealOnScroll } from "../../components/RevealOnScroll";
@@ -26,6 +27,22 @@ const domeImages = communityAssets.map((assetId) => {
       : (asset as { placeholderSrc: string }).placeholderSrc;
   return { src, alt: "社区宣讲现场" };
 });
+
+const comicFrames = [
+  "微信图片_2026-08-08_012438_853.jpg",
+  "微信图片_2026-08-08_012445_917.jpg",
+  "微信图片_2026-08-08_012448_567.jpg",
+  "微信图片_2026-08-08_012451_514.jpg",
+  "微信图片_2026-08-08_012454_353.jpg",
+  "微信图片_2026-08-08_012456_719.jpg",
+  "微信图片_2026-08-08_012459_180.jpg",
+  "微信图片_2026-08-08_012501_483.jpg",
+  "微信图片_2026-08-08_012505_788.jpg",
+  "微信图片_2026-08-08_012514_016.jpg",
+].map((file) => ({
+  src: `/media/comic-group/${file}`,
+  alt: "AI 漫画化的团队合影定格",
+}));
 
 const interviewPoints = [
   {
@@ -110,6 +127,47 @@ export default function LegacyPage() {
             textColor="#F8FAFC"
           />
         </div>
+        </RevealOnScroll>
+      </section>
+
+      {/* ── AI 漫画合影：胶片长廊 ── */}
+      <section className="legacy-comic" aria-labelledby="comic-title">
+        <RevealOnScroll blur>
+          <header className="legacy-section-heading legacy-section-heading--light">
+            <p>
+              <ShinyText text="AI 漫画合影" />
+            </p>
+            <div>
+              <h2 id="comic-title">镜头之外的另一种定格</h2>
+              <p>
+                寻访间隙，我们把现场照片交给 AI 重绘成漫画。
+                一格一格同框，像一卷即兴放映的胶片——历史现场，
+                遇见了属于青年的想象力。左右滑动，一格一格看。
+              </p>
+            </div>
+          </header>
+        </RevealOnScroll>
+
+        <ComicFilm
+          frames={comicFrames.map((frame) => ({
+            ...frame,
+            src: withBasePath(frame.src),
+          }))}
+        />
+
+        <RevealOnScroll blur>
+          <div className="legacy-comic__ticker" aria-hidden="true">
+            <div className="legacy-comic__ticker-track">
+              <span>咔嚓 ×10 · AI 漫画合影</span>
+              <span>从寻访现场到社区宣讲</span>
+              <span>历史坐标 · 青春同框</span>
+              <span>2026 盛夏 · 行走的坐标</span>
+              <span>咔嚓 ×10 · AI 漫画合影</span>
+              <span>从寻访现场到社区宣讲</span>
+              <span>历史坐标 · 青春同框</span>
+              <span>2026 盛夏 · 行走的坐标</span>
+            </div>
+          </div>
         </RevealOnScroll>
       </section>
 
