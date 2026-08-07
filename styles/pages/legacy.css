@@ -463,6 +463,17 @@
     align-items: center;
     gap: 24px;
   }
+
+  /* 胶片长廊：触摸原生滑动，隐藏箭头按钮；条幅更紧凑 */
+  .legacy-comic__nav {
+    display: none;
+  }
+
+  .legacy-comic__ticker-track span {
+    padding: 13px 20px;
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -535,17 +546,21 @@
 }
 
 /* 全出血横向胶片条：负边距抵消 section 内边距，首尾卡片与版心对齐 */
+.legacy-comic__film-wrap {
+  position: relative;
+  margin-inline: calc(var(--gutter) * -1);
+}
+
 .legacy-comic__film {
   position: relative;
   z-index: 1;
   display: flex;
   gap: 28px;
-  margin-inline: calc(var(--gutter) * -1);
   padding: 56px var(--gutter) 40px;
   overflow-x: auto;
   scroll-snap-type: x proximity;
   scrollbar-width: none;
-  touch-action: pan-x;
+  cursor: grab;
   /* 左右渐隐：滚动到边缘时卡片柔和淡出，暗示「画框外还有一格」 */
   mask-image: linear-gradient(
     90deg,
@@ -565,6 +580,53 @@
 
 .legacy-comic__film::-webkit-scrollbar {
   display: none;
+}
+
+/* 拖拽中：停用贴齐避免跳动 */
+.legacy-comic__film.is-dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+  user-select: none;
+}
+
+/* 左右箭头（桌面）；触摸设备隐藏，原生滑动即可 */
+.legacy-comic__nav {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid oklch(0.72 0.12 70 / 0.45);
+  border-radius: 50%;
+  background: oklch(0.1 0.02 24 / 0.72);
+  color: var(--amber);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  opacity: 0.85;
+  transition:
+    opacity 300ms var(--ease-out),
+    transform 300ms var(--ease-out),
+    background 300ms var(--ease-out);
+}
+
+.legacy-comic__nav:hover {
+  opacity: 1;
+  background: oklch(0.18 0.04 24 / 0.9);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.legacy-comic__nav--prev {
+  left: 10px;
+}
+
+.legacy-comic__nav--next {
+  right: 10px;
 }
 
 /* 拍立得卡片：白边 + 交错倾角（stagger 入场时保留倾角） */

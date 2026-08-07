@@ -128,6 +128,10 @@ export default function Home() {
                 ))}
               </ul>
 
+              <span className="home-method__evidence">
+                <i aria-hidden="true" />
+                {step.evidence}
+              </span>
             </li>
           ))}
         </ol>
