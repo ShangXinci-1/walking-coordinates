@@ -1,0 +1,16 @@
+node_modules/
+.next/
+out/
+dist/
+.env.local
+.env*.local
+.wrangler/
+*.tsbuildinfo
+Deploy.local.md
+data/generated/
+playwright-report/
+test-results/
+output/playwright/
+.playwright-cli/
+lighthouse-results/
+.lighthouseci/

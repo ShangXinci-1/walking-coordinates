@@ -1,0 +1,107 @@
+:root {
+  --red: oklch(0.36 0.135 24);
+  --red-deep: oklch(0.245 0.082 22);
+  --red-bright: oklch(0.59 0.205 25);
+  --red-bright-accessible: oklch(0.48 0.18 25);
+  --ink: oklch(0.115 0 0);
+  --paper: oklch(0.97 0.006 24);
+  --paper-pure: oklch(1 0 0);
+  --paper-soft: oklch(0.94 0.012 22);
+  --amber: oklch(0.72 0.12 70);
+  --amber-ink: oklch(0.43 0.1 70);
+  --coordinate: var(--amber);
+  --muted-dark: oklch(0.72 0.01 24);
+  --muted-light: oklch(0.42 0.015 24);
+  --muted: var(--muted-light);
+  --success: oklch(0.43 0.1 150);
+  --line-dark: oklch(0.115 0 0 / 0.16);
+  --line-light: oklch(1 0 0 / 0.24);
+  --content-max: 1440px;
+  --reading-max: 760px;
+  --gutter: clamp(20px, 4vw, 64px);
+  --section-space: clamp(80px, 10vw, 160px);
+  --header-height: 64px;
+  --target-size: 44px;
+  --z-sticky: 20;
+  --z-dropdown: 30;
+  --duration-fast: 180ms;
+  --duration-medium: 320ms;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --font-sans:
+    "Source Han Sans SC", "Noto Sans CJK SC", "Microsoft YaHei", "PingFang SC",
+    Arial, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+  overflow-x: hidden;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+:where(h1, h2, h3, p, figure, blockquote, dl, dd, ul, ol) {
+  margin: 0;
+}
+
+:where(ul, ol) {
+  padding: 0;
+}
+
+button,
+a {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+::selection {
+  background: var(--coordinate);
+  color: var(--ink);
+}
+
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 3px;
+}
+
+:where(h1, h2, h3) {
+  letter-spacing: clamp(-0.04em, -0.03em, -0.02em);
+  text-wrap: balance;
+}
+
+:where(p, li, dd) {
+  text-wrap: pretty;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
