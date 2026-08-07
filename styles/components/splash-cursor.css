@@ -1,9 +1,0 @@
-/* SplashCursor：金色粒子拖尾画布
-   全屏固定、不挡交互；混合模式让粒子在明暗背景上都自然融合 */
-.splash-cursor {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  pointer-events: none;
-  mix-blend-mode: plus-lighter;
-}

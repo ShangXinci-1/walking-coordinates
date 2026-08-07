@@ -1,0 +1,107 @@
+/* CursorCoordinates：光标坐标准星 + 柔光跟随（全站装饰层） */
+
+.cursor-coordinates {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* 柔光：大半径金色径向渐变，lerp 平滑跟随，screen 混合叠加 */
+
+.cursor-coordinates__glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: min(32rem, 65vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(212, 175, 55, 0.11),
+    rgba(212, 175, 55, 0.05) 42%,
+    transparent 68%
+  );
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  will-change: transform;
+}
+
+.cursor-coordinates__glow.is-visible {
+  opacity: 1;
+}
+
+/* 准星：金色十字线 + 中心点，紧贴鼠标 */
+
+.cursor-coordinates__reticle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  will-change: transform;
+}
+
+.cursor-coordinates__reticle.is-visible {
+  opacity: 1;
+}
+
+.cursor-coordinates__cross {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle,
+    rgba(212, 175, 55, 0.95) 0 1.5px,
+    transparent 2px
+  ) center / 100% 100% no-repeat;
+}
+
+.cursor-coordinates__cross::before,
+.cursor-coordinates__cross::after {
+  content: "";
+  position: absolute;
+  background: rgba(212, 175, 55, 0.85);
+  box-shadow: 0 0 6px rgba(212, 175, 55, 0.45);
+}
+
+.cursor-coordinates__cross::before {
+  top: 8%;
+  left: 50%;
+  width: 1px;
+  height: 84%;
+  transform: translateX(-50%);
+}
+
+.cursor-coordinates__cross::after {
+  top: 50%;
+  left: 8%;
+  height: 1px;
+  width: 84%;
+  transform: translateY(-50%);
+}
+
+/* 坐标读数：准星右下方，等宽金色小字 */
+
+.cursor-coordinates__coord {
+  position: absolute;
+  top: 0.3rem;
+  left: 1.85rem;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: rgba(212, 175, 55, 0.8);
+  white-space: nowrap;
+  text-shadow:
+    0 0 4px rgba(0, 0, 0, 0.85),
+    0 0 10px rgba(0, 0, 0, 0.6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor-coordinates {
+    display: none;
+  }
+}
