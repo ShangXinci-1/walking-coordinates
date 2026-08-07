@@ -30,8 +30,7 @@ export default function OutcomesPage() {
   const [exhibitionOpen, setExhibitionOpen] = useState(false);
   const [newsOpen, setNewsOpen] = useState(false);
   const exhibitionVrUrl =
-    exhibitionSites.find((site) => site.id === "beida-honglou")?.vrUrl ??
-    null;
+    exhibitionSites.find((site) => site.vrUrl)?.vrUrl ?? null;
 
   return (
     <main className="outcomes-page">

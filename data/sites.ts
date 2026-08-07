@@ -379,7 +379,7 @@ export const sites: readonly SiteRecord[] = [
     ),
     historySummary: [],
     practiceSummary: [],
-    assetIds: [],
+    assetIds: ["black-mountain-memorial-01"],
     reviewStatus: "draft",
     publicationStatus: "planned",
     detailContent: [
@@ -389,7 +389,9 @@ export const sites: readonly SiteRecord[] = [
         sourceIds: [PROJECT_SCOPE_SOURCE_ID, DESIGN_SPEC_SOURCE_ID],
       },
     ],
-    galleryAssetIds: ["field-02", "field-03"],
+    galleryAssetIds: [
+      "black-mountain-memorial-01", "black-mountain-memorial-02", "black-mountain-memorial-03", "black-mountain-memorial-04", "black-mountain-memorial-05", "black-mountain-memorial-06", "black-mountain-memorial-07", "black-mountain-memorial-08", "black-mountain-memorial-09", "black-mountain-memorial-10", "black-mountain-memorial-11", "black-mountain-memorial-12",
+    ],
   },
   {
     id: "xiangshan-revolutionary-site",
@@ -413,7 +415,7 @@ export const sites: readonly SiteRecord[] = [
     ),
     historySummary: [],
     practiceSummary: [],
-    assetIds: ["field-04"],
+    assetIds: ["xiangshan-01"],
     reviewStatus: "draft",
     publicationStatus: "planned",
     detailContent: [
@@ -422,8 +424,15 @@ export const sites: readonly SiteRecord[] = [
         text: "香山革命纪念地位于北京市海淀区香山公园内，包括香山革命纪念馆和香山革命旧址两部分。1949年3月，中共中央由西柏坡迁至北平后，暂驻香山，这里成为中国共产党领导全国解放战争和筹建新中国的指挥中心。毛泽东同志在香山的双清别墅居住和工作了181天，在此发表了《论人民民主专政》等重要著作，指挥了渡江战役。纪念馆基本陈列“为新中国奠基”通过800余张历史照片和1200余件文物，系统展示了香山时期的革命历史。实践队员重点拍摄了双清别墅、来青轩等旧址的保存现状。",
         sourceIds: [PROJECT_SCOPE_SOURCE_ID, DESIGN_SPEC_SOURCE_ID],
       },
+      {
+        id: "xiangshan-detail-2",
+        text: "【实地资料·香山革命纪念馆简介】香山革命纪念馆位于北京市海淀区，紧邻香山公园。纪念馆占地面积2.4公顷，2019年9月13日正式对外开放。建筑的最大特点为保留两根轴线，轴线坐南朝北，东西轴线为南广场和一层群众接待等工作。香山革命纪念馆加入新媒体艺术，动态影像视频还原历史，展馆内“西苑机场阅兵”和“开国大典”原始影片首次对外公开。“人民欢迎解放军进城”为第一个采用“步入式”的新展示形式，让观众能亲身体会到欢迎解放军进城的感觉，10米多距离有5000多雕塑人。“开国大典”首次采用全息影像技术，通过LED屏将开国大典中阅兵等全过程原始影像展出。\n\n馆内核心展览《为新中国奠基——中共中央在香山》通过800余张图片、1200余件文物展现历史，包含“进京赶考”等五个主题。2021年推出“红色电波中的领袖风范”专题展览，2022年增设文物捐赠展示区展示冬奥火炬等展品。建筑采用28根廊柱象征中国共产党1921至1949年奋斗历程，东侧出口“四梁八柱”敞轩寓意新中国制度框架。",
+        sourceIds: [PROJECT_SCOPE_SOURCE_ID],
+      },
     ],
-    galleryAssetIds: ["field-04", "field-05"],
+    galleryAssetIds: [
+      "xiangshan-01", "xiangshan-02", "xiangshan-03", "xiangshan-04", "xiangshan-05", "xiangshan-06", "xiangshan-07", "xiangshan-08", "xiangshan-09", "xiangshan-10", "xiangshan-11", "xiangshan-12", "xiangshan-13", "xiangshan-14", "xiangshan-15", "xiangshan-16", "xiangshan-17", "xiangshan-18", "xiangshan-19", "xiangshan-20", "xiangshan-21",
+    ],
   },
   {
     id: "cpc-history-exhibition",
@@ -446,17 +455,24 @@ export const sites: readonly SiteRecord[] = [
     ),
     historySummary: [],
     practiceSummary: [],
-    assetIds: [],
+    assetIds: ["cpc-history-exhibition-01"],
     reviewStatus: "draft",
     publicationStatus: "planned",
     detailContent: [
       {
         id: "cpc-history-exhibition-detail",
-        text: "中国共产党历史展览馆位于北京市朝阳区北辰东路9号，是一座以党史为主题的国家级展览馆。展馆建筑以“不忘初心、牢记使命”为主题，外观采用传统与现代相结合的设计风格。馆内基本陈列分为四个部分，通过3500余件文物、4500余张图片和大量多媒体展项，全景式展示了中国共产党百年奋斗历程。重点展品包括李大钊就义的绞刑架、共和国一号国印、嫦娥五号月壤样本等。实践队员在馆内系统记录了与北京革命史迹相关的展陈内容，为地点档案的史料核对提供了重要参考。",
+        text: "中国共产党历史展览馆位于北京市朝阳区北辰东路9号，是一座以党史为主题的国家级展览馆。展馆建筑以“不忘初心、牢记使命”为主题，外观采用传统与现代相结合的设计风格。馆内基本陈列分为四个部分，依托2500余幅历史照片、4500余件套珍贵文物实物和大量多媒体展项，搭建起总长3500余米的完整展线，全景式展示了中国共产党百年奋斗历程。重点展品包括李大钊就义的绞刑架、共和国一号国印、嫦娥五号月壤样本等。实践队员在馆内系统记录了与北京革命史迹相关的展陈内容，为地点档案的史料核对提供了重要参考。",
         sourceIds: [PROJECT_SCOPE_SOURCE_ID, DESIGN_SPEC_SOURCE_ID],
       },
+      {
+        id: "cpc-history-exhibition-detail-2",
+        text: "【实地资料·中国共产党历史展览馆简介】中国共产党历史展览馆坐落于北京市朝阳区北辰东路9号，是由党中央亲自决策批复修建的国家级红色精神殿堂，2021年6月正式对外开放，获评全国爱国主义教育示范基地，是全景式梳理百年党史、传承红色基因的核心地标。展馆总建筑面积达14.7万平方米，整体采用“工”字形建筑布局，象征中国共产党作为工人阶级先锋队的根本属性；外立面东西两侧设立28根高大廊柱，寓意党历经二十八年浴血奋战，最终迎来新中国成立，建筑设计处处暗含厚重的党史寓意。\n\n展馆西侧广场矗立《旗帜》《信仰》《伟业》《攻坚》《追梦》五组大型主题雕塑，以雕塑艺术具象化诠释百年间共产党人坚守初心、砥砺奋进的壮阔征程。步入馆内，序厅巨幅漆壁画《长城颂》气势雄浑，拉开百年奋斗史诗的序幕。核心常设展览为《不忘初心、牢记使命——中国共产党历史展览》，依照中华民族站起来、富起来、强起来的历史时序划分四大展区，依托2500余幅历史照片、4500余件套珍贵文物实物，搭建起总长3500余米的完整展线。\n\n展品囊括中共一大相关史料、革命年代的电报与军装、渡江战役作战文件、开国大典遗存物件、新时代大国建设成果模型等实物史料，完整记述建党求索、浴血抗战、解放全国、建国建设、改革开放、新时代伟大复兴的完整脉络，细致还原北平解放、香山筹备建国等诸多京华本土红色史实。\n\n展馆兼顾史实陈列与数字化展陈模式，依托沉浸式影像、线上云展厅等现代化技术活化历史，打破纸质史料的局限。多年来这里接待数百万各界参观者，既是开展党史研学、思政教育的实地课堂，也是深挖红色资源、探索红色文化数字化传播的重要阵地，承载着回望百年征程、汲取奋进力量、赓续红色血脉的重要时代使命。",
+        sourceIds: [PROJECT_SCOPE_SOURCE_ID],
+      },
     ],
-    galleryAssetIds: ["field-05", "field-01"],
+    galleryAssetIds: [
+      "cpc-history-exhibition-01", "cpc-history-exhibition-02", "cpc-history-exhibition-03", "cpc-history-exhibition-04", "cpc-history-exhibition-05", "cpc-history-exhibition-06", "cpc-history-exhibition-07", "cpc-history-exhibition-08", "cpc-history-exhibition-09", "cpc-history-exhibition-10", "cpc-history-exhibition-11", "cpc-history-exhibition-12", "cpc-history-exhibition-13", "cpc-history-exhibition-14", "cpc-history-exhibition-15", "cpc-history-exhibition-16", "cpc-history-exhibition-17", "cpc-history-exhibition-18", "cpc-history-exhibition-19", "cpc-history-exhibition-20",
+    ],
   },
   {
     id: "qinghuayuan-station",
@@ -479,7 +495,7 @@ export const sites: readonly SiteRecord[] = [
     ),
     historySummary: [],
     practiceSummary: [],
-    assetIds: [],
+    assetIds: ["qinghuayuan-station-01"],
     reviewStatus: "draft",
     publicationStatus: "planned",
     detailContent: [
@@ -488,7 +504,14 @@ export const sites: readonly SiteRecord[] = [
         text: "清华园车站旧址位于北京市海淀区成府路与清华西路交叉口附近，是京张铁路沿线的一座历史车站。车站由詹天佑主持设计，建于1910年，是京张铁路出京后的第一站。1949年3月25日，中共中央领导机关由西柏坡迁至北平时，毛泽东等领导人在清华园车站下车，标志着中国共产党工作重心从乡村转移到城市的重要历史转折。车站建筑为中西合璧风格，青砖墙体、绿色门窗套和站名牌保存基本完好。现旧址内设有专题展览，介绍京张铁路历史和“进京赶考”的历史事件。",
         sourceIds: [PROJECT_SCOPE_SOURCE_ID, DESIGN_SPEC_SOURCE_ID],
       },
+      {
+        id: "qinghuayuan-station-detail-2",
+        text: "【实地资料·清华园车站】清华园车站并非传统意义上的建馆，而是一处依托百年历史建筑设立的革命纪念地与展览馆。\n\n建站背景（1910年）：为配合清华学校（清华大学前身）的建立及提高京张铁路运力，由詹天佑亲自督建，是出京第一站。现存站匾为其仅存手迹之一。\n\n“进京赶考”第一站（1949年）：1949年3月25日，毛泽东等中央领导人自西柏坡抵平，在此下车踏上北平土地，“进京赶考”精神于此孕育，车站由此成为新中国重要的红色地标。\n\n抗战与教育贡献：抗战时期师生曾通过该站向后方转移典籍仪器，并为前线运送物资。\n\n百年变迁与新生：1960年因清华扩建，铁路东移致使老站废弃并沦为民居。历经腾退修缮，于2023年3月25日正式对公众开放，现为北京市文物保护单位。如今，这座百年车站以专题展览的形式肩负起传承红色文化的新使命。",
+        sourceIds: [PROJECT_SCOPE_SOURCE_ID],
+      },
     ],
-    galleryAssetIds: ["field-01", "field-02"],
+    galleryAssetIds: [
+      "qinghuayuan-station-01", "qinghuayuan-station-02", "qinghuayuan-station-03",
+    ],
   },
 ];

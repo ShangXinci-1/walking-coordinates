@@ -515,6 +515,23 @@
   filter: drop-shadow(0 8px 32px oklch(0.72 0.12 70 / 0.25));
 }
 
+/* 路线区标题（ReactBits BlurText 模糊浮现大字） */
+.home-heading-blur {
+  display: inline-flex;
+  flex-wrap: wrap;
+  font-size: clamp(2.2rem, 6.5vw, 5.5rem);
+  font-weight: 900;
+  line-height: 1.14;
+  letter-spacing: -0.02em;
+  color: var(--amber);
+  text-shadow: 0 0 34px oklch(0.72 0.12 70 / 0.28);
+}
+
+.home-heading-blur .blur-text__segment {
+  display: inline-block;
+  will-change: transform, filter, opacity;
+}
+
 .home-section-heading > .home-section-heading__link {
   width: fit-content;
   min-height: var(--target-size);

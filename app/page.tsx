@@ -13,7 +13,7 @@ import {
 } from "../lib/content/selectors";
 import { withBasePath } from "../lib/site";
 import { project } from "../data/project";
-import ParticleText from "../components/ParticleText";
+import BlurText from "../components/BlurText";
 import StrokeText from "../components/StrokeText";
 import { RevealOnScroll } from "../components/RevealOnScroll";
 import HomeMotion from "../components/HomeMotion";
@@ -80,7 +80,7 @@ const heroSubtitleBreakIndex = 4;
 export default function Home() {
   const { routeCount, siteCount } = getProjectCounts();
   const outcomes = getOrderedOutcomes();
-  const heroAsset = getRequiredAssetById("field-05");
+  const heroAsset = getRequiredAssetById("xiangshan-21");
   const heroSrc =
     heroAsset.assetStatus === "ready"
       ? (heroAsset as { finalSrc: string }).finalSrc
@@ -206,23 +206,13 @@ export default function Home() {
           <header className="home-section-heading home-section-heading--dark">
             <p className="home-section-heading__kicker">三条路线构成实践的叙事骨架</p>
             <div className="home-section-heading__title">
-              <ParticleText
+              <BlurText
                 text="沿坐标进入 北京革命史迹现场"
-                particleSize={2.2}
-                density={3.5}
-                color="#D4AF37"
-                highlightColor="#C62828"
-                scatter={160}
-                gatherDuration={1800}
-                stagger={300}
-                pointerRepel={35}
-                repelRadius={110}
-                idleDrift={0.6}
-                trigger="hover"
-                fontSize="clamp(2.2rem, 6.5vw, 5.5rem)"
-                fontWeight={900}
-                fontFamily="inherit"
-                glow
+                delay={110}
+                animateBy="words"
+                direction="top"
+                stepDuration={0.5}
+                className="home-heading-blur"
               />
             </div>
             <a className="home-section-heading__link" href={withBasePath("/journey")}>
