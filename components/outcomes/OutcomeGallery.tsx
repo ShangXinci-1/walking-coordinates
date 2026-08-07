@@ -4,10 +4,13 @@ import {
   useEffect,
   useRef,
   useState,
+  type CSSProperties,
   type KeyboardEvent as ReactKeyboardEvent,
 } from "react";
 import type { AssetRecord } from "../../lib/content/types";
+import { useStaggerReveal } from "../useStaggerReveal";
 import { ResponsiveMedia } from "../ResponsiveMedia";
+import "../../styles/components/stagger-reveal.css";
 
 interface OutcomeGalleryProps {
   assets: readonly AssetRecord[];
@@ -18,6 +21,7 @@ export function OutcomeGallery({ assets }: OutcomeGalleryProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const lastTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const gridRef = useStaggerReveal<HTMLDivElement>();
   const activeAsset = activeIndex === null ? null : assets[activeIndex];
 
   useEffect(() => {
@@ -93,11 +97,12 @@ export function OutcomeGallery({ assets }: OutcomeGalleryProps) {
         </div>
       </header>
 
-      <div className="outcome-gallery__grid">
+      <div className="outcome-gallery__grid" ref={gridRef}>
         {assets.map((asset, index) => (
           <button
             type="button"
             className="outcome-gallery__item"
+            style={{ "--i": index } as CSSProperties}
             aria-haspopup="dialog"
             aria-label={`查看第 ${index + 1} 张：${asset.label}`}
             onClick={(event) => openLightbox(index, event.currentTarget)}

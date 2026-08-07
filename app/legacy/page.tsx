@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { AssetMedia } from "../../components";
 import AccordionGallery from "../../components/AccordionGallery";
+import { InterviewPointList } from "../../components/InterviewPointList";
 import ShinyText from "../../components/ShinyText";
 import { RevealOnScroll } from "../../components/RevealOnScroll";
 import { getRequiredAssetById } from "../../lib/content/selectors";
@@ -75,8 +76,11 @@ export default function LegacyPage() {
 
       {/* ── 宣讲现场：照片墙 ── */}
       <section className="legacy-community" aria-labelledby="community-title">
+        <RevealOnScroll blur>
         <header className="legacy-section-heading">
-          <p>宣讲现场</p>
+          <p>
+            <ShinyText text="宣讲现场" />
+          </p>
           <div>
             <h2 id="community-title">镜头里的社区传播时刻</h2>
             <p>
@@ -85,7 +89,9 @@ export default function LegacyPage() {
             </p>
           </div>
         </header>
+        </RevealOnScroll>
 
+        <RevealOnScroll blur>
         <div className="legacy-community__dome">
           <AccordionGallery
             items={domeImages.map((img, i) => ({
@@ -104,12 +110,16 @@ export default function LegacyPage() {
             textColor="#F8FAFC"
           />
         </div>
+        </RevealOnScroll>
       </section>
 
       {/* ── 访谈观点 ── */}
       <section className="legacy-voice" aria-labelledby="voice-title">
+        <RevealOnScroll blur>
         <header className="legacy-section-heading legacy-section-heading--light">
-          <p>调研访谈</p>
+          <p>
+            <ShinyText text="调研访谈" />
+          </p>
           <div>
             <h2 id="voice-title">关于红色文化数字化传播，我们听到了什么</h2>
             <p>
@@ -117,20 +127,9 @@ export default function LegacyPage() {
             </p>
           </div>
         </header>
+        </RevealOnScroll>
 
-        <div className="legacy-voice__list">
-          {interviewPoints.map((point, index) => (
-            <article className="legacy-voice__item" key={point.title}>
-              <span className="legacy-voice__number">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <div>
-                <h3>{point.title}</h3>
-                <p>{point.text}</p>
-              </div>
-            </article>
-          ))}
-        </div>
+        <InterviewPointList points={interviewPoints} />
       </section>
 
       {/* ── 结尾行动 ── */}

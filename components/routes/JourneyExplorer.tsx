@@ -11,7 +11,11 @@ import {
   resolveJourneySelection,
 } from "../../lib/content/journey-state";
 import type { RouteRecord, SiteRecord } from "../../lib/content/types";
+import NumberTicker from "../NumberTicker";
+import ShinyText from "../ShinyText";
+import { useStaggerReveal } from "../useStaggerReveal";
 import { AMapRouteMap } from "./AMapRouteMap";
+import "../../styles/components/stagger-reveal.css";
 import { RouteIndex } from "./RouteIndex";
 import { SiteDetailOverlay } from "./SiteDetailOverlay";
 import { SiteDossier } from "./SiteDossier";
@@ -58,6 +62,7 @@ export function JourneyExplorer() {
   const [overlaySiteId, setOverlaySiteId] = useState<string | null>(null);
   const [announcement, setAnnouncement] = useState("");
   const pendingMobileDossierFocus = useRef<string | null>(null);
+  const sequenceRef = useStaggerReveal<HTMLElement>();
 
   useEffect(() => {
     const syncSelectionFromUrl = () => {
@@ -151,11 +156,12 @@ export function JourneyExplorer() {
           ARCHIVE / 03
         </div>
         <div>
-          <p className="journey-intro__eyebrow">路线与地点档案</p>
+          <p className="journey-intro__eyebrow">
+            <ShinyText text="路线与地点档案" />
+          </p>
           <h1 id="journey-title">
-            以脚步丈量北京，
-            <br />
-            打开十三处地点档案
+            <span className="journey-intro__h1-line">以脚步丈量北京，</span>
+            <span className="journey-intro__h1-line">打开十三处地点档案</span>
           </h1>
           <p className="journey-intro__lead">
             三条主题路线连接十三处革命史迹。地图只呈现经过人工核验的
@@ -165,18 +171,26 @@ export function JourneyExplorer() {
         <dl className="journey-intro__summary" aria-label="路线档案概览">
           <div>
             <dt>路线</dt>
-            <dd>03</dd>
+            <dd>
+              <NumberTicker value={3} />
+            </dd>
           </div>
           <div>
             <dt>地点</dt>
-            <dd>13</dd>
+            <dd>
+              <NumberTicker value={13} />
+            </dd>
           </div>
           <div>
             <dt>已核验坐标</dt>
             <dd>
-              {routeSites.filter(
-                (site) => site.coordinate.status === "verified",
-              ).length}
+              <NumberTicker
+                value={
+                  routeSites.filter(
+                    (site) => site.coordinate.status === "verified",
+                  ).length
+                }
+              />
               /{routeSites.length}
             </dd>
           </div>
@@ -241,8 +255,15 @@ export function JourneyExplorer() {
             <span>坐标标准 · GCJ-02</span>
           </footer>
         </section>
-        <nav className="journey-sequence" aria-label="线性浏览地点">
-          <div className="journey-sequence__progress">
+        <nav
+          className="journey-sequence"
+          aria-label="线性浏览地点"
+          ref={sequenceRef}
+        >
+          <div
+            className="journey-sequence__progress"
+            style={{ "--i": 0 } as React.CSSProperties}
+          >
             <span>
               路线 {selection.route.code} · {selection.route.title.value}
             </span>
@@ -255,11 +276,18 @@ export function JourneyExplorer() {
               {String(orderedSites.length).padStart(2, "0")}
             </small>
           </div>
-          <div className="journey-sequence__current" aria-live="polite">
+          <div
+            className="journey-sequence__current"
+            aria-live="polite"
+            style={{ "--i": 1 } as React.CSSProperties}
+          >
             <span>当前坐标档案</span>
             <strong>{selection.site.name.value}</strong>
           </div>
-          <div className="journey-sequence__actions">
+          <div
+            className="journey-sequence__actions"
+            style={{ "--i": 2 } as React.CSSProperties}
+          >
             <button
               type="button"
               disabled={!previousSite}

@@ -10,6 +10,7 @@ import { withBasePath } from "../lib/site";
 import GradientText from "../components/GradientText";
 import NexumHero from "../components/NexumHero";
 import { RevealOnScroll } from "../components/RevealOnScroll";
+import { StaggerContainer } from "../components/StaggerContainer";
 import TiltCards from "../components/TiltCards";
 import { SiteFooter, SiteHeader } from "./shared";
 import "../styles/components/hero-nexum.css";
@@ -154,14 +155,19 @@ export default function Home() {
           </header>
         </RevealOnScroll>
 
-        <div className="home-route-list">
+        <StaggerContainer className="home-route-list">
           {routes.map((route, index) => {
             const routeSites = getSitesForRoute(route.id);
             const routeAsset = getRequiredAssetById(route.heroAssetId);
             const representativeSites = routeSites.slice(0, 3);
 
             return (
-              <article className="home-route" key={route.id} data-code={route.code}>
+              <article
+                className="home-route"
+                key={route.id}
+                data-code={route.code}
+                style={{ "--i": index } as React.CSSProperties}
+              >
                 <div className="home-route__visual">
                   <AssetMedia
                     asset={routeAsset}
@@ -201,7 +207,7 @@ export default function Home() {
               </article>
             );
           })}
-        </div>
+        </StaggerContainer>
       </section>
 
       <section className="home-outcomes" aria-labelledby="outcomes-title">
@@ -213,12 +219,13 @@ export default function Home() {
           </header>
         </RevealOnScroll>
 
-        <div className="home-outcomes__showcase">
+        <StaggerContainer className="home-outcomes__showcase">
           {outcomes.map((outcome, index) => (
             <a
               className="home-outcomes__card"
               href={withBasePath("/outcomes")}
               key={outcome.id}
+              style={{ "--i": index } as React.CSSProperties}
             >
               <span className="home-outcomes__card-no">
                 {String(outcome.order).padStart(2, "0")}
@@ -237,7 +244,7 @@ export default function Home() {
               />
             </a>
           ))}
-        </div>
+        </StaggerContainer>
       </section>
 
       <section className="home-closing" aria-labelledby="closing-title">

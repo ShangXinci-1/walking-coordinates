@@ -9,6 +9,8 @@ import { OutcomeRecordView } from "../../components/outcomes/OutcomeRecord";
 import NumberTicker from "../../components/NumberTicker";
 import ShinyText from "../../components/ShinyText";
 import { RevealOnScroll } from "../../components/RevealOnScroll";
+import { useStaggerReveal } from "../../components/useStaggerReveal";
+import "../../styles/components/stagger-reveal.css";
 import { exhibitionSites } from "../../data/exhibition";
 import {
   getGalleryAssets,
@@ -30,6 +32,7 @@ export default function OutcomesPage() {
   const inProgressCount = outcomes.filter(
     (outcome) => outcome.completionStatus === "in-progress",
   ).length;
+  const recordsRef = useStaggerReveal<HTMLDivElement>();
   const [exhibitionOpen, setExhibitionOpen] = useState(false);
   const [newsOpen, setNewsOpen] = useState(false);
   const exhibitionVrUrl =
@@ -44,7 +47,12 @@ export default function OutcomesPage() {
           <p>
             <ShinyText text="成果公开，以真实交付为准" />
           </p>
-          <h1 id="outcomes-title">让每一项成果，都带着清楚的状态被看见。</h1>
+          <h1 id="outcomes-title">
+            <span className="outcomes-hero__h1-line">让每一项成果，</span>
+            <span className="outcomes-hero__h1-line">
+              都带着清楚的状态被看见。
+            </span>
+          </h1>
           <p className="outcomes-hero__lead">
             数字展厅、档案、影片与报告分别记录完成度、更新时间和交付条件。
             没有真实访问地址的成果不会生成虚假入口。
@@ -104,11 +112,12 @@ export default function OutcomesPage() {
           </div>
         </header>
 
-        <div className="outcome-ledger__records">
-          {outcomes.map((outcome) => (
+        <div className="outcome-ledger__records" ref={recordsRef}>
+          {outcomes.map((outcome, index) => (
             <OutcomeRecordView
               outcome={outcome}
               key={outcome.id}
+              style={{ "--i": index } as React.CSSProperties}
               onOpenExhibition={() => setExhibitionOpen(true)}
               onOpenNewsArchive={() => setNewsOpen(true)}
               vrUrl={

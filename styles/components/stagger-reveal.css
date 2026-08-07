@@ -1,0 +1,32 @@
+/* StaggerReveal：列表容器滚动进入视口后，子项按 --i 依次浮现
+   容器需挂 .stagger-reveal（useStaggerReveal hook 自动），
+   子项设 style={{ "--i": index }} 控制延迟。 */
+
+.stagger-reveal > * {
+  opacity: 0;
+  transform: translateY(18px);
+  /* 同时保留子项自身常见的 hover 过渡属性（背景/描边/光晕），
+     否则 transition 整体覆盖会让 hover 效果突变 */
+  transition:
+    opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.5s ease,
+    background 0.5s ease,
+    box-shadow 0.5s ease,
+    outline-color 0.5s ease,
+    filter 0.5s ease;
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+
+.stagger-reveal.is-visible > * {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stagger-reveal > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
