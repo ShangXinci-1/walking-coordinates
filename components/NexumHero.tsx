@@ -1,12 +1,14 @@
 // NexumHero：全屏视频英雄区（nexum 风格中文版）
-// 开场时间线：照片淡入 → 坐标扫描线 → 推近 → 呼吸循环；
-// 视频就绪后与照片层交叉溶解（1.8s），前 3.4s 节奏完全本地可控。
+// 四图电影蒙太奇开场：背影3.0 + 三条路线实地照，
+// 每 4s 交叉溶解切换 + 大幅推近（方向交替）+ 漂移坐标网格；
+// 视频就绪后与蒙太奇层交叉溶解（1.8s），首屏节奏完全本地可控。
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { AssetRecord } from "../lib/content/types";
 import { withBasePath } from "../lib/site";
 import { exhibitionSites } from "../data/exhibition";
+import { routes } from "../data/routes";
 import {
   getProjectCounts,
   getRequiredAssetById,
@@ -16,17 +18,6 @@ const VIDEO_URL =
   "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260803_192301_9231ed6b-c55c-4a48-909c-4ebe11cf2e11.mp4";
 
 const ROUTE_NAMES = ["觉醒之路", "烽火之路", "进京之路"];
-
-/**
- * 照片层阶段（开场时间线，本地编排，每次刷新节奏一致）：
- * enter   —— 0–1.0s 淡入，从微推近回稳
- * moving  —— 1.0–3.4s 缓慢推近
- * breathe —— 3.4s 起 9s 呼吸循环，直到视频就绪被溶解覆盖
- */
-type HeroPhase = "enter" | "moving" | "breathe";
-
-const ENTER_MS = 1000;
-const BREATHE_MS = 3400;
 
 function assetSrc(asset: AssetRecord): string {
   return asset.assetStatus === "ready"
@@ -39,31 +30,37 @@ export default function NexumHero() {
   const vrCount = exhibitionSites.filter((site) => site.vrUrl).length;
   const avatarSrc = assetSrc(getRequiredAssetById("community-01"));
   const [videoReady, setVideoReady] = useState(false);
-  const [phase, setPhase] = useState<HeroPhase>("enter");
   const stillSrc = withBasePath("/media/xiangshan/背影3.0.jpg");
 
-  /* ── 开场时间线：照片推近 → 呼吸循环（纯本地，与视频加载无关） ── */
-  useEffect(() => {
-    const t1 = setTimeout(() => setPhase("moving"), ENTER_MS);
-    const t2 = setTimeout(() => setPhase("breathe"), BREATHE_MS);
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-    };
-  }, []);
+  /* ── 蒙太奇素材：背影3.0 + 三条路线 hero 实地图（含地点标签） ── */
+  const slides = [
+    { src: stillSrc, label: "香山 · 背影" },
+    ...routes.map((route) => {
+      const firstSite = exhibitionSites.find(
+        (site) => site.id === route.siteIds[0],
+      );
+      return {
+        src: assetSrc(getRequiredAssetById(route.heroAssetId)),
+        label: `${route.title.value} · ${firstSite?.name ?? ""}`,
+      };
+    }),
+  ];
 
   return (
-    <section
-      className="nexum-hero"
-      data-phase={phase}
-      aria-labelledby="nexum-title"
-    >
-      {/* ── 照片层：开场主角。视频就绪后 1.8s 交叉溶解淡出 ── */}
+    <section className="nexum-hero" aria-labelledby="nexum-title">
+      {/* ── 蒙太奇层：四图循环交叉溶解 + 大幅推近（纯本地，与视频加载无关） ── */}
       <div
         className={`nexum-hero__still${videoReady ? " is-fading" : ""}`}
         aria-hidden="true"
       >
-        <img src={stillSrc} alt="" />
+        {slides.map((slide) => (
+          <div className="nexum-hero__slide" key={slide.src}>
+            <img src={slide.src} alt="" />
+            <span className="nexum-hero__site-label">{slide.label}</span>
+          </div>
+        ))}
+        {/* 漂移坐标网格 + 中央准星（呼应「坐标」主题） */}
+        <div className="nexum-hero__grid" />
         {/* 金色坐标扫描线：开场从顶到底扫过 */}
         <i className="nexum-hero__scan" />
       </div>
@@ -107,7 +104,14 @@ export default function NexumHero() {
         {/* ── 左：项目声明 + 行动入口 ── */}
         <div className="nexum-hero__left">
           <p className="nexum-hero__kicker">北京科技大学社会实践 · 2026</p>
-          <h1 id="nexum-title">用脚步丈量历史，以数字保存记忆</h1>
+          <h1 id="nexum-title">
+            <span className="nexum-hero__h1-line">
+              <span>用脚步丈量历史</span>
+            </span>
+            <span className="nexum-hero__h1-line">
+              <span>以数字保存记忆</span>
+            </span>
+          </h1>
           <p className="nexum-hero__lead">
             青年实践团队沿三条路线走进十三处革命史迹，
             以影像、访谈、全景与资料整理建立可追溯的数字记录。
