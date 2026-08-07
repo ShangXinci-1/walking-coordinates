@@ -1,0 +1,30 @@
+/* ShinyText：金色光泽扫过文字
+   渐变沿文字流动，背景为透明文字（background-clip: text） */
+.shiny-text {
+  background: linear-gradient(
+    120deg,
+    rgba(212, 175, 55, 0.5) 35%,
+    rgba(255, 236, 180, 1) 50%,
+    rgba(212, 175, 55, 0.5) 65%
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shiny-sweep var(--shine-speed, 3s) ease-in-out infinite;
+}
+
+@keyframes shiny-sweep {
+  0% {
+    background-position: 135% 0;
+  }
+  100% {
+    background-position: -85% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shiny-text {
+    animation: none;
+  }
+}

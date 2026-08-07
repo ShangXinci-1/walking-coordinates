@@ -241,17 +241,19 @@ export default function Home() {
       </section>
 
       <section className="home-closing" aria-labelledby="closing-title">
-        <p>下一站，由路线与证据共同指向。</p>
-        <h2 id="closing-title">从一个坐标开始，读懂一段仍在被传承的历史。</h2>
-        <div>
-          <a className="home-action home-action--light" href={withBasePath("/journey")}>
-            浏览完整路线
-            <span aria-hidden="true">→</span>
-          </a>
-          <a className="home-action home-action--quiet-light" href={withBasePath("/outcomes")}>
-            查看成果状态
-          </a>
-        </div>
+        <RevealOnScroll blur>
+          <p>下一站，由路线与证据共同指向。</p>
+          <h2 id="closing-title">从一个坐标开始，读懂一段仍在被传承的历史。</h2>
+          <div>
+            <a className="home-action home-action--light" href={withBasePath("/journey")}>
+              浏览完整路线
+              <span aria-hidden="true">→</span>
+            </a>
+            <a className="home-action home-action--quiet-light" href={withBasePath("/outcomes")}>
+              查看成果状态
+            </a>
+          </div>
+        </RevealOnScroll>
       </section>
 
       <SiteFooter />

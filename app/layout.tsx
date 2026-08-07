@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "../styles/components/foundation.css";
+import "../styles/components/splash-cursor.css";
+import SplashCursor from "../components/SplashCursor";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://shangxinci-1.github.io/walking-coordinates/"),
@@ -20,7 +22,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="zh-CN">
-      <body>{children}</body>
+      <body>
+        {children}
+        {/* 全站金色粒子拖尾（鼠标经过处泛起微光） */}
+        <SplashCursor />
+      </body>
     </html>
   );
 }

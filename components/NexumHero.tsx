@@ -9,6 +9,8 @@ import type { AssetRecord } from "../lib/content/types";
 import { withBasePath } from "../lib/site";
 import { exhibitionSites } from "../data/exhibition";
 import { routes } from "../data/routes";
+import NumberTicker from "./NumberTicker";
+import ShinyText from "./ShinyText";
 import {
   getProjectCounts,
   getRequiredAssetById,
@@ -103,7 +105,9 @@ export default function NexumHero() {
       <div className="nexum-hero__content">
         {/* ── 左：项目声明 + 行动入口 ── */}
         <div className="nexum-hero__left">
-          <p className="nexum-hero__kicker">北京科技大学社会实践 · 2026</p>
+          <p className="nexum-hero__kicker">
+            <ShinyText text="北京科技大学社会实践 · 2026" />
+          </p>
           <h1 id="nexum-title">
             <span className="nexum-hero__h1-line">
               <span>用脚步丈量历史</span>
@@ -131,15 +135,21 @@ export default function NexumHero() {
           <div className="nexum-hero__card nexum-hero__card--stats">
             <div className="nexum-hero__stat-row">
               <div className="nexum-hero__stat-item">
-                <span className="nexum-hero__stat">{siteCount}</span>
+                <span className="nexum-hero__stat">
+                  <NumberTicker value={siteCount} />
+                </span>
                 <span className="nexum-hero__stat-label">处史迹坐标</span>
               </div>
               <div className="nexum-hero__stat-item">
-                <span className="nexum-hero__stat">{routeCount}</span>
+                <span className="nexum-hero__stat">
+                  <NumberTicker value={routeCount} />
+                </span>
                 <span className="nexum-hero__stat-label">条主题路线</span>
               </div>
               <div className="nexum-hero__stat-item">
-                <span className="nexum-hero__stat">{vrCount}</span>
+                <span className="nexum-hero__stat">
+                  <NumberTicker value={vrCount} />
+                </span>
                 <span className="nexum-hero__stat-label">处 VR 全景</span>
               </div>
             </div>

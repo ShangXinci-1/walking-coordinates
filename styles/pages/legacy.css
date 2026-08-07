@@ -28,6 +28,62 @@
 .legacy-hero__media .asset-media img {
   filter: saturate(0.85) contrast(1.05);
   object-position: center 35%;
+  /* 缓慢推近，让现场照片始终有呼吸感 */
+  animation: legacy-push 32s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes legacy-push {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}
+
+/* 金色光晕呼吸：红色背景上的常驻微光 */
+.legacy-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 78% 22%, rgba(212, 175, 55, 0.14), transparent 52%),
+    radial-gradient(ellipse at 12% 85%, rgba(212, 175, 55, 0.08), transparent 45%);
+  animation: legacy-glow 7s ease-in-out infinite alternate;
+}
+
+@keyframes legacy-glow {
+  from {
+    opacity: 0.55;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.legacy-hero__media,
+.legacy-hero__copy {
+  z-index: 1;
+}
+
+/* Hero 标题逐行揭示（clip-path 自下而上揭开，无字形裁切） */
+.legacy-hero__h1-line {
+  display: block;
+  clip-path: inset(0 0 112% 0);
+  animation: legacy-line-reveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+}
+
+.legacy-hero__h1-line:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+@keyframes legacy-line-reveal {
+  to {
+    clip-path: inset(0 0 0 0);
+  }
 }
 
 .legacy-hero__badge {
@@ -413,5 +469,15 @@
   .legacy-community__item .asset-media img,
   .legacy-voice__item h3 {
     transition: none;
+  }
+
+  .legacy-hero__media .asset-media img,
+  .legacy-hero::after,
+  .legacy-hero__h1-line {
+    animation: none;
+  }
+
+  .legacy-hero__h1-line {
+    clip-path: none;
   }
 }

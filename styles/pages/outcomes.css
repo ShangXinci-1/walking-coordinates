@@ -64,6 +64,21 @@
   height: 100%;
 }
 
+.outcomes-hero__media .asset-media img {
+  /* 缓慢推近，让成果主图始终有呼吸感 */
+  animation: outcomes-push 32s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes outcomes-push {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}
+
 .outcomes-hero__media .asset-media__caption {
   right: clamp(18px, 3vw, 42px);
   bottom: clamp(18px, 3vw, 42px);
@@ -693,6 +708,10 @@
 @media (prefers-reduced-motion: reduce) {
   .outcome-gallery__item img {
     transition: none;
+  }
+
+  .outcomes-hero__media .asset-media img {
+    animation: none;
   }
 }
 

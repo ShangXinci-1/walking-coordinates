@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { AssetMedia } from "../../components";
 import AccordionGallery from "../../components/AccordionGallery";
+import ShinyText from "../../components/ShinyText";
+import { RevealOnScroll } from "../../components/RevealOnScroll";
 import { getRequiredAssetById } from "../../lib/content/selectors";
 import { withBasePath } from "../../lib/site";
 import { SiteFooter, SiteHeader } from "../shared";
@@ -57,11 +59,12 @@ export default function LegacyPage() {
           <div className="legacy-hero__badge">社区宣讲 · 2026-08-04</div>
         </div>
         <div className="legacy-hero__copy">
-          <p>寻访之后，故事走进社区</p>
+          <p>
+            <ShinyText text="寻访之后，故事走进社区" />
+          </p>
           <h1 id="legacy-title">
-            让红色记忆
-            <br />
-            走进社区生活
+            <span className="legacy-hero__h1-line">让红色记忆</span>
+            <span className="legacy-hero__h1-line">走进社区生活</span>
           </h1>
           <p className="legacy-hero__lead">
             实践团队走进社区，把寻访途中采集的影像与故事带到居民身边。
@@ -132,22 +135,24 @@ export default function LegacyPage() {
 
       {/* ── 结尾行动 ── */}
       <section className="legacy-closing" aria-labelledby="legacy-closing-title">
-        <div className="legacy-closing__copy">
-          <p>传播没有终点</p>
-          <h2 id="legacy-closing-title">
-            从寻访到宣讲，
-            <br />
-            红色基因在一次次抵达中延续。
-          </h2>
-          <div>
-            <a href={withBasePath("/journey")}>
-              浏览完整路线 <span aria-hidden="true">→</span>
-            </a>
-            <a href={withBasePath("/outcomes")}>
-              查看成果状态 <span aria-hidden="true">→</span>
-            </a>
+        <RevealOnScroll blur>
+          <div className="legacy-closing__copy">
+            <p>传播没有终点</p>
+            <h2 id="legacy-closing-title">
+              从寻访到宣讲，
+              <br />
+              红色基因在一次次抵达中延续。
+            </h2>
+            <div>
+              <a href={withBasePath("/journey")}>
+                浏览完整路线 <span aria-hidden="true">→</span>
+              </a>
+              <a href={withBasePath("/outcomes")}>
+                查看成果状态 <span aria-hidden="true">→</span>
+              </a>
+            </div>
           </div>
-        </div>
+        </RevealOnScroll>
       </section>
 
       <SiteFooter />
