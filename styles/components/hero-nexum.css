@@ -21,12 +21,121 @@
   background: #0b0b0d;
 }
 
+/* ── 动态照片层：视频未就绪时缓慢缩放，保证首屏始终有动态 ── */
+.nexum-hero__still {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #0b0b0d;
+}
+
+.nexum-hero__still img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: nexum-kenburns 26s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes nexum-kenburns {
+  from {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.14) translate3d(-1.5%, -1.5%, 0);
+  }
+}
+
+/* ── 视频层：就绪后淡入覆盖照片层 ── */
 .nexum-hero__video {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.nexum-hero__video.is-ready {
+  opacity: 1;
+}
+
+/* ── 柔和遮罩：顶部轻微压暗 + 底部压暗，保证文字可读 ── */
+.nexum-hero__shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(5, 3, 2, 0.32) 0%,
+    rgba(5, 3, 2, 0.08) 32%,
+    rgba(5, 3, 2, 0.06) 52%,
+    rgba(5, 3, 2, 0.55) 100%
+  );
+}
+
+/* ── 坐标 topline：左上角 ── */
+.nexum-hero__topline {
+  position: absolute;
+  top: clamp(18px, 3vh, 30px);
+  left: clamp(20px, 4vw, 48px);
+  z-index: 12;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: #d4af37;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+}
+
+.nexum-hero__topline i {
+  width: 56px;
+  height: 1px;
+  background: linear-gradient(90deg, #d4af37, transparent);
+}
+
+/* ── 三路线坐标装饰：左侧中部 ── */
+.nexum-hero__routes {
+  position: absolute;
+  top: 50%;
+  left: clamp(20px, 4vw, 48px);
+  z-index: 12;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding-left: 14px;
+  border-left: 1px solid rgba(212, 175, 55, 0.35);
+}
+
+.nexum-hero__route {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  opacity: 0.75;
+  transition: opacity 0.25s;
+}
+
+.nexum-hero__route:hover {
+  opacity: 1;
+}
+
+.nexum-hero__route-no {
+  font-family: "Silkscreen", cursive;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: #d4af37;
+}
+
+.nexum-hero__route-name {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.82);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
 }
 
 .nexum-hero__content {
@@ -227,6 +336,17 @@
 }
 
 /* ── 响应式：sm / lg ── */
+@media (max-width: 900px) {
+  .nexum-hero__routes {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nexum-hero__still img {
+    animation: none;
+  }
+}
 @media (min-width: 640px) {
   .nexum-hero__content {
     padding: 32px;

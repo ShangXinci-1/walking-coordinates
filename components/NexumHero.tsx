@@ -1,5 +1,8 @@
 // NexumHero：全屏视频英雄区（nexum 风格中文版）
-// 视频背景 + 玻璃拟态卡片 + 底部锚定内容；内容为行走的坐标站点语境。
+// 动态照片层（Ken Burns）打底，视频加载成功后淡入覆盖；叠加坐标、三路线等站点元素。
+"use client";
+
+import { useState } from "react";
 import type { AssetRecord } from "../lib/content/types";
 import { withBasePath } from "../lib/site";
 import { exhibitionSites } from "../data/exhibition";
@@ -11,6 +14,8 @@ import {
 const VIDEO_URL =
   "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260803_192301_9231ed6b-c55c-4a48-909c-4ebe11cf2e11.mp4";
 
+const ROUTE_NAMES = ["觉醒之路", "烽火之路", "进京之路"];
+
 function assetSrc(asset: AssetRecord): string {
   return asset.assetStatus === "ready"
     ? (asset as { finalSrc: string }).finalSrc
@@ -21,20 +26,50 @@ export default function NexumHero() {
   const { routeCount, siteCount } = getProjectCounts();
   const vrCount = exhibitionSites.filter((site) => site.vrUrl).length;
   const avatarSrc = assetSrc(getRequiredAssetById("community-01"));
+  const [videoReady, setVideoReady] = useState(false);
+  const stillSrc = withBasePath("/media/xiangshan/背影3.0.jpg");
 
   return (
     <section className="nexum-hero" aria-labelledby="nexum-title">
-      {/* ── 全屏背景视频（poster 兜底：视频未加载时显示实地照片） ── */}
+      {/* ── 动态照片层：视频未就绪时的动画底（缓慢缩放，不静止） ── */}
+      <div className="nexum-hero__still" aria-hidden="true">
+        <img src={stillSrc} alt="" />
+      </div>
+
+      {/* ── 视频层：就绪后淡入覆盖照片层 ── */}
       <video
-        className="nexum-hero__video"
+        className={`nexum-hero__video${videoReady ? " is-ready" : ""}`}
         autoPlay
         loop
         muted
         playsInline
-        poster={withBasePath("/media/xiangshan/背影3.0.jpg")}
+        onCanPlay={() => setVideoReady(true)}
+        onPlaying={() => setVideoReady(true)}
       >
         <source src={VIDEO_URL} type="video/mp4" />
       </video>
+
+      {/* ── 柔和遮罩：底部压暗，保证中文文字与玻璃卡片可读 ── */}
+      <div className="nexum-hero__shade" aria-hidden="true" />
+
+      {/* ── 坐标 topline：左上角 ── */}
+      <div className="nexum-hero__topline" aria-hidden="true">
+        <span>39°54′N · 116°23′E</span>
+        <i />
+        <span>BEIJING · 2026</span>
+      </div>
+
+      {/* ── 三路线坐标装饰：左侧中部 ── */}
+      <div className="nexum-hero__routes" aria-hidden="true">
+        {ROUTE_NAMES.map((name, i) => (
+          <div className="nexum-hero__route" key={name}>
+            <span className="nexum-hero__route-no">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <span className="nexum-hero__route-name">{name}</span>
+          </div>
+        ))}
+      </div>
 
       <div className="nexum-hero__content">
         {/* ── 左：项目声明 + 行动入口 ── */}
