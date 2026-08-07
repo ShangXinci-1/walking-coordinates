@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════
-   NexumHero：全屏视频英雄区（nexum 风格实验版）
+   NexumHero：全屏视频英雄区（nexum 风格中文版）
    视频背景 + 玻璃拟态卡片 + 底部锚定内容
    ═══════════════════════════════════════════ */
 
@@ -15,7 +15,8 @@
   height: calc(100svh - var(--header-height));
   min-height: 560px;
   overflow: hidden;
-  font-family: "Geist", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: "Geist", -apple-system, BlinkMacSystemFont, "PingFang SC",
+    "Microsoft YaHei", sans-serif;
   -webkit-font-smoothing: antialiased;
   background: #0b0b0d;
 }
@@ -39,18 +40,33 @@
   padding: 20px 20px 32px;
 }
 
-/* ── 左侧：主标题 + CTA ── */
+/* ── 左侧：项目声明 + 行动入口 ── */
 .nexum-hero__left {
   max-width: 36rem;
+}
+
+.nexum-hero__kicker {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: #d4af37;
 }
 
 .nexum-hero__left h1 {
   margin: 0;
   font-size: 1.875rem;
-  font-weight: 600;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
   color: var(--nexum-text-strong);
+}
+
+.nexum-hero__lead {
+  margin: 14px 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: var(--nexum-text-body);
 }
 
 .nexum-hero__cta {
@@ -58,38 +74,42 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  align-items: flex-start;
 }
 
-.nexum-hero__cta input {
-  outline: none;
-  border: none;
-  border-radius: 999px;
-  background: #ffffff;
-  padding: 12px 20px;
-  font-size: 0.875rem;
-  font-family: inherit;
-  color: #111111;
-}
-
-.nexum-hero__cta input::placeholder {
-  color: #9ca3af;
-}
-
-.nexum-hero__cta-btn {
-  border: none;
+.nexum-hero__cta-btn,
+.nexum-hero__cta-quiet {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   border-radius: 999px;
   padding: 12px 24px;
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 600;
   font-family: inherit;
+  text-decoration: none;
+  transition: opacity 0.2s, background-color 0.2s;
+}
+
+.nexum-hero__cta-btn {
   color: #ffffff;
   background: linear-gradient(to bottom, #2b2b2b, #101010);
-  cursor: pointer;
-  transition: opacity 0.2s;
 }
 
 .nexum-hero__cta-btn:hover {
   opacity: 0.9;
+}
+
+.nexum-hero__cta-quiet {
+  color: var(--nexum-text-strong);
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+.nexum-hero__cta-quiet:hover {
+  background: rgba(255, 255, 255, 0.28);
 }
 
 /* ── 右侧：玻璃卡片 ── */
@@ -107,10 +127,16 @@
   padding: 20px 24px;
 }
 
-.nexum-hero__card--stats {
+.nexum-hero__stat-row {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.nexum-hero__stat-item {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 2px;
 }
 
 .nexum-hero__stat {
@@ -118,11 +144,18 @@
   font-weight: 400;
   letter-spacing: -0.02em;
   font-size: 1.875rem;
+  line-height: 1;
   color: var(--nexum-text-strong);
 }
 
-.nexum-hero__card--stats p {
-  margin: 12px 0 0;
+.nexum-hero__stat-label {
+  font-size: 12px;
+  color: var(--nexum-text-body);
+  white-space: nowrap;
+}
+
+.nexum-hero__card--stats > p {
+  margin: 14px 0 0;
   font-size: 0.875rem;
   line-height: 1.625;
   color: var(--nexum-text-body);
@@ -141,10 +174,11 @@
   display: grid;
   place-items: center;
   border-radius: 6px;
-  background: #000000;
+  background: #b3261e;
   color: #ffffff;
-  font-size: 0.75rem;
+  font-size: 12px;
   font-weight: 700;
+  line-height: 1;
 }
 
 .nexum-hero__quote-brand {
@@ -156,7 +190,7 @@
 .nexum-hero__quote-text {
   margin: 0;
   font-size: 0.875rem;
-  line-height: 1.625;
+  line-height: 1.7;
   color: var(--nexum-text-body);
 }
 
@@ -200,28 +234,13 @@
   }
 
   .nexum-hero__left h1 {
-    font-size: 2.25rem;
+    font-size: 2.5rem;
   }
 
   .nexum-hero__cta {
     flex-direction: row;
     align-items: center;
-    border-radius: 999px;
-    background: #ffffff;
-    padding: 6px;
-    width: fit-content;
-    margin-top: 32px;
-  }
-
-  .nexum-hero__cta input {
-    width: 256px;
-    border-radius: 0;
-    background: transparent;
-    padding: 8px 16px;
-  }
-
-  .nexum-hero__cta-btn {
-    padding: 10px 24px;
+    margin-top: 28px;
   }
 
   .nexum-hero__cards {
@@ -229,7 +248,7 @@
   }
 
   .nexum-hero__card {
-    width: 256px;
+    width: 300px;
   }
 
   .nexum-hero__stat {
@@ -240,7 +259,7 @@
 @media (min-width: 1024px) {
   .nexum-hero {
     --nexum-text-strong: #ffffff;
-    --nexum-text-body: rgba(255, 255, 255, 0.7);
+    --nexum-text-body: rgba(255, 255, 255, 0.78);
     --nexum-text-faint: rgba(255, 255, 255, 0.6);
   }
 
