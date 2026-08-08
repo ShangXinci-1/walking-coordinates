@@ -47,8 +47,8 @@
   visibility: hidden;
 }
 
-/* ── 蒙太奇照片层：四张同周期动画，负延迟错开相位（16s/4s） ──
-   opacity 相位：0-5% 淡入（0.8s）→ 75% 停留 → 80% 淡出（0.8s）
+/* ── 蒙太奇照片层：四张同周期动画，负延迟错开相位（32s/8s） ──
+   opacity 相位：0-2.5% 淡入（0.8s）→ 25% 停留（8s）→ 27.5% 淡出（0.8s）
    zoom：全程 1.06→1.28 推近，每张方向不同（--dx/--dy） */
 .nexum-hero__slide {
   --slide-delay: 0s;
@@ -58,8 +58,8 @@
   inset: 0;
   opacity: 0;
   animation:
-    nexum-slide-opacity 16s linear infinite,
-    nexum-slide-zoom 16s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+    nexum-slide-opacity 32s linear infinite,
+    nexum-slide-zoom 32s cubic-bezier(0.16, 1, 0.3, 1) infinite;
   animation-delay: var(--slide-delay), var(--slide-delay);
 }
 
@@ -70,19 +70,19 @@
 }
 
 .nexum-hero__slide:nth-child(2) {
-  --slide-delay: -4s;
+  --slide-delay: -8s;
   --dx: 2%;
   --dy: -1.2%;
 }
 
 .nexum-hero__slide:nth-child(3) {
-  --slide-delay: -8s;
+  --slide-delay: -16s;
   --dx: 0.5%;
   --dy: 1.5%;
 }
 
 .nexum-hero__slide:nth-child(4) {
-  --slide-delay: -12s;
+  --slide-delay: -24s;
   --dx: -1.5%;
   --dy: 0.5%;
 }
@@ -98,13 +98,13 @@
   0% {
     opacity: 0;
   }
-  5% {
+  2.5% {
     opacity: 1;
   }
-  75% {
+  25% {
     opacity: 1;
   }
-  80% {
+  27.5% {
     opacity: 0;
   }
   100% {
@@ -125,6 +125,7 @@
   }
 }
 
+
 /* ── 地点标签：右上角，随照片同相位淡入淡出 ── */
 .nexum-hero__site-label {
   position: absolute;
@@ -140,7 +141,7 @@
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
   white-space: nowrap;
   opacity: 0;
-  animation: nexum-label 16s linear infinite;
+  animation: nexum-label 32s linear infinite;
   animation-delay: var(--slide-delay);
 }
 
@@ -156,17 +157,17 @@
     opacity: 0;
     transform: translateY(6px);
   }
-  3% {
+  3.5% {
     opacity: 0;
   }
   7% {
     opacity: 1;
     transform: translateY(0);
   }
-  72% {
+  25% {
     opacity: 1;
   }
-  76% {
+  27.5% {
     opacity: 0;
   }
   100% {
@@ -774,33 +775,5 @@
 
   .nexum-hero__cards {
     gap: 20px;
-  }
-
-  /* 桌面蒙太奇：只保留第一张背影照片常驻（与早期视觉一致），
-     三张路线 AI 示意图不再参与轮播。
-     保留照片原有的推近放大动画——单次推近后定格（forwards），
-     避免 16s 循环跳回 1.06 时产生可见回跳。 */
-  .nexum-hero__slide {
-    display: none;
-  }
-
-  .nexum-hero__slide:first-child {
-    display: block;
-    opacity: 1;
-    animation: nexum-slide-zoom 20s cubic-bezier(0.16, 1, 0.3, 1) 1 forwards;
-  }
-
-  .nexum-hero__slide:first-child .nexum-hero__site-label {
-    display: block;
-    opacity: 1;
-    transform: none;
-    animation: none;
-  }
-
-  /* 尊重系统「减弱动态效果」：桌面也回到静止照片 */
-  @media (prefers-reduced-motion: reduce) {
-    .nexum-hero__slide:first-child {
-      animation: none;
-    }
   }
 }

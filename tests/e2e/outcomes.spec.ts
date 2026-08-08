@@ -15,11 +15,8 @@ test("outcome records never expose unavailable access actions", async ({
   await expect(page.locator(".outcome-record")).toHaveCount(4);
   await expect(page.locator(".outcome-record__access")).toHaveCount(0);
   await expect(
-    page.getByText("尚无公开入口", { exact: true }),
-  ).toBeVisible();
-  await expect(
-    page.locator(".outcome-record__gate"),
-  ).toHaveCount(4);
+    page.locator(".outcomes-hero__film-pill"),
+  ).toHaveText("剪辑中");
 });
 
 test("gallery dialog supports keyboard navigation and focus restoration", async ({
