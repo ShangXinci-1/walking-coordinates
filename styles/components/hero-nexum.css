@@ -30,61 +30,26 @@
    1.6s   底部内容淡入（标题逐行揭示）
    任意时刻 视频就绪 → 1.8s 交叉溶解（蒙太奇淡出 + 视频淡入） */
 
-/* ── 蒙太奇层：开场主角 ── */
+/* ── 照片层：开场主角（背影3.0 常显） ── */
 .nexum-hero__still {
   position: absolute;
   inset: 0;
   overflow: hidden;
   background: #0b0b0d;
-  /* 从纯黑淡入（backwards 填充：结束后交给级联，让 is-fading 过渡生效） */
+  /* 从纯黑淡入（backwards 填充；视频就绪后由 is-cycling 接管） */
   animation: nexum-still-in 0.9s ease-out backwards;
-  /* 视频就绪：1.8s 淡出后隐藏（visibility 延迟，停止背景动画开销） */
-  transition: opacity 1.8s ease, visibility 0s 1.8s;
 }
 
-.nexum-hero__still.is-fading {
-  opacity: 0;
-  visibility: hidden;
+/* 视频就绪：照片层进入双轮回（背影 ↔ 视频，见下方 cycle keyframes） */
+.nexum-hero__still.is-cycling {
+  animation: nexum-cycle-photo 32s linear infinite;
 }
 
-/* ── 蒙太奇照片层：四张同周期动画，负延迟错开相位（32s/8s） ──
-   opacity 相位：0-2.5% 淡入（0.8s）→ 25% 停留（8s）→ 27.5% 淡出（0.8s）
-   zoom：全程 1.06→1.28 推近，每张方向不同（--dx/--dy） */
+/* ── 照片层 slide：单图常显 + 呼吸式推近（无跳变，循环往复） ── */
 .nexum-hero__slide {
-  --slide-delay: 0s;
-  --dx: -2%;
-  --dy: -1%;
   position: absolute;
   inset: 0;
-  opacity: 0;
-  animation:
-    nexum-slide-opacity 32s linear infinite,
-    nexum-slide-zoom 32s cubic-bezier(0.16, 1, 0.3, 1) infinite;
-  animation-delay: var(--slide-delay), var(--slide-delay);
-}
-
-.nexum-hero__slide:nth-child(1) {
-  --slide-delay: 0s;
-  --dx: -2%;
-  --dy: -1%;
-}
-
-.nexum-hero__slide:nth-child(2) {
-  --slide-delay: -8s;
-  --dx: 2%;
-  --dy: -1.2%;
-}
-
-.nexum-hero__slide:nth-child(3) {
-  --slide-delay: -16s;
-  --dx: 0.5%;
-  --dy: 1.5%;
-}
-
-.nexum-hero__slide:nth-child(4) {
-  --slide-delay: -24s;
-  --dx: -1.5%;
-  --dy: 0.5%;
+  animation: nexum-slide-breathe 36s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
 
 .nexum-hero__slide img {
@@ -94,17 +59,50 @@
   will-change: transform;
 }
 
-@keyframes nexum-slide-opacity {
+@keyframes nexum-slide-breathe {
+  0% {
+    transform: scale(1.08) translate3d(-1%, -0.5%, 0);
+  }
+  50% {
+    transform: scale(1.26) translate3d(1%, 0.5%, 0);
+  }
+  100% {
+    transform: scale(1.08) translate3d(-1%, -0.5%, 0);
+  }
+}
+
+/* ── 双轮回交替：32s 周期，两画面各 ≈13s，溶解 ≈2s ──
+   相位：0-6.25% 背影→视频溶解 → 视频停留 → 46.875-53.125% 视频→背影溶解
+   → 背影停留（53.125-100%+0-6.25% 跨循环） → 回到视频溶解 */
+@keyframes nexum-cycle-photo {
+  0% {
+    opacity: 1;
+  }
+  6.25% {
+    opacity: 0;
+  }
+  46.875% {
+    opacity: 0;
+  }
+  53.125% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes nexum-cycle-video {
   0% {
     opacity: 0;
   }
-  2.5% {
+  6.25% {
     opacity: 1;
   }
-  25% {
+  46.875% {
     opacity: 1;
   }
-  27.5% {
+  53.125% {
     opacity: 0;
   }
   100% {
@@ -112,21 +110,7 @@
   }
 }
 
-@keyframes nexum-slide-zoom {
-  from {
-    transform: scale(1.06) translate3d(var(--dx, 0), var(--dy, 0), 0);
-  }
-  to {
-    transform: scale(1.28) translate3d(
-        calc(var(--dx, 0) * 2),
-        calc(var(--dy, 0) * 2),
-        0
-      );
-  }
-}
-
-
-/* ── 地点标签：右上角，随照片同相位淡入淡出 ── */
+/* ── 地点标签：右上角常驻 ── */
 .nexum-hero__site-label {
   position: absolute;
   top: clamp(18px, 3vh, 30px);
@@ -140,9 +124,6 @@
   color: #d4af37;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
   white-space: nowrap;
-  opacity: 0;
-  animation: nexum-label 32s linear infinite;
-  animation-delay: var(--slide-delay);
 }
 
 .nexum-hero__site-label::before {
@@ -150,29 +131,6 @@
   width: 28px;
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.9));
-}
-
-@keyframes nexum-label {
-  0% {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  3.5% {
-    opacity: 0;
-  }
-  7% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  25% {
-    opacity: 1;
-  }
-  27.5% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0;
-  }
 }
 
 /* ── 漂移坐标网格：整屏常驻动感，呼应「坐标」主题 ── */
@@ -292,7 +250,7 @@
   }
 }
 
-/* ── 视频层：就绪后 1.8s 淡入，与照片层淡出同步（交叉溶解） ── */
+/* ── 视频层：就绪后进入双轮回（与照片层交叉溶解交替） ── */
 .nexum-hero__video {
   position: absolute;
   inset: 0;
@@ -300,11 +258,10 @@
   height: 100%;
   object-fit: cover;
   opacity: 0;
-  transition: opacity 1.8s ease;
 }
 
-.nexum-hero__video.is-ready {
-  opacity: 1;
+.nexum-hero__video.is-cycling {
+  animation: nexum-cycle-video 32s linear infinite;
 }
 
 /* ── 柔和遮罩：顶部轻微压暗 + 底部压暗，保证文字可读 ── */
@@ -640,18 +597,22 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  /* 蒙太奇静止：只显示第一张照片 */
+  /* 静止：只显示背影3.0，不进入视频轮回 */
   .nexum-hero__slide {
-    opacity: 0;
     animation: none;
   }
 
-  .nexum-hero__slide:first-child {
-    opacity: 1;
+  .nexum-hero__slide img {
+    transform: none;
   }
 
-  .nexum-hero__slide:first-child img {
-    transform: none;
+  .nexum-hero__still.is-cycling,
+  .nexum-hero__video.is-cycling {
+    animation: none;
+  }
+
+  .nexum-hero__video.is-cycling {
+    opacity: 0;
   }
 
   .nexum-hero__grid,
