@@ -11,8 +11,6 @@ import GradientText from "../components/GradientText";
 import NexumHero from "../components/NexumHero";
 import { RevealOnScroll } from "../components/RevealOnScroll";
 import { StaggerContainer } from "../components/StaggerContainer";
-import TiltCards from "../components/TiltCards";
-import { CardBody, CardContainer, CardItem } from "../components/ui/3d-card";
 import { OutcomeShowcaseCard } from "../components/home/OutcomeShowcaseCard";
 import { SiteFooter, SiteHeader } from "./shared";
 import "../styles/components/hero-nexum.css";
@@ -102,44 +100,63 @@ export default function Home() {
         <RevealOnScroll blur>
         <div className="home-method__steps">
           {practiceSteps.map((step, index) => (
-            <CardContainer key={step.id} className="home-method__card-wrap">
-              <CardBody
-                className="home-method__card"
-                data-step={String(index + 1).padStart(2, "0")}
-              >
-                <span className="home-method__shine-mask" aria-hidden="true">
-                  <span className="home-method__shine" />
-                </span>
-                <CardItem translateZ="60" className="home-method__card-top">
-                  <span className="home-method__icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                      <path d={step.icon} />
-                    </svg>
+            <article
+              className="home-method__flip"
+              key={step.id}
+              tabIndex={0}
+              aria-label={`${step.title}：${step.action}`}
+            >
+              <div className="home-method__flip-inner">
+                {/* 正面：图标 + 步骤名 */}
+                <div className="home-method__flip-face home-method__flip-front">
+                  <span className="home-method__flip-glow" aria-hidden="true" />
+                  <span
+                    className="home-method__flip-glow home-method__flip-glow--b"
+                    aria-hidden="true"
+                  />
+                  <span className="home-method__flip-top">
+                    <span className="home-method__icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                        <path d={step.icon} />
+                      </svg>
+                    </span>
+                    <span className="home-method__number">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
                   </span>
-                  <span className="home-method__number">
-                    {String(index + 1).padStart(2, "0")}
+                  <span className="home-method__flip-title">
+                    <h3>{step.title}</h3>
+                    <span className="home-method__flip-hint">
+                      悬停翻面
+                      <span aria-hidden="true">↻</span>
+                    </span>
                   </span>
-                </CardItem>
-                <CardItem as="h3" translateZ="45">
-                  {step.title}
-                </CardItem>
-                <CardItem as="p" translateZ="36" className="home-method__action">
-                  {step.action}
-                </CardItem>
-                <CardItem as="ul" translateZ="28" className="home-method__points">
-                  {step.points.map((point) => (
-                    <li key={point}>
+                </div>
+                {/* 背面：完整动作 + 要点 + 档案来源 */}
+                <div className="home-method__flip-face home-method__flip-back">
+                  <i className="home-method__flip-spin" aria-hidden="true" />
+                  <div className="home-method__flip-panel">
+                    <h3>{step.title}</h3>
+                    <p className="home-method__action">{step.action}</p>
+                    <ul className="home-method__points">
+                      {step.points.map((point) => (
+                        <li key={point}>
+                          <i aria-hidden="true" />
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
+                    <span className="home-method__flip-evidence">
                       <i aria-hidden="true" />
-                      {point}
-                    </li>
-                  ))}
-                </CardItem>
-              </CardBody>
-            </CardContainer>
+                      {step.evidence}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </article>
           ))}
         </div>
         </RevealOnScroll>
-        <TiltCards />
       </section>
 
       <section className="home-routes" aria-labelledby="routes-title">

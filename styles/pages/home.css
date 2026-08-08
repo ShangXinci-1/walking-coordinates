@@ -266,36 +266,55 @@
   gap: clamp(14px, 1.8vw, 24px);
   list-style: none;
   align-items: stretch;
-  perspective: 1200px;
 }
 
-/* ── 卡片基础：深红黑渐变 + 立体层次 ── */
-.home-method__steps .home-method__card {
-  position: relative;
-  min-height: 400px;
+/* ── 翻转卡片：悬停/聚焦时 3D 翻面（Uiverse ElSombrero2 灵感，红金主题版） ── */
+.home-method__flip {
+  perspective: 1400px;
   height: 400px;
-  padding: 30px clamp(22px, 2.2vw, 34px) 26px;
+}
+
+.home-method__flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 800ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.home-method__flip:hover .home-method__flip-inner,
+.home-method__flip:focus-within .home-method__flip-inner {
+  transform: rotateY(180deg);
+}
+
+.home-method__flip-face {
+  position: absolute;
+  inset: 0;
   border-radius: 20px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+}
+
+/* ── 正面：深红黑底 + 浮动红金光球 ── */
+.home-method__flip-front {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 30px clamp(22px, 2.2vw, 34px) 26px;
   background:
     radial-gradient(130% 110% at 18% 0%, oklch(0.36 0.135 24 / 0.28), transparent 52%),
     linear-gradient(172deg, oklch(0.21 0.055 24 / 0.85), oklch(0.08 0.02 24 / 0.92));
   border: 1px solid oklch(1 0 0 / 0.08);
-  isolation: isolate;
   color: var(--paper-pure);
-  /* 注意：不能设 overflow:hidden —— 会压平 3D 空间，translateZ 分层失效。
-     溢出裁剪交给 .home-method__shine-mask（圆角内部）。 */
   box-shadow:
     0 2px 3px oklch(0 0 0 / 0.2),
     0 14px 40px oklch(0 0 0 / 0.28),
     inset 0 1px 0 oklch(1 0 0 / 0.06);
-  transition:
-    transform 350ms cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 700ms cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 700ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* 顶部红金渐变光带 */
-.home-method__steps .home-method__card::before {
+.home-method__flip-front::before {
   position: absolute;
   z-index: 2;
   top: 0;
@@ -305,81 +324,49 @@
   background: linear-gradient(90deg, transparent, var(--red-bright) 25%, var(--amber) 50%, var(--red-bright) 75%, transparent);
   content: "";
   opacity: 0.55;
-  transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* 底部金色光晕（hover 时亮起） */
-.home-method__steps .home-method__card::after {
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  border-radius: 20px;
-  background: radial-gradient(90% 70% at 50% 115%, oklch(0.72 0.12 70 / 0.4), transparent 62%);
-  content: "";
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* ── 光带扫过（shine sweep）：mask 做圆角裁剪，卡片本体不设 overflow ── */
-.home-method__shine-mask {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  border-radius: 20px;
-  overflow: hidden;
   pointer-events: none;
 }
 
-.home-method__shine {
+/* 浮动光球（Uiverse floating circle，红金版） */
+.home-method__flip-glow {
   position: absolute;
-  z-index: 1;
-  top: 0;
-  bottom: 0;
-  left: -60%;
-  width: 40%;
-  background: linear-gradient(105deg, transparent, oklch(1 0 0 / 0.09), transparent);
-  transform: skewX(-18deg);
+  border-radius: 50%;
+  filter: blur(20px);
   pointer-events: none;
-  opacity: 0;
-  transition: opacity 200ms ease;
+  animation: method-float 2.8s ease-in-out infinite;
 }
 
-.home-method__steps .home-method__card:hover .home-method__shine {
-  opacity: 1;
-  animation: shine-sweep 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.home-method__flip-glow {
+  right: -16px;
+  top: 10%;
+  width: 96px;
+  height: 96px;
+  background: oklch(0.72 0.12 70 / 0.42);
 }
 
-@keyframes shine-sweep {
-  from {
-    left: -60%;
+.home-method__flip-glow--b {
+  right: 22px;
+  top: 34%;
+  width: 34px;
+  height: 34px;
+  background: oklch(0.59 0.205 25 / 0.6);
+  animation-delay: -1.4s;
+}
+
+@keyframes method-float {
+  0%,
+  100% {
+    transform: translateY(0);
   }
-  to {
-    left: 130%;
+  50% {
+    transform: translateY(12px);
   }
 }
 
-/* hover：3D 抬起 + 金边（transform 抬起与 CardContainer 旋转层叠加，无冲突） */
-.home-method__steps .home-method__card:hover {
-  transform: translateY(-10px);
-  border-color: oklch(0.72 0.12 70 / 0.55);
-  box-shadow:
-    0 6px 12px oklch(0 0 0 / 0.3),
-    0 34px 80px oklch(0.36 0.135 24 / 0.5),
-    inset 0 1px 0 oklch(1 0 0 / 0.1);
-  z-index: 10;
-}
-
-.home-method__steps .home-method__card:hover::before {
-  opacity: 1;
-}
-
-.home-method__steps .home-method__card:hover::after {
-  opacity: 1;
-}
-
-/* ── 卡片头部：图标 + 编号 ── */
-.home-method__card-top {
+/* 正面头部：图标 + 编号 */
+.home-method__flip-top {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -395,22 +382,11 @@
   border: 1px solid oklch(0.72 0.12 70 / 0.3);
   color: var(--amber);
   box-shadow: 0 8px 20px oklch(0 0 0 / 0.35);
-  transition:
-    transform 700ms cubic-bezier(0.16, 1, 0.3, 1),
-    background 700ms cubic-bezier(0.16, 1, 0.3, 1),
-    color 700ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .home-method__icon svg {
   width: 26px;
   height: 26px;
-}
-
-.home-method__steps .home-method__card:hover .home-method__icon {
-  transform: scale(1.1) rotate(-6deg);
-  background: linear-gradient(145deg, oklch(0.72 0.12 70 / 0.4), oklch(0.3 0.1 24 / 0.8));
-  color: var(--paper-pure);
-  border-color: var(--amber);
 }
 
 .home-method__number {
@@ -419,63 +395,111 @@
   font-weight: 900;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.06em;
-  transition: color 700ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.home-method__steps .home-method__card:hover .home-method__number {
-  color: var(--amber);
+/* 正面标题 + 翻转提示 */
+.home-method__flip-title {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-/* ── 标题 ── */
-.home-method__steps .home-method__card h3 {
-  margin: 22px 0 0;
+.home-method__flip-front h3 {
+  margin: 0;
   color: var(--paper-pure);
   font-size: clamp(1.6rem, 2vw, 2rem);
   line-height: 1;
-  transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.home-method__steps .home-method__card:hover h3 {
+.home-method__flip-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  color: oklch(0.72 0.12 70 / 0.9);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.home-method__flip-hint span {
+  font-size: 0.9rem;
+  animation: method-spin-hint 5s linear infinite;
+}
+
+@keyframes method-spin-hint {
+  to {
+    transform: rotateZ(360deg);
+  }
+}
+
+/* ── 背面：旋转红金光带 + 深色内容面板 ── */
+.home-method__flip-back {
+  transform: rotateY(180deg);
+  background: oklch(0.06 0.015 24 / 0.96);
+  border: 1px solid oklch(0.72 0.12 70 / 0.25);
+  box-shadow:
+    0 2px 3px oklch(0 0 0 / 0.2),
+    0 14px 40px oklch(0 0 0 / 0.28);
+}
+
+/* 旋转光带：掠过卡片背面边缘 */
+.home-method__flip-spin {
+  position: absolute;
+  inset: -45%;
+  background: linear-gradient(90deg, transparent, var(--red-bright), var(--amber), var(--red-bright), transparent);
+  animation: method-spin 5s linear infinite;
+}
+
+@keyframes method-spin {
+  from {
+    transform: rotateZ(0deg);
+  }
+  to {
+    transform: rotateZ(360deg);
+  }
+}
+
+.home-method__flip-panel {
+  position: absolute;
+  inset: 5px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  padding: 24px clamp(18px, 2vw, 24px) 20px;
+  background: oklch(0.09 0.02 24 / 0.98);
+  overflow: hidden;
+  color: var(--paper-pure);
+}
+
+.home-method__flip-panel h3 {
+  margin: 0;
   color: var(--amber);
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
 }
 
-/* ── 描述：默认截断，悬停展开 ── */
+/* 完整动作说明（背面常显） */
 .home-method__action {
-  margin: 14px 0 0;
+  margin: 12px 0 0;
   color: oklch(0.85 0.012 24);
-  line-height: 1.72;
+  font-size: 0.84rem;
+  line-height: 1.66;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  transition:
-    color 700ms cubic-bezier(0.16, 1, 0.3, 1),
-    -webkit-line-clamp 700ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.home-method__steps .home-method__card:hover .home-method__action {
-  color: oklch(0.96 0.01 24);
-  -webkit-line-clamp: 6;
-}
-
-/* ── 要点列表（悬停展开） ── */
+/* 要点列表（背面常显） */
 .home-method__points {
-  margin: 16px 0 0;
+  margin: 14px 0 0;
   padding: 0;
   list-style: none;
   display: grid;
-  gap: 9px;
-  opacity: 0;
-  max-height: 0;
-  overflow: hidden;
-  transition:
-    opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
-    max-height 700ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.home-method__steps .home-method__card:hover .home-method__points {
-  opacity: 1;
-  max-height: 140px;
+  gap: 8px;
 }
 
 .home-method__points li {
@@ -483,7 +507,7 @@
   align-items: flex-start;
   gap: 9px;
   color: oklch(0.88 0.012 24);
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   line-height: 1.55;
 }
 
@@ -495,6 +519,30 @@
   border-radius: 50%;
   background: var(--amber);
   box-shadow: 0 0 8px oklch(0.72 0.12 70 / 0.6);
+}
+
+/* 档案来源标签 */
+.home-method__flip-evidence {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  margin: auto 0 0;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid oklch(0.72 0.12 70 / 0.35);
+  background: oklch(0.72 0.12 70 / 0.1);
+  color: oklch(0.88 0.08 60 / 1);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.home-method__flip-evidence i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--amber);
 }
 
 .home-routes {
@@ -805,7 +853,6 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(16px, 2vw, 28px);
-  perspective: 1200px;
 }
 
 /* 两列交错错落，打破整齐单调感 */
@@ -830,10 +877,8 @@
     0 2px 3px oklch(0 0 0 / 0.05),
     0 14px 36px oklch(0 0 0 / 0.09);
   isolation: isolate;
-  /* 不设 overflow:hidden：preserve-3d 需要子层纵深浮起 */
-  transform-style: preserve-3d;
   transition:
-    translate 600ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 600ms cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow 600ms cubic-bezier(0.16, 1, 0.3, 1),
     border-color 600ms cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -852,9 +897,9 @@
   transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* hover 上浮交给独立 translate 属性（transform 归 3D 倾斜），tilt 时不被覆盖 */
+/* hover 上浮（与上方翻转卡区分：静态上浮，不再 3D 倾斜） */
 .home-outcomes__card:hover {
-  translate: 0 -8px;
+  transform: translateY(-8px);
   border-color: oklch(0.72 0.12 70 / 0.45);
   box-shadow:
     0 6px 12px oklch(0 0 0 / 0.08),
@@ -881,7 +926,7 @@
   opacity: 1;
 }
 
-/* 成果专属图标徽章（3D 纵深 52px） */
+/* 成果专属图标徽章 */
 .home-outcomes__card-icon {
   display: grid;
   place-items: center;
@@ -893,7 +938,6 @@
   box-shadow:
     0 8px 22px oklch(0.59 0.205 25 / 0.3),
     inset 0 1px 0 oklch(1 0 0 / 0.25);
-  transform: translateZ(52px);
   transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -903,7 +947,7 @@
 }
 
 .home-outcomes__card:hover .home-outcomes__card-icon {
-  transform: translateZ(52px) scale(1.1) rotate(-4deg);
+  transform: scale(1.1) rotate(-4deg);
 }
 
 /* 序号：右上角细体金色小字 */
@@ -962,10 +1006,6 @@
   }
 }
 
-.home-outcomes__card-body {
-  transform: translateZ(34px);
-}
-
 .home-outcomes__card-body h3 {
   margin: 0;
   font-size: clamp(1.25rem, 1.9vw, 1.7rem);
@@ -983,7 +1023,7 @@
   line-height: 1.7;
 }
 
-/* 圆形箭头按钮（3D 纵深 40px） */
+/* 圆形箭头按钮 */
 .home-outcomes__card-arrow {
   display: grid;
   place-items: center;
@@ -994,7 +1034,6 @@
   color: var(--red-bright-accessible);
   font-size: 1.2rem;
   font-weight: 800;
-  transform: translateZ(40px);
   transition:
     transform 600ms cubic-bezier(0.16, 1, 0.3, 1),
     background 600ms cubic-bezier(0.16, 1, 0.3, 1),
@@ -1003,7 +1042,7 @@
 }
 
 .home-outcomes__card:hover .home-outcomes__card-arrow {
-  transform: translateZ(40px) translateX(4px);
+  transform: translateX(4px);
   background: var(--red);
   border-color: var(--red);
   color: var(--paper-pure);
@@ -1271,18 +1310,8 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .home-method__steps > div:nth-child(3) {
-    border-block-start: 1px solid var(--line-dark);
-    border-inline-start: 0;
-  }
-
-  .home-method__steps > div:nth-child(4) {
-    border-block-start: 1px solid var(--line-dark);
-  }
-
-  .home-method__steps > div:nth-child(2) .home-method__card::after,
-  .home-method__steps > div:last-child .home-method__card::after {
-    display: none;
+  .home-method__flip {
+    height: 380px;
   }
 
   .home-route,
@@ -1367,19 +1396,8 @@
     gap: 14px;
   }
 
-  .home-method__steps .home-method__card {
-    min-height: auto;
-    height: auto;
-    padding: 26px 22px 60px;
-  }
-
-  .home-method__steps .home-method__card:hover {
-    height: auto;
-    min-height: auto;
-  }
-
-  .home-method__card-top {
-    margin-bottom: 4px;
+  .home-method__flip {
+    height: 360px;
   }
 
   .home-method__icon {
@@ -1392,19 +1410,12 @@
     height: 22px;
   }
 
-  .home-method__steps .home-method__card h3 {
-    margin-top: 18px;
+  .home-method__flip-front h3 {
     font-size: clamp(1.5rem, 6vw, 2rem);
   }
 
-  /* 移动端默认展开要点（触摸设备无 hover） */
-  .home-method__points {
-    opacity: 1;
-    max-height: 140px;
-  }
-
-  .home-method__action {
-    -webkit-line-clamp: 4;
+  .home-method__flip-panel {
+    padding: 20px 18px 16px;
   }
 
   .home-route__copy h3 {
@@ -1490,19 +1501,22 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .home-method__steps .home-method__card,
-  .home-method__steps .home-method__card::before,
-  .home-method__number,
-  .home-method__steps .home-method__card h3,
-  .home-method__steps small {
+  .home-method__flip-inner {
+    transition: none;
+  }
+
+  .home-method__flip-glow,
+  .home-method__flip-spin {
+    animation: none;
+  }
+
+  .home-outcomes__card {
     transition: none;
   }
 
   .home-route__visual img {
     transition: none;
   }
-
-
 }
 
 /* ═══════════════════════════════════════════

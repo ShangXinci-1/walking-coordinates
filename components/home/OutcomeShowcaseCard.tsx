@@ -1,21 +1,11 @@
 "use client";
 
 // 首页「寻访之后，留下了什么」成果卡片：
-// 鼠标 3D 倾斜（物理弹簧跟随，reduced-motion 下禁用）+ 成果专属图标
-// + 微电影「剪辑中」金色脉冲标签。视觉样式由 home.css 负责。
-import { useRef, type CSSProperties, type ReactNode } from "react";
-import {
-  motion,
-  useMotionTemplate,
-  useMotionValue,
-  useReducedMotion,
-  useSpring,
-} from "motion/react";
+// 成果专属图标 + 微电影「剪辑中」金色脉冲标签 + hover 上浮。
+// 视觉样式由 home.css 负责（与上方「寻访→传播」翻转卡区分：静态上浮，不再倾斜）。
+import type { CSSProperties, ReactNode } from "react";
 import type { OutcomeRecord } from "../../lib/content/types";
 import { withBasePath } from "../../lib/site";
-
-const SPRING = { stiffness: 180, damping: 18, mass: 0.14 };
-const ROTATE_DIVISOR = 10; // 鼠标偏移 / 10 → 边缘约 ±15deg
 
 const OUTCOME_ICONS: Record<string, ReactNode> = {
   "digital-exhibition": (
@@ -57,37 +47,12 @@ export function OutcomeShowcaseCard({
   outcome,
   index,
 }: OutcomeShowcaseCardProps) {
-  const ref = useRef<HTMLAnchorElement>(null);
-  const reduce = useReducedMotion();
-
-  const rotateX = useMotionValue(0);
-  const rotateY = useMotionValue(0);
-  const springX = useSpring(rotateX, SPRING);
-  const springY = useSpring(rotateY, SPRING);
-  const transform = useMotionTemplate`rotateY(${springY}deg) rotateX(${springX}deg)`;
-
-  function handleMove(event: React.MouseEvent<HTMLAnchorElement>) {
-    if (reduce || !ref.current) return;
-    const { left, top, width, height } = ref.current.getBoundingClientRect();
-    rotateX.set(((event.clientY - top - height / 2) / ROTATE_DIVISOR) * -1);
-    rotateY.set((event.clientX - left - width / 2) / ROTATE_DIVISOR);
-  }
-
-  function handleLeave() {
-    rotateX.set(0);
-    rotateY.set(0);
-  }
-
   const isFilm = outcome.id === "short-film";
 
   return (
-    <motion.a
-      ref={ref}
+    <a
       className="home-outcomes__card"
       href={withBasePath("/outcomes")}
-      onMouseMove={handleMove}
-      onMouseLeave={handleLeave}
-      style={{ transform, transformStyle: "preserve-3d" }}
     >
       <span className="home-outcomes__card-icon">
         <svg
@@ -129,6 +94,6 @@ export function OutcomeShowcaseCard({
         aria-hidden="true"
         style={{ "--i": index } as CSSProperties}
       />
-    </motion.a>
+    </a>
   );
 }
