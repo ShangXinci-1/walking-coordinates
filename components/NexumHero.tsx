@@ -1,6 +1,6 @@
 // NexumHero：全屏视频英雄区（nexum 风格中文版）
 // 双轮回开场：背影3.0 照片（呼吸式推近）↔ AI 生成视频（森林行走），
-// 视频就绪后两层以 32s 周期交替（各约 13s，2s 交叉溶解）；
+// 视频就绪后两层以 64s 周期交替（各约 30s，2s 交叉溶解，首个画面看得清）；
 // 就绪检测带 readyState 兜底，从其他页面切回时画面稳定不闪烁。
 "use client";
 
@@ -64,7 +64,7 @@ export default function NexumHero() {
         <i className="nexum-hero__scan" />
       </div>
 
-      {/* ── 视频层：就绪后 2s 交叉溶解进入轮回（30s 周期：视频≈13s ↔ 背影≈13s） ── */}
+      {/* ── 视频层：就绪后 2s 交叉溶解进入轮回（64s 周期：视频≈30s ↔ 背影≈30s） ── */}
       <video
         ref={videoRef}
         className={`nexum-hero__video${videoReady ? " is-cycling" : ""}`}

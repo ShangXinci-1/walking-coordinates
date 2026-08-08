@@ -42,14 +42,14 @@
 
 /* 视频就绪：照片层进入双轮回（背影 ↔ 视频，见下方 cycle keyframes） */
 .nexum-hero__still.is-cycling {
-  animation: nexum-cycle-photo 32s linear infinite;
+  animation: nexum-cycle-photo 64s linear infinite;
 }
 
-/* ── 照片层 slide：单图常显 + 呼吸式推近（无跳变，4s 一轮、幅度加大） ── */
+/* ── 照片层 slide：单图常显 + 呼吸式推近（无跳变，36s 一轮、幅度加大） ── */
 .nexum-hero__slide {
   position: absolute;
   inset: 0;
-  animation: nexum-slide-breathe 4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  animation: nexum-slide-breathe 36s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
 
 .nexum-hero__slide img {
@@ -71,20 +71,20 @@
   }
 }
 
-/* ── 双轮回交替：32s 周期，两画面各 ≈13s，溶解 ≈2s ──
-   相位：0-6.25% 背影→视频溶解 → 视频停留 → 46.875-53.125% 视频→背影溶解
-   → 背影停留（53.125-100%+0-6.25% 跨循环） → 回到视频溶解 */
+/* ── 双轮回交替：64s 周期，两画面各 ≈30s，溶解 ≈2s ──
+   相位：0-3.125% 背影→视频溶解 → 视频停留 → 51.5625-54.6875% 视频→背影溶解
+   → 背影停留（54.6875-100%+0-3.125% 跨循环） → 回到视频溶解 */
 @keyframes nexum-cycle-photo {
   0% {
     opacity: 1;
   }
-  6.25% {
+  3.125% {
     opacity: 0;
   }
-  46.875% {
+  51.5625% {
     opacity: 0;
   }
-  53.125% {
+  54.6875% {
     opacity: 1;
   }
   100% {
@@ -96,13 +96,13 @@
   0% {
     opacity: 0;
   }
-  6.25% {
+  3.125% {
     opacity: 1;
   }
-  46.875% {
+  51.5625% {
     opacity: 1;
   }
-  53.125% {
+  54.6875% {
     opacity: 0;
   }
   100% {
@@ -261,7 +261,7 @@
 }
 
 .nexum-hero__video.is-cycling {
-  animation: nexum-cycle-video 32s linear infinite;
+  animation: nexum-cycle-video 64s linear infinite;
 }
 
 /* ── 柔和遮罩：顶部轻微压暗 + 底部压暗，保证文字可读 ── */
