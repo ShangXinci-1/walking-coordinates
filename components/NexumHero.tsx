@@ -1,13 +1,14 @@
 // NexumHero：全屏视频英雄区（nexum 风格中文版）
-// 双轮回开场：背影3.0 照片（呼吸式推近）↔ AI 生成视频（森林行走），
-// 视频就绪后两层以 64s 周期交替（各约 30s，2s 交叉溶解，首个画面看得清）；
-// 就绪检测带 readyState 兜底，从其他页面切回时画面稳定不闪烁。
+// 四图电影蒙太奇开场：背影3.0 + 三条路线实地照，
+// 每 4s 交叉溶解切换 + 大幅推近（方向交替）+ 漂移坐标网格；
+// 视频就绪后与蒙太奇层交叉溶解（1.8s），首屏节奏完全本地可控。
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import type { AssetRecord } from "../lib/content/types";
 import { withBasePath } from "../lib/site";
 import { exhibitionSites } from "../data/exhibition";
+import { routes } from "../data/routes";
 import NumberTicker from "./NumberTicker";
 import ShinyText from "./ShinyText";
 import {
@@ -30,26 +31,28 @@ export default function NexumHero() {
   const { routeCount, siteCount } = getProjectCounts();
   const vrCount = exhibitionSites.filter((site) => site.vrUrl).length;
   const avatarSrc = assetSrc(getRequiredAssetById("community-01"));
-  const videoRef = useRef<HTMLVideoElement>(null);
   const [videoReady, setVideoReady] = useState(false);
   const stillSrc = withBasePath("/media/xiangshan/背影3.0.jpg");
 
-  /* ── 双轮回素材：背影3.0 常显（推近），视频就绪后开始交替 ── */
-  const slides = [{ src: stillSrc, label: "香山 · 背影" }];
-
-  /* 挂载即检查 readyState：视频缓存命中时 canplay 事件可能在
-     React 事件绑定前已派发，直接按当前就绪状态收编，切回页面稳定 */
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video || video.readyState < 2) return;
-    setVideoReady(true);
-  }, []);
+  /* ── 蒙太奇素材：背影3.0 + 三条路线 hero 实地图（含地点标签） ── */
+  const slides = [
+    { src: stillSrc, label: "香山 · 背影" },
+    ...routes.map((route) => {
+      const firstSite = exhibitionSites.find(
+        (site) => site.id === route.siteIds[0],
+      );
+      return {
+        src: withBasePath(assetSrc(getRequiredAssetById(route.heroAssetId))),
+        label: `${route.title.value} · ${firstSite?.name ?? ""}`,
+      };
+    }),
+  ];
 
   return (
     <section className="nexum-hero" aria-labelledby="nexum-title">
-      {/* ── 照片层：背影3.0 常显 + 呼吸式推近；视频就绪后进入双轮回 ── */}
+      {/* ── 蒙太奇层：四图循环交叉溶解 + 大幅推近（纯本地，与视频加载无关） ── */}
       <div
-        className={`nexum-hero__still${videoReady ? " is-cycling" : ""}`}
+        className={`nexum-hero__still${videoReady ? " is-fading" : ""}`}
         aria-hidden="true"
       >
         {slides.map((slide) => (
@@ -64,17 +67,15 @@ export default function NexumHero() {
         <i className="nexum-hero__scan" />
       </div>
 
-      {/* ── 视频层：就绪后 2s 交叉溶解进入轮回（64s 周期：视频≈30s ↔ 背影≈30s） ── */}
+      {/* ── 视频层：就绪后 1.8s 淡入，与照片层同步交叉溶解 ── */}
       <video
-        ref={videoRef}
-        className={`nexum-hero__video${videoReady ? " is-cycling" : ""}`}
+        className={`nexum-hero__video${videoReady ? " is-ready" : ""}`}
         autoPlay
         loop
         muted
         playsInline
-        preload="auto"
+        poster={stillSrc}
         onCanPlay={() => setVideoReady(true)}
-        onLoadedData={() => setVideoReady(true)}
         onPlaying={() => setVideoReady(true)}
       >
         <source src={VIDEO_URL} type="video/mp4" />
