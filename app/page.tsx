@@ -12,7 +12,7 @@ import NexumHero from "../components/NexumHero";
 import { RevealOnScroll } from "../components/RevealOnScroll";
 import { StaggerContainer } from "../components/StaggerContainer";
 import { OutcomeShowcaseCard } from "../components/home/OutcomeShowcaseCard";
-import LightRays from "../components/LightRays";
+import Lightfall from "../components/Lightfall";
 import { SiteFooter, SiteHeader } from "./shared";
 import "../styles/components/hero-nexum.css";
 
@@ -236,24 +236,27 @@ export default function Home() {
       </section>
 
       <section className="home-outcomes" aria-labelledby="outcomes-title">
-        {/* 背景装饰：红金顶光洒落（React Bits LightRays，ogl 光线阵列） */}
-        <LightRays
-          raysOrigin="top-center"
-          raysColor="#E3A94C"
-          raysSpeed={1.2}
-          lightSpread={0.9}
-          rayLength={1.4}
-          fadeDistance={1.2}
-          followMouse={true}
-          mouseInfluence={0.12}
-          noiseAmount={0.06}
-          distortion={0.04}
-          saturation={0.9}
-          pulsating={false}
+        {/* 背景装饰：红金光雨（React Bits Lightfall，ogl 光雨隧道，深红褐底上） */}
+        <Lightfall
+          colors={["#E3A94C", "#F2E8D5", "#B02318"]}
+          backgroundColor="#5A1810"
+          speed={0.65}
+          streakCount={7}
+          streakWidth={1}
+          streakLength={1.1}
+          glow={0.9}
+          density={0.9}
+          twinkle={1}
+          zoom={2.4}
+          backgroundGlow={0.55}
+          opacity={1}
+          mouseInteraction={true}
+          mouseStrength={0.7}
+          mouseRadius={0.8}
         />
 
         <RevealOnScroll parallax={40}>
-          <header className="home-section-heading">
+          <header className="home-section-heading home-section-heading--dark">
             <p>从现场采集到数字呈现，成果逐步成形</p>
             <h2 id="outcomes-title">寻访之后，留下了什么</h2>
             <a href={withBasePath("/outcomes")}>查看全部成果 →</a>

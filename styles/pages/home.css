@@ -795,15 +795,14 @@
 .home-outcomes {
   position: relative;
   isolation: isolate;
-  /* 三层光晕：右上深红、左下金红、中央暗红，让大块浅底有温度 */
+  color: var(--paper-pure);
+  /* 深红褐底：为 Lightfall 光雨提供舞台（与上方路线区 --ink 深底统一） */
   background:
-    radial-gradient(52% 44% at 88% 12%, oklch(0.59 0.205 25 / 0.08), transparent 70%),
-    radial-gradient(46% 40% at 6% 86%, oklch(0.72 0.12 70 / 0.09), transparent 72%),
-    radial-gradient(34% 30% at 50% 46%, oklch(0.59 0.205 25 / 0.045), transparent 75%),
-    var(--paper-pure);
+    radial-gradient(90% 70% at 50% 0%, oklch(0.31 0.09 25 / 0.85), transparent 72%),
+    linear-gradient(180deg, oklch(0.19 0.055 25), oklch(0.14 0.045 25));
 }
 
-/* 背景：极淡金色坐标网格（呼应「坐标」主题，顶部渐隐） */
+/* 背景：极淡金色坐标网格（呼应「坐标」主题，深底上用白色细线，顶部渐隐） */
 .home-outcomes::before {
   position: absolute;
   z-index: 0;
@@ -811,8 +810,8 @@
   content: "";
   pointer-events: none;
   background-image:
-    linear-gradient(oklch(0.72 0.12 70 / 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, oklch(0.72 0.12 70 / 0.05) 1px, transparent 1px);
+    linear-gradient(oklch(0.98 0.01 24 / 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.98 0.01 24 / 0.045) 1px, transparent 1px);
   background-size: 56px 56px;
   mask-image: radial-gradient(
     ellipse at 50% 0%,
@@ -838,13 +837,13 @@
   letter-spacing: -0.04em;
   line-height: 1;
   color: transparent;
-  -webkit-text-stroke: 1px oklch(0.72 0.12 70 / 0.14);
+  -webkit-text-stroke: 1px oklch(0.72 0.12 70 / 0.24);
   pointer-events: none;
   user-select: none;
 }
 
-/* ── 背景光线（React Bits LightRays）：顶部红金光洒落，铺满整个成果区 ── */
-.home-outcomes .light-rays-container {
+/* ── 背景光雨（React Bits Lightfall）：红金光雨洒落，铺满整个成果区 ── */
+.home-outcomes .lightfall-container {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -853,7 +852,7 @@
   right: auto;
   top: 0;
   z-index: 0;
-  opacity: 0.85;
+  pointer-events: none;
 }
 
 .home-outcomes > * {
@@ -1419,10 +1418,10 @@
     padding-block: clamp(44px, 10vw, 60px);
   }
 
-  /* 小屏：光线降淡（低端机自动降为低分辨率渲染） */
-  .home-outcomes .light-rays-container {
+  /* 小屏：光雨略降淡（低端机自动降为低分辨率渲染） */
+  .home-outcomes .lightfall-container {
     width: 100%;
-    opacity: 0.5;
+    opacity: 0.75;
   }
 
   .home-method__intro h2,
@@ -1558,8 +1557,8 @@
     animation: none;
   }
 
-  /* reduced-motion：光线停止渲染（隐藏容器，组件内部动画停止） */
-  .home-outcomes .light-rays-container {
+  /* reduced-motion：光雨停止渲染（隐藏容器，组件内部动画停止） */
+  .home-outcomes .lightfall-container {
     display: none;
   }
 
