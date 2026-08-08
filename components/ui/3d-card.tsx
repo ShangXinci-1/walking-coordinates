@@ -1,16 +1,26 @@
 "use client";
 
 import React, { createContext, useContext, useRef, useState } from "react";
+import {
+  motion,
+  useMotionTemplate,
+  useMotionValue,
+  useSpring,
+} from "motion/react";
 
 /**
  * 3D 悬浮卡片（acertinity 3d-card 风格，无 Tailwind 依赖）。
  *
- * - CardContainer：外层透视容器，鼠标移动时 rotateX/rotateY 跟随（±~20deg）
+ * - CardContainer：外层透视容器，鼠标移动时 rotateX/rotateY 经物理弹簧跟随
+ *   （perspective 900px、±~15deg），离开后自然回弹归零
  * - CardBody：3D 空间主体，保留子元素 preserve-3d 链
  * - CardItem：内容分层，translateZ 让元素在 3D 空间不同深度浮起
  *
  * 视觉样式由调用方 className 负责（本组件只提供 3D 机制）。
  */
+
+const ROTATE_DIVISOR = 10; // 鼠标偏移 / 10 → 边缘约 ±15deg
+const SPRING = { stiffness: 150, damping: 20, mass: 0.1 };
 
 type MouseEnterContextValue = [
   boolean,
@@ -35,29 +45,35 @@ export function CardContainer({
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMouseEntered, setIsMouseEntered] = useState(false);
 
+  const rotateX = useMotionValue(0);
+  const rotateY = useMotionValue(0);
+  const springX = useSpring(rotateX, SPRING);
+  const springY = useSpring(rotateY, SPRING);
+  const transform = useMotionTemplate`rotateY(${springY}deg) rotateX(${springX}deg)`;
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
     const { left, top, width, height } =
       containerRef.current.getBoundingClientRect();
-    // 以卡片中心为原点，+/-(w/25) 约 ±20deg
-    const x = (e.clientX - left - width / 2) / 25;
-    const y = (e.clientY - top - height / 2) / 25;
-    containerRef.current.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+    // 以卡片中心为原点，+/-(w/10) 约 ±15deg
+    const x = (e.clientX - left - width / 2) / ROTATE_DIVISOR;
+    const y = (e.clientY - top - height / 2) / ROTATE_DIVISOR;
+    rotateX.set(y);
+    rotateY.set(x);
   };
 
   const handleMouseEnter = () => setIsMouseEntered(true);
 
   const handleMouseLeave = () => {
     setIsMouseEntered(false);
-    if (containerRef.current) {
-      containerRef.current.style.transform = `rotateY(0deg) rotateX(0deg)`;
-    }
+    rotateX.set(0);
+    rotateY.set(0);
   };
 
   return (
     <MouseEnterContext.Provider value={[isMouseEntered, setIsMouseEntered]}>
-      <div className={containerClassName} style={{ perspective: "1200px" }}>
-        <div
+      <div className={containerClassName} style={{ perspective: "900px" }}>
+        <motion.div
           ref={containerRef}
           onMouseEnter={handleMouseEnter}
           onMouseMove={handleMouseMove}
@@ -65,11 +81,11 @@ export function CardContainer({
           className={className}
           style={{
             transformStyle: "preserve-3d",
-            transition: "transform 200ms ease-linear",
+            transform,
           }}
         >
           {children}
-        </div>
+        </motion.div>
       </div>
     </MouseEnterContext.Provider>
   );

@@ -109,7 +109,7 @@ export default function Home() {
                 <span className="home-method__shine-mask" aria-hidden="true">
                   <span className="home-method__shine" />
                 </span>
-                <CardItem translateZ="40" className="home-method__card-top">
+                <CardItem translateZ="60" className="home-method__card-top">
                   <span className="home-method__icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                       <path d={step.icon} />
@@ -119,13 +119,13 @@ export default function Home() {
                     {String(index + 1).padStart(2, "0")}
                   </span>
                 </CardItem>
-                <CardItem as="h3" translateZ="30">
+                <CardItem as="h3" translateZ="45">
                   {step.title}
                 </CardItem>
-                <CardItem as="p" translateZ="24" className="home-method__action">
+                <CardItem as="p" translateZ="36" className="home-method__action">
                   {step.action}
                 </CardItem>
-                <CardItem as="ul" translateZ="18" className="home-method__points">
+                <CardItem as="ul" translateZ="28" className="home-method__points">
                   {step.points.map((point) => (
                     <li key={point}>
                       <i aria-hidden="true" />

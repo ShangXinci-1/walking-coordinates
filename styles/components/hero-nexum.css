@@ -775,4 +775,28 @@
   .nexum-hero__cards {
     gap: 20px;
   }
+
+  /* 桌面蒙太奇：只保留第一张背影照片静止常驻（与早期视觉一致），
+     三张路线 AI 示意图不再参与轮播，避免轮播节奏打断首屏观感。
+     手机端（<1024px）仍为四图循环。 */
+  .nexum-hero__slide {
+    display: none;
+  }
+
+  .nexum-hero__slide:first-child {
+    display: block;
+    opacity: 1;
+    animation: none;
+  }
+
+  .nexum-hero__slide:first-child .nexum-hero__site-label {
+    display: block;
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .nexum-hero__slide:first-child img {
+    transform: none;
+  }
 }
