@@ -795,7 +795,12 @@
 .home-outcomes {
   position: relative;
   isolation: isolate;
-  background: var(--paper-pure);
+  /* 三层光晕：右上深红、左下金红、中央暗红，让大块浅底有温度 */
+  background:
+    radial-gradient(52% 44% at 88% 12%, oklch(0.59 0.205 25 / 0.08), transparent 70%),
+    radial-gradient(46% 40% at 6% 86%, oklch(0.72 0.12 70 / 0.09), transparent 72%),
+    radial-gradient(34% 30% at 50% 46%, oklch(0.59 0.205 25 / 0.045), transparent 75%),
+    var(--paper-pure);
 }
 
 /* 背景：极淡金色坐标网格（呼应「坐标」主题，顶部渐隐） */
@@ -838,7 +843,122 @@
   user-select: none;
 }
 
-.home-outcomes > * {
+/* ── 背景装饰层：红星、坐标准星、斜向金光（低透明度，衬托卡片） ── */
+.home-outcomes__decor {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* 描边红星（红金光晕中的红心点缀） */
+.home-outcomes__star {
+  position: absolute;
+  color: oklch(0.72 0.12 70 / 0.5);
+  animation: outcomes-float 9s ease-in-out infinite alternate;
+}
+
+.home-outcomes__star svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.home-outcomes__star--lg {
+  top: 15%;
+  right: 6%;
+  width: clamp(64px, 7vw, 92px);
+}
+
+.home-outcomes__star--md {
+  bottom: 11%;
+  left: 4.5%;
+  width: clamp(42px, 5vw, 62px);
+  color: oklch(0.59 0.205 25 / 0.38);
+  animation-delay: -3s;
+}
+
+.home-outcomes__star--sm {
+  top: 54%;
+  left: 21%;
+  width: 30px;
+  color: oklch(0.72 0.12 70 / 0.4);
+  animation-delay: -6s;
+}
+
+@keyframes outcomes-float {
+  from {
+    transform: translateY(-7px) rotate(-4deg);
+  }
+  to {
+    transform: translateY(8px) rotate(5deg);
+  }
+}
+
+/* 坐标十字准星（呼应「坐标」主题） */
+.home-outcomes__reticle {
+  position: absolute;
+  width: 38px;
+  height: 38px;
+  border: 1px solid oklch(0.72 0.12 70 / 0.26);
+  border-radius: 50%;
+}
+
+.home-outcomes__reticle::before,
+.home-outcomes__reticle::after {
+  position: absolute;
+  content: "";
+  background: oklch(0.72 0.12 70 / 0.26);
+}
+
+.home-outcomes__reticle::before {
+  left: 50%;
+  top: -9px;
+  bottom: -9px;
+  width: 1px;
+  transform: translateX(-50%);
+}
+
+.home-outcomes__reticle::after {
+  top: 50%;
+  left: -9px;
+  right: -9px;
+  height: 1px;
+  transform: translateY(-50%);
+}
+
+.home-outcomes__reticle--a {
+  top: 19%;
+  left: 3.5%;
+}
+
+.home-outcomes__reticle--b {
+  right: 4%;
+  bottom: 13%;
+  width: 56px;
+  height: 56px;
+}
+
+/* 斜向金光：一条细柔光束斜穿区块 */
+.home-outcomes__beam {
+  position: absolute;
+  top: -18%;
+  bottom: -18%;
+  left: 63%;
+  width: 90px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    oklch(0.72 0.12 70 / 0.06) 32%,
+    oklch(0.72 0.12 70 / 0.06) 68%,
+    transparent
+  );
+  transform: rotate(21deg) translateX(-50%);
+  filter: blur(1px);
+}
+
+.home-outcomes > :not(.home-outcomes__decor) {
   position: relative;
   z-index: 1;
 }
@@ -1401,6 +1521,32 @@
     padding-block: clamp(44px, 10vw, 60px);
   }
 
+  /* 小屏：装饰收拢，避免与单列卡片争抢 */
+  .home-outcomes__star--lg {
+    right: -14px;
+    top: 10%;
+    width: 56px;
+  }
+
+  .home-outcomes__star--md {
+    left: -12px;
+    bottom: 8%;
+    width: 40px;
+  }
+
+  .home-outcomes__star--sm,
+  .home-outcomes__reticle--a,
+  .home-outcomes__beam {
+    display: none;
+  }
+
+  .home-outcomes__reticle--b {
+    right: 3%;
+    bottom: 9%;
+    width: 40px;
+    height: 40px;
+  }
+
   .home-method__intro h2,
   .home-section-heading h2,
   .home-closing h2 {
@@ -1531,6 +1677,10 @@
 
   .home-method__flip-glow,
   .home-method__flip-spin {
+    animation: none;
+  }
+
+  .home-outcomes__star {
     animation: none;
   }
 
