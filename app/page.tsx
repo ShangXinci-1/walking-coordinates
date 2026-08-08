@@ -12,7 +12,7 @@ import NexumHero from "../components/NexumHero";
 import { RevealOnScroll } from "../components/RevealOnScroll";
 import { StaggerContainer } from "../components/StaggerContainer";
 import { OutcomeShowcaseCard } from "../components/home/OutcomeShowcaseCard";
-import LightPillar from "../components/LightPillar";
+import LightRays from "../components/LightRays";
 import { SiteFooter, SiteHeader } from "./shared";
 import "../styles/components/hero-nexum.css";
 
@@ -236,18 +236,20 @@ export default function Home() {
       </section>
 
       <section className="home-outcomes" aria-labelledby="outcomes-title">
-        {/* 背景装饰：红金光柱（React Bits LightPillar，Three.js 光线柱） */}
-        <LightPillar
-          topColor="#E3A94C"
-          bottomColor="#B02318"
-          intensity={0.7}
-          rotationSpeed={0.22}
-          glowAmount={0.016}
-          pillarWidth={5.2}
-          pillarHeight={0.9}
-          noiseIntensity={0.3}
-          mixBlendMode="multiply"
-          quality="high"
+        {/* 背景装饰：红金顶光洒落（React Bits LightRays，ogl 光线阵列） */}
+        <LightRays
+          raysOrigin="top-center"
+          raysColor="#E3A94C"
+          raysSpeed={1.2}
+          lightSpread={0.9}
+          rayLength={1.4}
+          fadeDistance={1.2}
+          followMouse={true}
+          mouseInfluence={0.12}
+          noiseAmount={0.06}
+          distortion={0.04}
+          saturation={0.9}
+          pulsating={false}
         />
 
         <RevealOnScroll parallax={40}>

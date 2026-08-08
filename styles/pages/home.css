@@ -843,16 +843,17 @@
   user-select: none;
 }
 
-/* ── 背景光柱（React Bits LightPillar）：右侧红金光柱，multiply 叠加浅底 ── */
-.home-outcomes .light-pillar-container,
-.home-outcomes .light-pillar-fallback {
-  width: min(100%, 660px);
+/* ── 背景光线（React Bits LightRays）：顶部红金光洒落，铺满整个成果区 ── */
+.home-outcomes .light-rays-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
   height: 100%;
-  left: auto;
-  right: 0;
+  left: 0;
+  right: auto;
   top: 0;
   z-index: 0;
-  opacity: 0.9;
+  opacity: 0.85;
 }
 
 .home-outcomes > * {
@@ -1418,11 +1419,10 @@
     padding-block: clamp(44px, 10vw, 60px);
   }
 
-  /* 小屏：光柱收窄降淡（低端机自动降为 low 质量渲染） */
-  .home-outcomes .light-pillar-container,
-  .home-outcomes .light-pillar-fallback {
+  /* 小屏：光线降淡（低端机自动降为低分辨率渲染） */
+  .home-outcomes .light-rays-container {
     width: 100%;
-    opacity: 0.55;
+    opacity: 0.5;
   }
 
   .home-method__intro h2,
@@ -1558,8 +1558,8 @@
     animation: none;
   }
 
-  /* reduced-motion：光柱停止渲染（隐藏容器，组件内部动画停止） */
-  .home-outcomes .light-pillar-container {
+  /* reduced-motion：光线停止渲染（隐藏容器，组件内部动画停止） */
+  .home-outcomes .light-rays-container {
     display: none;
   }
 
