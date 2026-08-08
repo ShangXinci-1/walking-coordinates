@@ -745,7 +745,54 @@
 
 
 .home-outcomes {
+  position: relative;
+  isolation: isolate;
   background: var(--paper-pure);
+}
+
+/* 背景：极淡金色坐标网格（呼应「坐标」主题，顶部渐隐） */
+.home-outcomes::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background-image:
+    linear-gradient(oklch(0.72 0.12 70 / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.72 0.12 70 / 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(
+    ellipse at 50% 0%,
+    rgba(0, 0, 0, 0.9) 20%,
+    transparent 75%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse at 50% 0%,
+    rgba(0, 0, 0, 0.9) 20%,
+    transparent 75%
+  );
+}
+
+/* 背景：OUTCOMES 描边水印（呼应路线区数字水印语言） */
+.home-outcomes::after {
+  position: absolute;
+  z-index: 0;
+  top: 24px;
+  right: -2%;
+  content: "OUTCOMES";
+  font-size: clamp(5rem, 12vw, 11rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px oklch(0.72 0.12 70 / 0.14);
+  pointer-events: none;
+  user-select: none;
+}
+
+.home-outcomes > * {
+  position: relative;
+  z-index: 1;
 }
 
 .home-outcomes > .home-section-heading {
@@ -761,10 +808,15 @@
   perspective: 1200px;
 }
 
+/* 两列交错错落，打破整齐单调感 */
+.home-outcomes__showcase > *:nth-child(even) {
+  margin-top: clamp(28px, 5vw, 64px);
+}
+
 .home-outcomes__card {
   position: relative;
   display: grid;
-  grid-template-columns: 60px minmax(0, 1fr) auto;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
   align-items: center;
   gap: clamp(18px, 2.2vw, 30px);
   min-height: 150px;
@@ -777,11 +829,11 @@
   box-shadow:
     0 2px 3px oklch(0 0 0 / 0.05),
     0 14px 36px oklch(0 0 0 / 0.09);
-  overflow: hidden;
   isolation: isolate;
+  /* 不设 overflow:hidden：preserve-3d 需要子层纵深浮起 */
   transform-style: preserve-3d;
   transition:
-    transform 600ms cubic-bezier(0.16, 1, 0.3, 1),
+    translate 600ms cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow 600ms cubic-bezier(0.16, 1, 0.3, 1),
     border-color 600ms cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -800,8 +852,9 @@
   transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* hover 上浮交给独立 translate 属性（transform 归 3D 倾斜），tilt 时不被覆盖 */
 .home-outcomes__card:hover {
-  transform: translateY(-8px) scale(1.01);
+  translate: 0 -8px;
   border-color: oklch(0.72 0.12 70 / 0.45);
   box-shadow:
     0 6px 12px oklch(0 0 0 / 0.08),
@@ -828,26 +881,89 @@
   opacity: 1;
 }
 
-/* 序号徽章 */
-.home-outcomes__card-no {
+/* 成果专属图标徽章（3D 纵深 52px） */
+.home-outcomes__card-icon {
   display: grid;
   place-items: center;
-  width: 56px;
-  height: 56px;
+  width: 58px;
+  height: 58px;
   border-radius: 16px;
   background: linear-gradient(140deg, var(--red-bright), var(--red-deep));
   color: var(--paper-pure);
-  font-size: 0.95rem;
-  font-weight: 900;
-  font-variant-numeric: tabular-nums;
   box-shadow:
     0 8px 22px oklch(0.59 0.205 25 / 0.3),
     inset 0 1px 0 oklch(1 0 0 / 0.25);
+  transform: translateZ(52px);
   transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.home-outcomes__card-icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.home-outcomes__card:hover .home-outcomes__card-icon {
+  transform: translateZ(52px) scale(1.1) rotate(-4deg);
+}
+
+/* 序号：右上角细体金色小字 */
+.home-outcomes__card-no {
+  position: absolute;
+  z-index: 2;
+  top: 18px;
+  right: 22px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: oklch(0.62 0.12 70 / 0.85);
+  font-variant-numeric: tabular-nums;
+  transition: color 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 .home-outcomes__card:hover .home-outcomes__card-no {
-  transform: scale(1.08) rotate(-4deg);
+  color: var(--red-bright-accessible);
+}
+
+/* 微电影「剪辑中」金色脉冲胶囊 */
+.home-outcomes__card-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-inline-start: 10px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid oklch(0.72 0.12 70 / 0.5);
+  background: oklch(0.72 0.12 70 / 0.1);
+  color: oklch(0.6 0.12 60 / 1);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  vertical-align: 0.2em;
+  white-space: nowrap;
+}
+
+.home-outcomes__card-status i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: home-outcomes-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes home-outcomes-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+.home-outcomes__card-body {
+  transform: translateZ(34px);
 }
 
 .home-outcomes__card-body h3 {
@@ -867,6 +983,7 @@
   line-height: 1.7;
 }
 
+/* 圆形箭头按钮（3D 纵深 40px） */
 .home-outcomes__card-arrow {
   display: grid;
   place-items: center;
@@ -877,6 +994,7 @@
   color: var(--red-bright-accessible);
   font-size: 1.2rem;
   font-weight: 800;
+  transform: translateZ(40px);
   transition:
     transform 600ms cubic-bezier(0.16, 1, 0.3, 1),
     background 600ms cubic-bezier(0.16, 1, 0.3, 1),
@@ -885,59 +1003,10 @@
 }
 
 .home-outcomes__card:hover .home-outcomes__card-arrow {
-  transform: translateX(4px);
+  transform: translateZ(40px) translateX(4px);
   background: var(--red);
   border-color: var(--red);
   color: var(--paper-pure);
-}
-
-
-
-.home-outcomes__card-no {
-  display: grid;
-  place-items: center;
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  background: linear-gradient(140deg, var(--red-bright), var(--red-deep));
-  color: var(--paper-pure);
-  font-size: 0.9rem;
-  font-weight: 900;
-  font-variant-numeric: tabular-nums;
-  box-shadow: 0 8px 20px oklch(0.59 0.205 25 / 0.3);
-  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.home-outcomes__card:hover .home-outcomes__card-no {
-  transform: scale(1.06) rotate(-3deg);
-}
-
-.home-outcomes__card-body h3 {
-  margin: 0;
-  font-size: clamp(1.2rem, 1.8vw, 1.6rem);
-  transition: color 500ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.home-outcomes__card:hover .home-outcomes__card-body h3 {
-  color: var(--red-bright-accessible);
-}
-
-.home-outcomes__card-body p {
-  margin: 8px 0 0;
-  color: var(--muted-light);
-  font-size: 0.9rem;
-  line-height: 1.7;
-}
-
-.home-outcomes__card-arrow {
-  color: var(--red-bright-accessible);
-  font-size: 1.4rem;
-  font-weight: 800;
-  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.home-outcomes__card:hover .home-outcomes__card-arrow {
-  transform: translateX(6px);
 }
 
 .home-closing {
@@ -1383,6 +1452,10 @@
     gap: 14px;
   }
 
+  .home-outcomes__showcase > *:nth-child(even) {
+    margin-top: 0;
+  }
+
   .home-outcomes__card {
     min-height: 130px;
     padding: 22px 20px;
@@ -1390,9 +1463,20 @@
     gap: 16px;
   }
 
-  .home-outcomes__card-no {
+  .home-outcomes__card-icon {
     width: 48px;
     height: 48px;
+    border-radius: 14px;
+  }
+
+  .home-outcomes__card-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .home-outcomes__card-no {
+    top: 14px;
+    right: 18px;
   }
 
   .home-outcomes__card-arrow {

@@ -13,6 +13,7 @@ import { RevealOnScroll } from "../components/RevealOnScroll";
 import { StaggerContainer } from "../components/StaggerContainer";
 import TiltCards from "../components/TiltCards";
 import { CardBody, CardContainer, CardItem } from "../components/ui/3d-card";
+import { OutcomeShowcaseCard } from "../components/home/OutcomeShowcaseCard";
 import { SiteFooter, SiteHeader } from "./shared";
 import "../styles/components/hero-nexum.css";
 
@@ -227,28 +228,11 @@ export default function Home() {
 
         <StaggerContainer className="home-outcomes__showcase">
           {outcomes.map((outcome, index) => (
-            <a
-              className="home-outcomes__card"
-              href={withBasePath("/outcomes")}
+            <OutcomeShowcaseCard
+              outcome={outcome}
+              index={index}
               key={outcome.id}
-              style={{ "--i": index } as React.CSSProperties}
-            >
-              <span className="home-outcomes__card-no">
-                {String(outcome.order).padStart(2, "0")}
-              </span>
-              <div className="home-outcomes__card-body">
-                <h3>{outcome.title.value}</h3>
-                <p>{outcome.description[0].text}</p>
-              </div>
-              <span className="home-outcomes__card-arrow" aria-hidden="true">
-                →
-              </span>
-              <i
-                className="home-outcomes__card-glow"
-                aria-hidden="true"
-                style={{ "--i": index } as React.CSSProperties}
-              />
-            </a>
+            />
           ))}
         </StaggerContainer>
       </section>
