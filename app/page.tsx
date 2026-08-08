@@ -12,6 +12,7 @@ import NexumHero from "../components/NexumHero";
 import { RevealOnScroll } from "../components/RevealOnScroll";
 import { StaggerContainer } from "../components/StaggerContainer";
 import { OutcomeShowcaseCard } from "../components/home/OutcomeShowcaseCard";
+import LightPillar from "../components/LightPillar";
 import { SiteFooter, SiteHeader } from "./shared";
 import "../styles/components/hero-nexum.css";
 
@@ -235,27 +236,19 @@ export default function Home() {
       </section>
 
       <section className="home-outcomes" aria-labelledby="outcomes-title">
-        {/* 背景装饰：红星、坐标准星、斜向金光（呼应主题，低透明度不抢卡片） */}
-        <div className="home-outcomes__decor" aria-hidden="true">
-          <span className="home-outcomes__star home-outcomes__star--lg">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.9">
-              <path d="M12 2.5l2.96 6.33 6.92.6-5.24 4.55 1.56 6.77L12 17.24l-6.2 3.51 1.56-6.77-5.24-4.55 6.92-.6z" />
-            </svg>
-          </span>
-          <span className="home-outcomes__star home-outcomes__star--md">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.9">
-              <path d="M12 2.5l2.96 6.33 6.92.6-5.24 4.55 1.56 6.77L12 17.24l-6.2 3.51 1.56-6.77-5.24-4.55 6.92-.6z" />
-            </svg>
-          </span>
-          <span className="home-outcomes__star home-outcomes__star--sm">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
-              <path d="M12 2.5l2.96 6.33 6.92.6-5.24 4.55 1.56 6.77L12 17.24l-6.2 3.51 1.56-6.77-5.24-4.55 6.92-.6z" />
-            </svg>
-          </span>
-          <span className="home-outcomes__reticle home-outcomes__reticle--a" />
-          <span className="home-outcomes__reticle home-outcomes__reticle--b" />
-          <span className="home-outcomes__beam" />
-        </div>
+        {/* 背景装饰：红金光柱（React Bits LightPillar，Three.js 光线柱） */}
+        <LightPillar
+          topColor="#E3A94C"
+          bottomColor="#B02318"
+          intensity={0.7}
+          rotationSpeed={0.22}
+          glowAmount={0.016}
+          pillarWidth={5.2}
+          pillarHeight={0.9}
+          noiseIntensity={0.3}
+          mixBlendMode="multiply"
+          quality="high"
+        />
 
         <RevealOnScroll parallax={40}>
           <header className="home-section-heading">
