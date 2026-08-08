@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AssetMedia, StatusBadge } from "../../components";
+import { AssetMedia } from "../../components";
 import { ExhibitionBrowser } from "../../components/outcomes/ExhibitionBrowser";
 import { NewsArchive } from "../../components/outcomes/NewsArchive";
 import { OutcomeGallery } from "../../components/outcomes/OutcomeGallery";
@@ -15,6 +15,7 @@ import { exhibitionSites } from "../../data/exhibition";
 import {
   getGalleryAssets,
   getOrderedOutcomes,
+  getProjectCounts,
   getRequiredAssetById,
 } from "../../lib/content/selectors";
 import { withBasePath } from "../../lib/site";
@@ -23,15 +24,9 @@ import { SiteFooter, SiteHeader } from "../shared";
 export default function OutcomesPage() {
   const outcomes = getOrderedOutcomes();
   const galleryAssets = getGalleryAssets();
-  const heroAsset = getRequiredAssetById(
-    outcomes[0].assetId ?? "outcome-01",
-  );
-  const readyCount = outcomes.filter(
-    (outcome) => outcome.publicationStatus === "ready",
-  ).length;
-  const inProgressCount = outcomes.filter(
-    (outcome) => outcome.completionStatus === "in-progress",
-  ).length;
+  // 主视觉：北大红楼建筑外观——数字成果的实体起点
+  const heroAsset = getRequiredAssetById("beida-honglou-01");
+  const { routeCount, siteCount } = getProjectCounts();
   const recordsRef = useStaggerReveal<HTMLDivElement>();
   const [exhibitionOpen, setExhibitionOpen] = useState(false);
   const [newsOpen, setNewsOpen] = useState(false);
@@ -43,6 +38,12 @@ export default function OutcomesPage() {
       <SiteHeader />
 
       <section className="outcomes-hero" aria-labelledby="outcomes-title">
+        <div className="outcomes-hero__topline" aria-hidden="true">
+          <span>39°54′N · 116°23′E</span>
+          <i />
+          <span>BEIJING · 2026</span>
+        </div>
+
         <div className="outcomes-hero__copy">
           <p>
             <ShinyText text="成果公开，以真实交付为准" />
@@ -78,20 +79,22 @@ export default function OutcomesPage() {
             </dd>
           </div>
           <div>
-            <dt>已开放</dt>
+            <dt>史迹坐标</dt>
             <dd>
-              <NumberTicker value={readyCount} /> 项
+              <NumberTicker value={siteCount} /> 处
             </dd>
           </div>
           <div>
-            <dt>制作中</dt>
+            <dt>实践路线</dt>
             <dd>
-              <NumberTicker value={inProgressCount} /> 项
+              <NumberTicker value={routeCount} /> 条
             </dd>
           </div>
-          <div>
-            <dt>当前发布判断</dt>
-            <dd>{readyCount === 0 ? "尚无公开入口" : "按状态开放"}</dd>
+          <div className="outcomes-hero__summary-film">
+            <dt>主题微电影</dt>
+            <dd>
+              <span className="outcomes-hero__film-pill">剪辑中</span>
+            </dd>
           </div>
         </dl>
       </section>
@@ -102,12 +105,12 @@ export default function OutcomesPage() {
         aria-labelledby="outcome-ledger-title"
       >
         <header className="outcome-ledger__heading">
-          <p>每项成果独立过门禁</p>
+          <p>每一站都有档案可循</p>
           <div>
-            <h2 id="outcome-ledger-title">成果档案不是愿景清单，而是交付记录。</h2>
+            <h2 id="outcome-ledger-title">从坐标到档案，每一站都可以核验。</h2>
             <p>
-              状态、负责人、更新时间、交付条件与访问动作来自同一条成果记录。
-              只有完成审核且具备真实地址的成果才显示访问按钮。
+              四项成果，同一条实践记录。状态、来源与访问动作，都如实公开——
+              已完成的直接进入，未完成的如实标注，页面不会制造不存在的入口。
             </p>
           </div>
         </header>
@@ -132,9 +135,32 @@ export default function OutcomesPage() {
 
       <section className="outcomes-closing" aria-labelledby="outcomes-next-title">
         <RevealOnScroll blur>
-          <div>
-            <StatusBadge status="planned" />
-            <h2 id="outcomes-next-title">成果尚在形成，路线与地点档案已经可以继续核验。</h2>
+          <div className="outcomes-closing__body">
+            <p className="outcomes-closing__coords" aria-hidden="true">
+              39°54′N · 116°23′E
+            </p>
+            <p className="outcomes-closing__kicker">
+              BEIJING · 2026 · 三条路线 · 十三处史迹
+            </p>
+            <h2 id="outcomes-next-title">实践已经抵达，记忆正在被看见。</h2>
+            <p className="outcomes-closing__lead">
+              数字展厅与新闻稿档案已可浏览，调研报告持续更新。
+              主题微电影正在剪辑——完成后，它会第一个出现在这里。
+            </p>
+            <div className="outcomes-closing__film">
+              <span className="outcomes-closing__film-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="4" width="20" height="16" rx="2" />
+                  <path d="M7 4v16M17 4v16M2 8h5M2 16h5M17 8h5M17 16h5" />
+                </svg>
+              </span>
+              <div className="outcomes-closing__film-track" aria-hidden="true">
+                <i className="outcomes-closing__film-fill" />
+              </div>
+              <span className="outcomes-closing__film-label">
+                主题微电影 · 剪辑中
+              </span>
+            </div>
           </div>
           <div className="outcomes-closing__actions">
             <a href={withBasePath("/journey")}>

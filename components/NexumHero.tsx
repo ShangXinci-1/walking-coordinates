@@ -74,6 +74,7 @@ export default function NexumHero() {
         loop
         muted
         playsInline
+        poster={stillSrc}
         onCanPlay={() => setVideoReady(true)}
         onPlaying={() => setVideoReady(true)}
       >

@@ -11,8 +11,8 @@ import GradientText from "../components/GradientText";
 import NexumHero from "../components/NexumHero";
 import { RevealOnScroll } from "../components/RevealOnScroll";
 import { StaggerContainer } from "../components/StaggerContainer";
-import TiltCards from "../components/TiltCards";
-import { CardBody, CardContainer, CardItem } from "../components/ui/3d-card";
+import { OutcomeShowcaseCard } from "../components/home/OutcomeShowcaseCard";
+import Lightfall from "../components/Lightfall";
 import { SiteFooter, SiteHeader } from "./shared";
 import "../styles/components/hero-nexum.css";
 
@@ -101,44 +101,63 @@ export default function Home() {
         <RevealOnScroll blur>
         <div className="home-method__steps">
           {practiceSteps.map((step, index) => (
-            <CardContainer key={step.id} className="home-method__card-wrap">
-              <CardBody
-                className="home-method__card"
-                data-step={String(index + 1).padStart(2, "0")}
-              >
-                <span className="home-method__shine-mask" aria-hidden="true">
-                  <span className="home-method__shine" />
-                </span>
-                <CardItem translateZ="60" className="home-method__card-top">
-                  <span className="home-method__icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                      <path d={step.icon} />
-                    </svg>
+            <article
+              className="home-method__flip"
+              key={step.id}
+              tabIndex={0}
+              aria-label={`${step.title}：${step.action}`}
+            >
+              <div className="home-method__flip-inner">
+                {/* 正面：图标 + 步骤名 */}
+                <div className="home-method__flip-face home-method__flip-front">
+                  <span className="home-method__flip-glow" aria-hidden="true" />
+                  <span
+                    className="home-method__flip-glow home-method__flip-glow--b"
+                    aria-hidden="true"
+                  />
+                  <span className="home-method__flip-top">
+                    <span className="home-method__icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                        <path d={step.icon} />
+                      </svg>
+                    </span>
+                    <span className="home-method__number">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
                   </span>
-                  <span className="home-method__number">
-                    {String(index + 1).padStart(2, "0")}
+                  <span className="home-method__flip-title">
+                    <h3>{step.title}</h3>
+                    <span className="home-method__flip-hint">
+                      悬停翻面
+                      <span aria-hidden="true">↻</span>
+                    </span>
                   </span>
-                </CardItem>
-                <CardItem as="h3" translateZ="45">
-                  {step.title}
-                </CardItem>
-                <CardItem as="p" translateZ="36" className="home-method__action">
-                  {step.action}
-                </CardItem>
-                <CardItem as="ul" translateZ="28" className="home-method__points">
-                  {step.points.map((point) => (
-                    <li key={point}>
+                </div>
+                {/* 背面：完整动作 + 要点 + 档案来源 */}
+                <div className="home-method__flip-face home-method__flip-back">
+                  <i className="home-method__flip-spin" aria-hidden="true" />
+                  <div className="home-method__flip-panel">
+                    <h3>{step.title}</h3>
+                    <p className="home-method__action">{step.action}</p>
+                    <ul className="home-method__points">
+                      {step.points.map((point) => (
+                        <li key={point}>
+                          <i aria-hidden="true" />
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
+                    <span className="home-method__flip-evidence">
                       <i aria-hidden="true" />
-                      {point}
-                    </li>
-                  ))}
-                </CardItem>
-              </CardBody>
-            </CardContainer>
+                      {step.evidence}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </article>
           ))}
         </div>
         </RevealOnScroll>
-        <TiltCards />
       </section>
 
       <section className="home-routes" aria-labelledby="routes-title">
@@ -217,8 +236,27 @@ export default function Home() {
       </section>
 
       <section className="home-outcomes" aria-labelledby="outcomes-title">
+        {/* 背景装饰：红金光雨（React Bits Lightfall，ogl 光雨隧道，深红褐底上） */}
+        <Lightfall
+          colors={["#E3A94C", "#F2E8D5", "#B02318"]}
+          backgroundColor="#5A1810"
+          speed={0.65}
+          streakCount={7}
+          streakWidth={1}
+          streakLength={1.1}
+          glow={0.9}
+          density={0.9}
+          twinkle={1}
+          zoom={2.4}
+          backgroundGlow={0.55}
+          opacity={1}
+          mouseInteraction={true}
+          mouseStrength={0.7}
+          mouseRadius={0.8}
+        />
+
         <RevealOnScroll parallax={40}>
-          <header className="home-section-heading">
+          <header className="home-section-heading home-section-heading--dark">
             <p>从现场采集到数字呈现，成果逐步成形</p>
             <h2 id="outcomes-title">寻访之后，留下了什么</h2>
             <a href={withBasePath("/outcomes")}>查看全部成果 →</a>
@@ -227,28 +265,11 @@ export default function Home() {
 
         <StaggerContainer className="home-outcomes__showcase">
           {outcomes.map((outcome, index) => (
-            <a
-              className="home-outcomes__card"
-              href={withBasePath("/outcomes")}
+            <OutcomeShowcaseCard
+              outcome={outcome}
+              index={index}
               key={outcome.id}
-              style={{ "--i": index } as React.CSSProperties}
-            >
-              <span className="home-outcomes__card-no">
-                {String(outcome.order).padStart(2, "0")}
-              </span>
-              <div className="home-outcomes__card-body">
-                <h3>{outcome.title.value}</h3>
-                <p>{outcome.description[0].text}</p>
-              </div>
-              <span className="home-outcomes__card-arrow" aria-hidden="true">
-                →
-              </span>
-              <i
-                className="home-outcomes__card-glow"
-                aria-hidden="true"
-                style={{ "--i": index } as React.CSSProperties}
-              />
-            </a>
+            />
           ))}
         </StaggerContainer>
       </section>

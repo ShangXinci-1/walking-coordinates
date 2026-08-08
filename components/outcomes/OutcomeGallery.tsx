@@ -90,10 +90,13 @@ export function OutcomeGallery({ assets }: OutcomeGalleryProps) {
       aria-labelledby="outcome-gallery-title"
     >
       <header className="outcome-gallery__heading">
-        <p>五个现场叙事位置</p>
+        <p>五处现场 · 五个被保存的瞬间</p>
         <div>
-          <h2 id="outcome-gallery-title">从进入现场，到成果形成。</h2>
-          <p>五个画面依次记录进入、同行、采集、访谈与社区传播。</p>
+          <h2 id="outcome-gallery-title">镜头里的现场，都带着出处。</h2>
+          <p>
+            画面对应寻访、访谈、采集与社区传播的实践记录——
+            点击可查看原图、用途与影像信息。
+          </p>
         </div>
       </header>
 
