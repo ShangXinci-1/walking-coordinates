@@ -776,9 +776,10 @@
     gap: 20px;
   }
 
-  /* 桌面蒙太奇：只保留第一张背影照片静止常驻（与早期视觉一致），
-     三张路线 AI 示意图不再参与轮播，避免轮播节奏打断首屏观感。
-     手机端（<1024px）仍为四图循环。 */
+  /* 桌面蒙太奇：只保留第一张背影照片常驻（与早期视觉一致），
+     三张路线 AI 示意图不再参与轮播。
+     保留照片原有的推近放大动画——单次推近后定格（forwards），
+     避免 16s 循环跳回 1.06 时产生可见回跳。 */
   .nexum-hero__slide {
     display: none;
   }
@@ -786,7 +787,7 @@
   .nexum-hero__slide:first-child {
     display: block;
     opacity: 1;
-    animation: none;
+    animation: nexum-slide-zoom 20s cubic-bezier(0.16, 1, 0.3, 1) 1 forwards;
   }
 
   .nexum-hero__slide:first-child .nexum-hero__site-label {
@@ -796,7 +797,10 @@
     animation: none;
   }
 
-  .nexum-hero__slide:first-child img {
-    transform: none;
+  /* 尊重系统「减弱动态效果」：桌面也回到静止照片 */
+  @media (prefers-reduced-motion: reduce) {
+    .nexum-hero__slide:first-child {
+      animation: none;
+    }
   }
 }
