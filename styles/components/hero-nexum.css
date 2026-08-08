@@ -667,6 +667,63 @@
     transform: none;
   }
 }
+/* ── 移动端（<1024px）：视频为深色背景，文字改用白色系 ──
+   （nexum 原型的浅底深字只适用于桌面浅色卡片布局） */
+@media (max-width: 1023px) {
+  .nexum-hero {
+    --nexum-text-strong: #ffffff;
+    --nexum-text-body: rgba(255, 255, 255, 0.85);
+    --nexum-text-faint: rgba(255, 255, 255, 0.62);
+  }
+
+  .nexum-hero__card {
+    background: rgba(10, 8, 6, 0.42);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+  }
+
+  .nexum-hero__cta-quiet {
+    background: rgba(10, 8, 6, 0.4);
+    border-color: rgba(255, 255, 255, 0.28);
+  }
+}
+
+/* ── 小屏（<640px）：紧凑排版，避免内容溢出被裁 ── */
+@media (max-width: 639.98px) {
+  .nexum-hero__content {
+    gap: 14px;
+    padding: 16px 16px 24px;
+    padding-bottom: calc(24px + env(safe-area-inset-bottom));
+  }
+
+  .nexum-hero__left h1 {
+    font-size: 1.625rem;
+  }
+
+  .nexum-hero__lead {
+    margin-top: 10px;
+    font-size: 0.875rem;
+    line-height: 1.65;
+  }
+
+  .nexum-hero__cta {
+    margin-top: 14px;
+    gap: 10px;
+  }
+
+  .nexum-hero__cta-btn,
+  .nexum-hero__cta-quiet {
+    padding: 10px 20px;
+  }
+
+  .nexum-hero__card {
+    padding: 16px 18px;
+  }
+
+  .nexum-hero__stat {
+    font-size: 1.625rem;
+  }
+}
+
 @media (min-width: 640px) {
   .nexum-hero__content {
     padding: 32px;
