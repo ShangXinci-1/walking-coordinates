@@ -12,6 +12,7 @@ import NexumHero from "../components/NexumHero";
 import { RevealOnScroll } from "../components/RevealOnScroll";
 import { StaggerContainer } from "../components/StaggerContainer";
 import TiltCards from "../components/TiltCards";
+import { CardBody, CardContainer, CardItem } from "../components/ui/3d-card";
 import { SiteFooter, SiteHeader } from "./shared";
 import "../styles/components/hero-nexum.css";
 
@@ -98,39 +99,44 @@ export default function Home() {
         </RevealOnScroll>
 
         <RevealOnScroll blur>
-        <ol className="home-method__steps">
+        <div className="home-method__steps">
           {practiceSteps.map((step, index) => (
-            <li
-              key={step.id}
-              data-step={String(index + 1).padStart(2, "0")}
-              className="home-method__card"
-              data-tilt
-            >
-              <span className="home-method__shine" aria-hidden="true" />
-              <div className="home-method__card-top">
-                <span className="home-method__icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                    <path d={step.icon} />
-                  </svg>
+            <CardContainer key={step.id} className="home-method__card-wrap">
+              <CardBody
+                className="home-method__card"
+                data-step={String(index + 1).padStart(2, "0")}
+              >
+                <span className="home-method__shine-mask" aria-hidden="true">
+                  <span className="home-method__shine" />
                 </span>
-                <span className="home-method__number">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-              </div>
-              <h3>{step.title}</h3>
-              <p className="home-method__action">{step.action}</p>
-              <ul className="home-method__points">
-                {step.points.map((point) => (
-                  <li key={point}>
-                    <i aria-hidden="true" />
-                    {point}
-                  </li>
-                ))}
-              </ul>
-
-            </li>
+                <CardItem translateZ="40" className="home-method__card-top">
+                  <span className="home-method__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                      <path d={step.icon} />
+                    </svg>
+                  </span>
+                  <span className="home-method__number">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                </CardItem>
+                <CardItem as="h3" translateZ="30">
+                  {step.title}
+                </CardItem>
+                <CardItem as="p" translateZ="24" className="home-method__action">
+                  {step.action}
+                </CardItem>
+                <CardItem as="ul" translateZ="18" className="home-method__points">
+                  {step.points.map((point) => (
+                    <li key={point}>
+                      <i aria-hidden="true" />
+                      {point}
+                    </li>
+                  ))}
+                </CardItem>
+              </CardBody>
+            </CardContainer>
           ))}
-        </ol>
+        </div>
         </RevealOnScroll>
         <TiltCards />
       </section>

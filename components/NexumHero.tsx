@@ -42,7 +42,7 @@ export default function NexumHero() {
         (site) => site.id === route.siteIds[0],
       );
       return {
-        src: assetSrc(getRequiredAssetById(route.heroAssetId)),
+        src: withBasePath(assetSrc(getRequiredAssetById(route.heroAssetId))),
         label: `${route.title.value} · ${firstSite?.name ?? ""}`,
       };
     }),
